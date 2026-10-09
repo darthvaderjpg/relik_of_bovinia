@@ -12,12 +12,11 @@
 
 
 import javax.swing.*;
-import java.awt.Graphics;
 import java.awt.Image;
 
 public class Armor extends Item{
 
-	private int hitPoints;
+
 	
 	
 	//Starter Gear Images
@@ -48,7 +47,6 @@ public class Armor extends Item{
 	public  final static Image    BOVINE_HELMET = (new ImageIcon("animal-helmet-pixilart.png")).getImage();
 	public  final static Image    AZURE_SHROUD = (new ImageIcon("new-cloak-pixilart.png")).getImage();
 	
-	private String type;
 	//The type is not just Armor but the different kinds of armor like chestplate, helmet, etc. 
 	//Hit points is the amount of extra health that the armor adds to the player's health
 	

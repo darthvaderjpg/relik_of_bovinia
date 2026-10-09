@@ -2,6 +2,7 @@
 //Date May 24, 2026
 //Rev:01
 //Notes: This Class was designed to handle the specifics of the music. All of the musics share these things in common on their functionality
+//You can find all the music at this link https://www.youtube.com/channel/UCRYWHsshYlzCGd1FZXbnAlg 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
