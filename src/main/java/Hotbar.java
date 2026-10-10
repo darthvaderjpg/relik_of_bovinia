@@ -13,9 +13,9 @@
  */
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-import java.awt.Color;
+//import java.awt.Color;
 import java.awt.Graphics;
-import javax.swing.*;
+//import javax.swing.*;
 
 import javax.swing.ImageIcon;
 
@@ -43,8 +43,8 @@ public class Hotbar implements ImageObserver {
 	//Player starts out with these things. Essentially a blank slate for the player
 	private static int coins = 0;
 	private static int potionCount = 0;
-	private static boolean hasKey1 = false;
-	private static boolean hasKey2 = false;
+	//private static boolean hasKey1 = false;
+	//private static boolean hasKey2 = false;
 	// private static final Image LOWER_UI_MODEL = (new ImageIcon("LOWER_UI_MODEL.gif")).getImage();
 	
 	//private HotbarSlot[] hotbar;
@@ -55,22 +55,23 @@ public class Hotbar implements ImageObserver {
 	private static Armor boots;
 	private static Armor robes;
 	
+	
 
 	//The hot bar slots are an array because it's easier to store things in a list
 	//Which is essentially what an array does. 
 	//You put in 
-	public Hotbar(){
-	//	hotbar = new HotbarSlot[8];
-	//	hotbar[0] = new HotbarSlot(x0,y0);
-	//	hotbar[1] = new HotbarSlot(x1,y1);
-	//	hotbar[2] = new HotbarSlot(x2,y2);
-	//	hotbar[3] = new HotbarSlot(x3,y3);
-	//	hotbar[4] = new HotbarSlot(x4,y4);
-	//	hotbar[5] = new HotbarSlot(x5,y5);
-	//	hotbar[6] = new HotbarSlot(x6,y6);
-	//	hotbar[7] = new HotbarSlot(x7,y7);
+	/*public Hotbar(){
+		hotbar = new HotbarSlot[8];
+		hotbar[0] = new HotbarSlot(x0,y0);
+		hotbar[1] = new HotbarSlot(x1,y1);
+		hotbar[2] = new HotbarSlot(x2,y2);
+		hotbar[3] = new HotbarSlot(x3,y3);
+		hotbar[4] = new HotbarSlot(x4,y4);
+		hotbar[5] = new HotbarSlot(x5,y5);
+		hotbar[6] = new HotbarSlot(x6,y6);
+		hotbar[7] = new HotbarSlot(x7,y7);
 	}
-	
+	*/
 	//this is how to update the hotbar. 
 	//public void updateHotbar(Item i) {
 	//	if(i instanceof Weapon) {

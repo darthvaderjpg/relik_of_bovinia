@@ -10,8 +10,8 @@ public class BoviniaMusic implements ActionListener {
 	
 	  // Load the sounds from the disk. These are the 3 pieces of music that we are using
 	  private final MusicPlayer BossFight = new MusicPlayer("BOVINE.wav");
-	  private final MusicPlayer TempleMusic = new MusicPlayer("Sorrow.wav");
-	  private final MusicPlayer Overworld = new MusicPlayer("Rumination.wav");
+	  //private final MusicPlayer TempleMusic = new MusicPlayer("Sorrow.wav");
+	  //private final MusicPlayer Overworld = new MusicPlayer("Rumination.wav");
 	  {
 		  BossFight.setLoop(true);
 	  }

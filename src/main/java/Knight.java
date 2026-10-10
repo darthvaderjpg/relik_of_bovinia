@@ -6,7 +6,7 @@ Notes  : This creates an Knight enemy
  */
 
 public class Knight extends Enemy{
-	private boolean dashToken = true;
+	//private boolean dashToken = true;
 	private int dashCooldown = 150, dashPeriod = 200, dashDuration = 25, dashTime = 0, dashSpeed = 43;
 	private double dashAngle;
 	

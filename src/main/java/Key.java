@@ -7,7 +7,7 @@
 
 import javax.swing.*;
 
-import java.awt.Graphics;
+//import java.awt.Graphics;
 import java.awt.Image;
 
 public class Key extends Item {

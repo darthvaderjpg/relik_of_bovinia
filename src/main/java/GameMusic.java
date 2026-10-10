@@ -10,7 +10,7 @@ import javax.swing.Timer;
 public class GameMusic implements ActionListener {
 	
 
-	    private final int ACTION_TIMEOUT = 500;
+	   // private final int ACTION_TIMEOUT = 500;
 	    private MusicPlayer music; // reusable for ANY song
 	    private Timer actionTimer;
 	    private boolean musicStarted = false;

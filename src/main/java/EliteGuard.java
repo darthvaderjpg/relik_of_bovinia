@@ -11,7 +11,7 @@ public class EliteGuard extends Enemy{
 	private int boxProgress = 0;
 	private int currentSide = LEFT;
 	private int tx, ty;
-	private int x, y;
+	//private int x, y;
 	
 	//Constructors
 	public EliteGuard(int x, int y, int roomID) {

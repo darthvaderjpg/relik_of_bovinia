@@ -45,7 +45,7 @@ public class Dialogue implements ImageObserver
 	private static final Image BOVIS_DIALOGUE_ANIMATION_5 = (new ImageIcon("BOVIS_DIALOGUE_ANIMATION_5.gif")).getImage();
 	
 	// Error model in case anything goes wrong.
-	private final static Image ERROR = (new ImageIcon("ERROR.png")).getImage();
+	//private final static Image ERROR = (new ImageIcon("ERROR.png")).getImage();
 
 	private static int currentDudeLine = 0;
 	private static int currentGrandpaLine = 0;

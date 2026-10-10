@@ -432,7 +432,7 @@ public abstract class Enemy implements ImageObserver {
 		this.direction = direction;
 		
 		//Animation
-		String type = getEnemyType().toLowerCase();
+		//String type = getEnemyType().toLowerCase();
 		switch(getEnemyType()) {
 			case "infarctus":
 				

@@ -7,7 +7,7 @@
 
 import javax.swing.*;
 
-import java.awt.Graphics;
+//import java.awt.Graphics;
 import java.awt.Image;
 
 public class Weapon  extends Item {
@@ -22,7 +22,7 @@ public class Weapon  extends Item {
 	public static final Image    MOSQUITO_SWORD = (new ImageIcon("slash-sword-pixilart.png")).getImage();
 	public static final Image    GREAT_CLUB = (new ImageIcon("great-club-pixilart.png")).getImage();
 	
-	private int damage;
+	//private int damage;
 	//How much damage a weapon can do
 	//This is of type weapon
 	//The weapon type is the different types of weapons. EX. enemy dagger, starter sword, etc.

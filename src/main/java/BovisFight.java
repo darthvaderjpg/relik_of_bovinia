@@ -7,7 +7,7 @@ Notes : This is the boss fight class.
 			Stage 2: 
  */
 public class BovisFight extends Enemy {
-	private final static int MINION_SPAWN_TIME_S3 = 67;
+	//private final static int MINION_SPAWN_TIME_S3 = 67;
 	private int stage = 0;
 	private int speed = 1;
 	private int tokenS2 = -1;
