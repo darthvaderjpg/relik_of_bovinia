@@ -11,7 +11,7 @@ public class GameMusic implements ActionListener {
 	
 
 	    private final int ACTION_TIMEOUT = 500;
-	    private BossMusic music; // reusable for ANY song
+	    private MusicPlayer music; // reusable for ANY song
 	    private Timer actionTimer;
 	    private boolean musicStarted = false;
 
@@ -19,7 +19,7 @@ public class GameMusic implements ActionListener {
 	    {
 	    	//just a variable to store the music name in boss music
 	    	
-	        music = new BossMusic(fileName);
+	        music = new MusicPlayer(fileName);
 	        //loops music
 	        music.setLoop(true);
 	    }

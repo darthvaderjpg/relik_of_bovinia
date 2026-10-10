@@ -4,14 +4,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
-public class Bovine implements ActionListener {
+public class BoviniaMusic implements ActionListener {
 	 
 	  private final int ACTION_TIMEOUT = 500;
 	
 	  // Load the sounds from the disk. These are the 3 pieces of music that we are using
-	  private final BossMusic BossFight = new BossMusic("BOVINE.wav");
-	  private final BossMusic TempleMusic = new BossMusic("Sorrow.wav");
-	  private final BossMusic Overworld = new BossMusic("Rumination.wav");
+	  private final MusicPlayer BossFight = new MusicPlayer("BOVINE.wav");
+	  private final MusicPlayer TempleMusic = new MusicPlayer("Sorrow.wav");
+	  private final MusicPlayer Overworld = new MusicPlayer("Rumination.wav");
 	  {
 		  BossFight.setLoop(true);
 	  }
@@ -19,7 +19,7 @@ public class Bovine implements ActionListener {
 	  private Timer actionTimer;
 	  private boolean musicStarted = false;
 	
-	  public Bovine(int x, int y, JComponent surface) {
+	  public BoviniaMusic(int x, int y, JComponent surface) {
 		  actionTimer = new Timer(ACTION_TIMEOUT, this);
 		  actionTimer.setRepeats(false);
 		  actionTimer.start();

@@ -10,7 +10,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 
-public class BossMusic implements Runnable
+public class MusicPlayer implements Runnable
 {
   private Clip clip = null;
   private boolean loaded = false;
@@ -18,7 +18,7 @@ public class BossMusic implements Runnable
 
   
   //The try and catch statement makes sure that the music runs smoothly
-  public BossMusic(String fileName)
+  public MusicPlayer(String fileName)
   {
     File soundFile = new File(fileName);
     AudioInputStream audioInputStream = null;
