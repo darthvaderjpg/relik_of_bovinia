@@ -3,7 +3,7 @@
 //Rev:01
 //Notes: This was taken from Mr. Taylor's Sounds and Sprites lesson
 
-import java.io.File;
+import java.net.URL;
 import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -20,7 +20,7 @@ public class MusicPlayer implements Runnable
   //The try and catch statement makes sure that the music runs smoothly
   public MusicPlayer(String fileName)
   {
-    File soundFile = new File(fileName);
+    URL soundFile = this.getClass().getResource(fileName);
     AudioInputStream audioInputStream = null;
     try
     {

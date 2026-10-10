@@ -89,7 +89,7 @@ public abstract class Enemy implements ImageObserver {
 				this.speed2 = speed;
 				this.dmg = 3;
 				this.dmg2 = dmg;
-				this.hp = 15;
+				this.hp = 20;
 				this.hp2 = hp;
 				this.range = 35;
 				this.direction = SOUTH;
@@ -109,7 +109,7 @@ public abstract class Enemy implements ImageObserver {
 				this.speed2 = speed;
 				this.dmg = 30;
 				this.dmg2 = dmg;
-				this.hp = 100;
+				this.hp = 200;
 				this.hp2 = hp;
 				this.range = 70;
 				this.direction = SOUTH;
@@ -127,7 +127,7 @@ public abstract class Enemy implements ImageObserver {
 				this.speed2 = speed;
 				this.dmg = 10;
 				this.dmg2 = dmg;
-				this.hp = 50;
+				this.hp = 100;
 				this.hp2 = hp;
 				this.range = 60;
 				this.direction = SOUTH;
@@ -145,7 +145,7 @@ public abstract class Enemy implements ImageObserver {
 				this.speed2 = speed;
 				this.dmg = 25;
 				this.dmg2 = dmg;
-				this.hp = 25;
+				this.hp = 50;
 				this.hp2 = hp;
 				this.range = 27;
 				this.direction = SOUTH;
