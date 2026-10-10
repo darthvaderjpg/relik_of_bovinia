@@ -11,7 +11,7 @@
 
 
 
-import javax.swing.*;
+//import javax.swing.*;
 import java.awt.Image;
 
 public class Armor extends Item{
@@ -20,32 +20,32 @@ public class Armor extends Item{
 	
 	
 	//Starter Gear Images
-	public static final Image 	 CRACKED_HELMET = (new ImageIcon("worn-out-helmet-pixilart.png")).getImage();
-	public static final Image 	 WORN_CLOAK = (new ImageIcon("old-cloak-pixilart.png")).getImage();
-	public static final Image    EXPLORER_SWEATER = (new ImageIcon("old-explorer's-sweater-pixilart.png")).getImage();
-	public static final Image    EXPLORER_PANTS = (new ImageIcon("protected-long-pants-pixilart.png")).getImage();
-	public static final Image    DUSTY_BOOTS = (new ImageIcon("dusty-boots-pixilart.png")).getImage();
+	public static final Image 	 CRACKED_HELMET = Tools.getNewImageIcon("worn-out-helmet-pixilart.png");
+	public static final Image 	 WORN_CLOAK = Tools.getNewImageIcon("old-cloak-pixilart.png");
+	public static final Image    EXPLORER_SWEATER = Tools.getNewImageIcon("old-explorer's-sweater-pixilart.png");
+	public static final Image    EXPLORER_PANTS = Tools.getNewImageIcon("protected-long-pants-pixilart.png");
+	public static final Image    DUSTY_BOOTS = Tools.getNewImageIcon("dusty-boots-pixilart.png");
 	
     //Soldier Gear Images
-	public static final Image    SOLDIER_HELMET = (new ImageIcon("soldier-helmet-pixilart-gif.gif")).getImage();
-	public static final Image    SOLDIER_CHESTPLATE = (new ImageIcon("soldier-chestplate-pixilart.png")).getImage();
-	public static final Image    SOLDIER_LEGGINGS = (new ImageIcon("soldier-leggings-pixilart.png")).getImage();
-	public static final Image    SOLDIER_BOOTS = (new ImageIcon("soldier-boots-pixilart.png")).getImage();
+	public static final Image    SOLDIER_HELMET = Tools.getNewImageIcon("soldier-helmet-pixilart-gif.gif");
+	public static final Image    SOLDIER_CHESTPLATE = Tools.getNewImageIcon("soldier-chestplate-pixilart.png");
+	public static final Image    SOLDIER_LEGGINGS = Tools.getNewImageIcon("soldier-leggings-pixilart.png");
+	public static final Image    SOLDIER_BOOTS = Tools.getNewImageIcon("soldier-boots-pixilart.png");
 	
 	//Elite Guard Gear Images
-	public static final Image    ELITE_GUARD_HELMET = (new ImageIcon("elite-helmet-gif-pixilart.gif")).getImage();
-	public static final Image    ELITE_GUARD_CHESTPLATE = (new ImageIcon("(newer)elite-guard-chestplate-pixilart.png")).getImage();
-	public static final Image    ELITE_GUARD_ROBE_BOTTOMS = (new ImageIcon("elite-guard-leggings.png")).getImage();
-	public static final Image    ELITE_GUARD_BOOTS = (new ImageIcon("elite-guard-boots-pixilart.png")).getImage();
+	public static final Image    ELITE_GUARD_HELMET = Tools.getNewImageIcon("elite-helmet-gif-pixilart.gif");
+	public static final Image    ELITE_GUARD_CHESTPLATE = Tools.getNewImageIcon("(newer)elite-guard-chestplate-pixilart.png");
+	public static final Image    ELITE_GUARD_ROBE_BOTTOMS = Tools.getNewImageIcon("elite-guard-leggings.png");
+	public static final Image    ELITE_GUARD_BOOTS = Tools.getNewImageIcon("elite-guard-boots-pixilart.png");
 	
 	// Artifact Gear Images
-	public static final Image    ARTIFACT_HELMET = (new ImageIcon("-------")).getImage();  // <- Make sure to complete Elite Guard Helmet I left a mark to I can remember
-	public static final Image    ARTIFACT_CHESTPLATE = (new ImageIcon("artifact-chestplate-pixilart.png")).getImage();
-	public static final Image    ARTIFACT_ROBE_BOTTOMS = (new ImageIcon("artifact-leggings-pixilart.png")).getImage();
-	public static final Image    ARTIFACT_BOOTS = (new ImageIcon("artifact-boots-pixilart.png")).getImage();
+	public static final Image    ARTIFACT_HELMET = Tools.getNewImageIcon("-------");  // <- Make sure to complete Elite Guard Helmet I left a mark to I can remember
+	public static final Image    ARTIFACT_CHESTPLATE = Tools.getNewImageIcon("artifact-chestplate-pixilart.png");
+	public static final Image    ARTIFACT_ROBE_BOTTOMS = Tools.getNewImageIcon("artifact-leggings-pixilart.png");
+	public static final Image    ARTIFACT_BOOTS = Tools.getNewImageIcon("artifact-boots-pixilart.png");
 	
-	public  final static Image    BOVINE_HELMET = (new ImageIcon("animal-helmet-pixilart.png")).getImage();
-	public  final static Image    AZURE_SHROUD = (new ImageIcon("new-cloak-pixilart.png")).getImage();
+	public  final static Image    BOVINE_HELMET = Tools.getNewImageIcon("animal-helmet-pixilart.png");
+	public  final static Image    AZURE_SHROUD = Tools.getNewImageIcon("new-cloak-pixilart.png");
 	
 	//The type is not just Armor but the different kinds of armor like chestplate, helmet, etc. 
 	//Hit points is the amount of extra health that the armor adds to the player's health

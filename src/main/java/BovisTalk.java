@@ -5,14 +5,14 @@
 // Notes  : this class withholds within it the data for bovis to talk right before the boss fight and is a child of NPC
 
 import java.awt.Image;
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class BovisTalk extends NPC
 {
 	// Fields.
 	
-	private final static Image BOVIS_TALK_MODEL = (new ImageIcon("BOVIS_TALK_MODEL.gif")).getImage();
-	private final static Image BOVIS_TALK_INTERACT_MODEL = (new ImageIcon("BOVIS_TALK_INTERACT_MODEL.gif")).getImage();
+	private final static Image BOVIS_TALK_MODEL = Tools.getNewImageIcon("BOVIS_TALK_MODEL.gif");
+	private final static Image BOVIS_TALK_INTERACT_MODEL = Tools.getNewImageIcon("BOVIS_TALK_INTERACT_MODEL.gif");
 	private final static int X = 303; //not final to teleport NPS out of walking range after dialogue
 	private final static int Y = 367;
 	private final static int COLLISION_RADIUS = 150;

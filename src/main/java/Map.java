@@ -7,19 +7,19 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class Map implements ImageObserver 
 {
-	private final static Image BACKGROUND_0 = (new ImageIcon("BACKGROUND_0.png")).getImage(); // Title Screen
-	private final static Image BACKGROUND_1 = (new ImageIcon("BACKGROUND_1.gif")).getImage(); //Bedroom
-	private final static Image BACKGROUND_2 = (new ImageIcon("starter-forest-pixilart.png")).getImage(); //Starter Forest
-	private final static Image BACKGROUND_3 = (new ImageIcon("npc-room-pixilart (1).png")).getImage(); // NPC Room
-	private final static Image BACKGROUND_4 = (new ImageIcon("TempRoom4.png")).getImage(); // Soldier Room
-	private final static Image BACKGROUND_5 = (new ImageIcon("snowy-background-place-holder-pixilart.png")).getImage(); // Artifact Room
-	private final static Image BACKGROUND_6 = (new ImageIcon("TempRoom6.png")).getImage(); // Elite Guard Room
-	private final static Image BACKGROUND_7 = (new ImageIcon("TempRoom3.png")).getImage(); // Puzzle Room with key
-	private final static Image BACKGROUND_8 = (new ImageIcon("BACKGROUND_8.png")).getImage(); // Boos Room
+	private final static Image BACKGROUND_0 = Tools.getNewImageIcon("BACKGROUND_0.png"); // Title Screen
+	private final static Image BACKGROUND_1 = Tools.getNewImageIcon("BACKGROUND_1.gif"); //Bedroom
+	private final static Image BACKGROUND_2 = Tools.getNewImageIcon("starter-forest-pixilart.png"); //Starter Forest
+	private final static Image BACKGROUND_3 = Tools.getNewImageIcon("npc-room-pixilart (1).png"); // NPC Room
+	private final static Image BACKGROUND_4 = Tools.getNewImageIcon("TempRoom4.png"); // Soldier Room
+	private final static Image BACKGROUND_5 = Tools.getNewImageIcon("snowy-background-place-holder-pixilart.png"); // Artifact Room
+	private final static Image BACKGROUND_6 = Tools.getNewImageIcon("TempRoom6.png"); // Elite Guard Room
+	private final static Image BACKGROUND_7 = Tools.getNewImageIcon("TempRoom3.png"); // Puzzle Room with key
+	private final static Image BACKGROUND_8 = Tools.getNewImageIcon("BACKGROUND_8.png"); // Boos Room
 	
 	//Different types of music. This is in Map class because we want it to play based on a certain map. 
 	private GameMusic bossMusic    = new GameMusic("BOVINE.wav");

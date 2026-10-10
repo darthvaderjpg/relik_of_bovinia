@@ -5,22 +5,22 @@
 // Base weapon damage is 2. Then damage scales with the weapon type.
 
 
-import javax.swing.*;
+//import javax.swing.*;
 
 //import java.awt.Graphics;
 import java.awt.Image;
 
 public class Weapon  extends Item {
-	public static final Image    ENEMY_DAGGER = (new ImageIcon("enemy-dagger-pixilart.png")).getImage();
-	public static final Image    STARTER_SWORD = (new ImageIcon("simple-sword-pixilart.png")).getImage();
-	public static final Image    SOLDIER_SWORD = (new ImageIcon("normal-sword-pixilart.png")).getImage();
-	public static final Image    ELITE_GUARD_SWORD = (new ImageIcon("mirror-sword-pixilart.png")).getImage();
-	public static final Image    ARTIFACT_SWORD = (new ImageIcon("shift-sword-pixilart.png")).getImage();
+	public static final Image    ENEMY_DAGGER = Tools.getNewImageIcon("enemy-dagger-pixilart.png");
+	public static final Image    STARTER_SWORD = Tools.getNewImageIcon("simple-sword-pixilart.png");
+	public static final Image    SOLDIER_SWORD = Tools.getNewImageIcon("normal-sword-pixilart.png");
+	public static final Image    ELITE_GUARD_SWORD = Tools.getNewImageIcon("mirror-sword-pixilart.png");
+	public static final Image    ARTIFACT_SWORD = Tools.getNewImageIcon("shift-sword-pixilart.png");
 	    
 	    //Special Gear
 	
-	public static final Image    MOSQUITO_SWORD = (new ImageIcon("slash-sword-pixilart.png")).getImage();
-	public static final Image    GREAT_CLUB = (new ImageIcon("great-club-pixilart.png")).getImage();
+	public static final Image    MOSQUITO_SWORD = Tools.getNewImageIcon("slash-sword-pixilart.png");
+	public static final Image    GREAT_CLUB = Tools.getNewImageIcon("great-club-pixilart.png");
 	
 	//private int damage;
 	//How much damage a weapon can do

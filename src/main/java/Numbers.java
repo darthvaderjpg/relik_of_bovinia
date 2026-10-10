@@ -8,24 +8,24 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class Numbers implements ImageObserver
 {
 	// Fields.
 	
 	// Number models (png).
-	private final static Image NUMBER_CROSS = (new ImageIcon("NUMBER_CROSS.png")).getImage();
-	private final static Image NUMBER_ZERO = (new ImageIcon("NUMBER_0.png")).getImage();
-	private final static Image NUMBER_ONE = (new ImageIcon("NUMBER_1.png")).getImage();
-	private final static Image NUMBER_TWO = (new ImageIcon("NUMBER_2.png")).getImage();
-	private final static Image NUMBER_THREE = (new ImageIcon("NUMBER_3.png")).getImage();
-	private final static Image NUMBER_FOUR = (new ImageIcon("NUMBER_4.png")).getImage();
-	private final static Image NUMBER_FIVE = (new ImageIcon("NUMBER_5.png")).getImage();
-	private final static Image NUMBER_SIX = (new ImageIcon("NUMBER_6.png")).getImage();
-	private final static Image NUMBER_SEVEN = (new ImageIcon("NUMBER_7.png")).getImage();
-	private final static Image NUMBER_EIGHT = (new ImageIcon("NUMBER_8.png")).getImage();
-	private final static Image NUMBER_NINE = (new ImageIcon("NUMBER_9.png")).getImage();
+	private final static Image NUMBER_CROSS = Tools.getNewImageIcon("NUMBER_CROSS.png");
+	private final static Image NUMBER_ZERO = Tools.getNewImageIcon("NUMBER_0.png");
+	private final static Image NUMBER_ONE = Tools.getNewImageIcon("NUMBER_1.png");
+	private final static Image NUMBER_TWO = Tools.getNewImageIcon("NUMBER_2.png");
+	private final static Image NUMBER_THREE = Tools.getNewImageIcon("NUMBER_3.png");
+	private final static Image NUMBER_FOUR = Tools.getNewImageIcon("NUMBER_4.png");
+	private final static Image NUMBER_FIVE = Tools.getNewImageIcon("NUMBER_5.png");
+	private final static Image NUMBER_SIX = Tools.getNewImageIcon("NUMBER_6.png");
+	private final static Image NUMBER_SEVEN = Tools.getNewImageIcon("NUMBER_7.png");
+	private final static Image NUMBER_EIGHT = Tools.getNewImageIcon("NUMBER_8.png");
+	private final static Image NUMBER_NINE = Tools.getNewImageIcon("NUMBER_9.png");
 	
 	// Number coordinate fields.
 	private int firstNumberX = 0;

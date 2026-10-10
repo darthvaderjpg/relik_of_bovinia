@@ -3,7 +3,7 @@
 //Rev:01
 //Notes:
 //This is the class that stores all the items as images. Basically if they have the images, that's how they'll access the items. 
-import javax.swing.*;
+//import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
@@ -13,11 +13,10 @@ import java.util.Random;
 public abstract class Item implements ImageObserver {
 	
 	    //Items
-	public static final Image   ARTIFACT = (new ImageIcon("-----")).getImage(); // <- need ofer to import the artifact into the folder
-	public static final Image   REJUVINATING_SPIRIT = (new ImageIcon("rejuvenating-spirit-pixilart.png")).getImage();
+	public static final Image   ARTIFACT = Tools.getNewImageIcon("-----"); // <- need ofer to import the artifact into the folder
+	public static final Image   REJUVINATING_SPIRIT = Tools.getNewImageIcon("rejuvenating-spirit-pixilart.png");
 	
-	public static final Image   CHEST = (new ImageIcon("chest-pixilart.png")).getImage();
-	
+	public static final Image   CHEST = Tools.getNewImageIcon("chest-pixilart.png");
 	
 	
 	private Image image;

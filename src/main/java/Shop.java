@@ -4,14 +4,14 @@
 // Notes  : 
 
 import java.awt.Image;
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class Shop extends NPC
 {
 	// Fields.
 	
-	private final static Image SHOP_KEEPER_MODEL = (new ImageIcon("SHOP_KEEPER_MODEL.gif")).getImage();
-	private final static Image SHOP_KEEPER_INTERACT_MODEL = (new ImageIcon("SHOP_KEEPER_INTERACT_MODEL.gif")).getImage();
+	private final static Image SHOP_KEEPER_MODEL = Tools.getNewImageIcon("SHOP_KEEPER_MODEL.gif");
+	private final static Image SHOP_KEEPER_INTERACT_MODEL = Tools.getNewImageIcon("SHOP_KEEPER_INTERACT_MODEL.gif");
 	private final static int X = 150;
 	private final static int Y = 321;
 	private final static int COLLISION_RADIUS = 150;

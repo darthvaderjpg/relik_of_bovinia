@@ -4,14 +4,14 @@
 // Notes  : 
 
 import java.awt.Image;
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class Dude extends NPC 
 {
 	// Fields.
 	
-	private final static Image DUDE_MODEL = (new ImageIcon("DUDE_MODEL.gif")).getImage();
-	private final static Image DUDE_INTERACT_MODEL = (new ImageIcon("DUDE_INTERACT_MODEL.gif")).getImage();
+	private final static Image DUDE_MODEL = Tools.getNewImageIcon("DUDE_MODEL.gif");
+	private final static Image DUDE_INTERACT_MODEL = Tools.getNewImageIcon("DUDE_INTERACT_MODEL.gif");
 	private final static int X = 32;
 	private final static int Y = 507;
 	private final static int COLLISION_RADIUS = 140;

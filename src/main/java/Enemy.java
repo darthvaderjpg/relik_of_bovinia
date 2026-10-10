@@ -11,25 +11,25 @@ import javax.swing.*;
 public abstract class Enemy implements ImageObserver {
 	
 	//infarctus images
-	private final static Image INFARCTUS_NORTH = (new ImageIcon("INFARCTUS_NORTH.png")).getImage();
-	private final static Image INFARCTUS_EAST = (new ImageIcon("INFARCTUS_EAST.png")).getImage();
-	private final static Image INFARCTUS_SOUTH = (new ImageIcon("INFARCTUS_SOUTH.png")).getImage();
-	private final static Image INFARCTUS_WEST = (new ImageIcon("INFARCTUS_WEST.png")).getImage();
+	private final static Image INFARCTUS_NORTH = Tools.getNewImageIcon("INFARCTUS_NORTH.png");
+	private final static Image INFARCTUS_EAST = Tools.getNewImageIcon("INFARCTUS_EAST.png");
+	private final static Image INFARCTUS_SOUTH = Tools.getNewImageIcon("INFARCTUS_SOUTH.png");
+	private final static Image INFARCTUS_WEST = Tools.getNewImageIcon("INFARCTUS_WEST.png");
 	// Bovis fight images.
-	private final static Image BOVISFIGHT_NORTH = (new ImageIcon("BOVISFIGHT_WEST.png")).getImage();
-	private final static Image BOVISFIGHT_EAST = (new ImageIcon("BOVISFIGHT_WEST.png")).getImage();
-	private final static Image BOVISFIGHT_SOUTH = (new ImageIcon("BOVISFIGHT_WEST.png")).getImage();
-	private final static Image BOVISFIGHT_WEST = (new ImageIcon("BOVISFIGHT_WEST.png")).getImage();
+	private final static Image BOVISFIGHT_NORTH = Tools.getNewImageIcon("BOVISFIGHT_WEST.png");
+	private final static Image BOVISFIGHT_EAST = Tools.getNewImageIcon("BOVISFIGHT_WEST.png");
+	private final static Image BOVISFIGHT_SOUTH = Tools.getNewImageIcon("BOVISFIGHT_WEST.png");
+	private final static Image BOVISFIGHT_WEST = Tools.getNewImageIcon("BOVISFIGHT_WEST.png");
 	// Elite guard images.
-	private final static Image ELITEGUARD_NORTH = (new ImageIcon("ELITE_GUARD_RIGHT.gif")).getImage();
-	private final static Image ELITEGUARD_EAST = (new ImageIcon("ELITE_GUARD_RIGHT.gif")).getImage();
-	private final static Image ELITEGUARD_SOUTH = (new ImageIcon("ELITE_GUARD_LEFT.gif")).getImage();
-	private final static Image ELITEGUARD_WEST = (new ImageIcon("ELITE_GUARD_LEFT.gif")).getImage();
+	private final static Image ELITEGUARD_NORTH = Tools.getNewImageIcon("ELITE_GUARD_RIGHT.gif");
+	private final static Image ELITEGUARD_EAST = Tools.getNewImageIcon("ELITE_GUARD_RIGHT.gif");
+	private final static Image ELITEGUARD_SOUTH = Tools.getNewImageIcon("ELITE_GUARD_LEFT.gif");
+	private final static Image ELITEGUARD_WEST = Tools.getNewImageIcon("ELITE_GUARD_LEFT.gif");
 	// Knight images.
-	private final static Image KNIGHT_NORTH = (new ImageIcon("SOLDIER_RIGHT.gif")).getImage();
-	private final static Image KNIGHT_EAST = (new ImageIcon("SOLDIER_RIGHT.gif")).getImage();
-	private final static Image KNIGHT_SOUTH = (new ImageIcon("SOLDIER_LEFT.gif")).getImage();
-	private final static Image KNIGHT_WEST = (new ImageIcon("SOLDIER_LEFT.gif")).getImage();
+	private final static Image KNIGHT_NORTH = Tools.getNewImageIcon("SOLDIER_RIGHT.gif");
+	private final static Image KNIGHT_EAST = Tools.getNewImageIcon("SOLDIER_RIGHT.gif");
+	private final static Image KNIGHT_SOUTH = Tools.getNewImageIcon("SOLDIER_LEFT.gif");
+	private final static Image KNIGHT_WEST = Tools.getNewImageIcon("SOLDIER_LEFT.gif");
 	
 	// Counts the number of times an enemy has been killed by a player.
 	public final static Image ERROR = (new ImageIcon("ERROR.png")).getImage();
@@ -89,7 +89,7 @@ public abstract class Enemy implements ImageObserver {
 				this.speed2 = speed;
 				this.dmg = 3;
 				this.dmg2 = dmg;
-				this.hp = 50;
+				this.hp = 15;
 				this.hp2 = hp;
 				this.range = 35;
 				this.direction = SOUTH;
@@ -109,7 +109,7 @@ public abstract class Enemy implements ImageObserver {
 				this.speed2 = speed;
 				this.dmg = 30;
 				this.dmg2 = dmg;
-				this.hp = 6767;
+				this.hp = 100;
 				this.hp2 = hp;
 				this.range = 70;
 				this.direction = SOUTH;
@@ -127,7 +127,7 @@ public abstract class Enemy implements ImageObserver {
 				this.speed2 = speed;
 				this.dmg = 10;
 				this.dmg2 = dmg;
-				this.hp = 267;
+				this.hp = 50;
 				this.hp2 = hp;
 				this.range = 60;
 				this.direction = SOUTH;
@@ -145,7 +145,7 @@ public abstract class Enemy implements ImageObserver {
 				this.speed2 = speed;
 				this.dmg = 25;
 				this.dmg2 = dmg;
-				this.hp = 100;
+				this.hp = 25;
 				this.hp2 = hp;
 				this.range = 27;
 				this.direction = SOUTH;

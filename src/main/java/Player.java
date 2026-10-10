@@ -9,27 +9,27 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class Player implements ImageObserver
 {
 	// Non-animated player models (png). Art is resized to 400% in aseprite.
-	private final static Image PLAYER_STANDING_SOUTH_MODEL = (new ImageIcon("PLAYER_STANDING_SOUTH_MODEL.png")).getImage();
-	private final static Image PLAYER_STANDING_NORTH_MODEL = (new ImageIcon("PLAYER_STANDING_NORTH_MODEL.png")).getImage();
-	private final static Image PLAYER_STANDING_WEST_MODEL = (new ImageIcon("PLAYER_STANDING_WEST_MODEL.png")).getImage();
-	private final static Image PLAYER_STANDING_EAST_MODEL = (new ImageIcon("PLAYER_STANDING_EAST_MODEL.png")).getImage();
+	private final static Image PLAYER_STANDING_SOUTH_MODEL = Tools.getNewImageIcon("PLAYER_STANDING_SOUTH_MODEL.png");
+	private final static Image PLAYER_STANDING_NORTH_MODEL = Tools.getNewImageIcon("PLAYER_STANDING_NORTH_MODEL.png");
+	private final static Image PLAYER_STANDING_WEST_MODEL = Tools.getNewImageIcon("PLAYER_STANDING_WEST_MODEL.png");
+	private final static Image PLAYER_STANDING_EAST_MODEL = Tools.getNewImageIcon("PLAYER_STANDING_EAST_MODEL.png");
 	
 	// Animated player walking models (gif).
-	private final static Image PLAYER_WALKING_SOUTH_MODEL = (new ImageIcon("PLAYER_WALKING_SOUTH_MODEL.gif")).getImage();
-	private final static Image PLAYER_WALKING_NORTH_MODEL = (new ImageIcon("PLAYER_WALKING_NORTH_MODEL.gif")).getImage();
-	private final static Image PLAYER_WALKING_WEST_MODEL = (new ImageIcon("PLAYER_WALKING_WEST_MODEL.gif")).getImage();
-	private final static Image PLAYER_WALKING_EAST_MODEL = (new ImageIcon("PLAYER_WALKING_EAST_MODEL.gif")).getImage();
+	private final static Image PLAYER_WALKING_SOUTH_MODEL = Tools.getNewImageIcon("PLAYER_WALKING_SOUTH_MODEL.gif");
+	private final static Image PLAYER_WALKING_NORTH_MODEL = Tools.getNewImageIcon("PLAYER_WALKING_NORTH_MODEL.gif");
+	private final static Image PLAYER_WALKING_WEST_MODEL = Tools.getNewImageIcon("PLAYER_WALKING_WEST_MODEL.gif");
+	private final static Image PLAYER_WALKING_EAST_MODEL = Tools.getNewImageIcon("PLAYER_WALKING_EAST_MODEL.gif");
 	
 	// Animated player attacking models (gif).
-	private final static Image PLAYER_ATTACKING_SOUTH_MODEL = (new ImageIcon("PLAYER_ATTACKING_SOUTH_MODEL.gif")).getImage();
-	private final static Image PLAYER_ATTACKING_NORTH_MODEL = (new ImageIcon("PLAYER_ATTACKING_NORTH_MODEL.gif")).getImage();
-	private final static Image PLAYER_ATTACKING_WEST_MODEL = (new ImageIcon("PLAYER_ATTACKING_WEST_MODEL.gif")).getImage();
-	private final static Image PLAYER_ATTACKING_EAST_MODEL = (new ImageIcon("PLAYER_ATTACKING_EAST_MODEL.gif")).getImage();
+	private final static Image PLAYER_ATTACKING_SOUTH_MODEL = Tools.getNewImageIcon("PLAYER_ATTACKING_SOUTH_MODEL.gif");
+	private final static Image PLAYER_ATTACKING_NORTH_MODEL = Tools.getNewImageIcon("PLAYER_ATTACKING_NORTH_MODEL.gif");
+	private final static Image PLAYER_ATTACKING_WEST_MODEL = Tools.getNewImageIcon("PLAYER_ATTACKING_WEST_MODEL.gif");
+	private final static Image PLAYER_ATTACKING_EAST_MODEL = Tools.getNewImageIcon("PLAYER_ATTACKING_EAST_MODEL.gif");
 	
 	// Other player fields.
 	private static int currency = 0;

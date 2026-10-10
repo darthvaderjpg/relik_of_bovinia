@@ -15,6 +15,8 @@ import java.awt.Image;
 import java.awt.image.ImageObserver;
 //import java.awt.Color;
 import java.awt.Graphics;
+//import java.io.File;
+//import java.net.URL;
 //import javax.swing.*;
 
 import javax.swing.ImageIcon;
@@ -26,19 +28,19 @@ public class Hotbar implements ImageObserver {
 
 	
 	// Side and top UI models.
-	private final static Image SIDE_UI_MODEL = (new ImageIcon("SIDE_UI_MODEL.gif")).getImage();
-	private final static Image NULL_UI_MODEL = (new ImageIcon("NULL_UI_MODEL.png")).getImage();
+	private final static Image SIDE_UI_MODEL = Tools.getNewImageIcon("SIDE_UI_MODEL.gif");
+	private final static Image NULL_UI_MODEL = Tools.getNewImageIcon("NULL_UI_MODEL.png");
 	
 	// Mini-map models (gif).
-	private final static Image MINI_MAP_ROOM_0 = (new ImageIcon("MAP_ROOM_0.gif")).getImage();
-	private final static Image MINI_MAP_ROOM_1 = (new ImageIcon("MAP_ROOM_1.gif")).getImage();
-	private final static Image MINI_MAP_ROOM_2 = (new ImageIcon("MAP_ROOM_2.gif")).getImage();
-	private final static Image MINI_MAP_ROOM_3 = (new ImageIcon("MAP_ROOM_3.gif")).getImage();
-	private final static Image MINI_MAP_ROOM_4 = (new ImageIcon("MAP_ROOM_4.gif")).getImage();
-	private final static Image MINI_MAP_ROOM_5 = (new ImageIcon("MAP_ROOM_5.gif")).getImage();
-	private final static Image MINI_MAP_ROOM_6 = (new ImageIcon("MAP_ROOM_6.gif")).getImage();
-	private final static Image MINI_MAP_ROOM_7 = (new ImageIcon("MAP_ROOM_7.gif")).getImage();
-	private final static Image MINI_MAP_ROOM_8 = (new ImageIcon("MAP_ROOM_8.gif")).getImage();
+	private final static Image MINI_MAP_ROOM_0 = Tools.getNewImageIcon("MAP_ROOM_0.gif");
+	private final static Image MINI_MAP_ROOM_1 = Tools.getNewImageIcon("MAP_ROOM_1.gif");
+	private final static Image MINI_MAP_ROOM_2 = Tools.getNewImageIcon("MAP_ROOM_2.gif");
+	private final static Image MINI_MAP_ROOM_3 = Tools.getNewImageIcon("MAP_ROOM_3.gif");
+	private final static Image MINI_MAP_ROOM_4 = Tools.getNewImageIcon("MAP_ROOM_4.gif");
+	private final static Image MINI_MAP_ROOM_5 = Tools.getNewImageIcon("MAP_ROOM_5.gif");
+	private final static Image MINI_MAP_ROOM_6 = Tools.getNewImageIcon("MAP_ROOM_6.gif");
+	private final static Image MINI_MAP_ROOM_7 = Tools.getNewImageIcon("MAP_ROOM_7.gif");
+	private final static Image MINI_MAP_ROOM_8 = Tools.getNewImageIcon("MAP_ROOM_8.gif");
 	
 	//Player starts out with these things. Essentially a blank slate for the player
 	private static int coins = 0;

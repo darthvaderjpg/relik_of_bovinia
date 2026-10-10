@@ -4,14 +4,14 @@
 // Notes  : 
 
 import java.awt.Image;
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class Relik extends NPC 
 {
 	// Fields.
 	
-	private final static Image RELIK_MODEL = (new ImageIcon("RELIK_MODEL.gif")).getImage();
-	private final static Image RELIK_INTERACT_MODEL = (new ImageIcon("RELIK_INTERACT_MODEL.gif")).getImage();
+	private final static Image RELIK_MODEL = Tools.getNewImageIcon("RELIK_MODEL.gif");
+	private final static Image RELIK_INTERACT_MODEL = Tools.getNewImageIcon("RELIK_INTERACT_MODEL.gif");
 	private final static int X = 400;
 	private final static int Y = 300;
 	private final static int COLLISION_RADIUS = 100;

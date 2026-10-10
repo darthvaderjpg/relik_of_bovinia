@@ -11,38 +11,38 @@ Notes : This class will store all the dialogue images here
 import java.awt.*;
 import java.awt.image.ImageObserver;
 
-import javax.swing.*;
+//import javax.swing.*;
 
 public class Dialogue implements ImageObserver 
 {
 	// Fields.
 	
 	// Dude's dialogue animations (gif).
-	private static final Image DUDE_DIALOGUE_ANIMATION_1 = (new ImageIcon("DUDE_DIALOGUE_ANIMATION_1.gif")).getImage();
+	private static final Image DUDE_DIALOGUE_ANIMATION_1 = Tools.getNewImageIcon("DUDE_DIALOGUE_ANIMATION_1.gif");
 	
 	// Grandpa's dialogue animations (gif).
-	private static final Image GRANDPA_DIALOGUE_ANIMATION_1 = (new ImageIcon("GRANDPA_DIALOGUE_ANIMATION_1.gif")).getImage(); 
-	private static final Image GRANDPA_DIALOGUE_ANIMATION_2 = (new ImageIcon("GRANDPA_DIALOGUE_ANIMATION_2.gif")).getImage(); 
-	private static final Image GRANDPA_DIALOGUE_ANIMATION_3 = (new ImageIcon("GRANDPA_DIALOGUE_ANIMATION_3.gif")).getImage(); 
-	private static final Image GRANDPA_DIALOGUE_ANIMATION_4 = (new ImageIcon("GRANDPA_DIALOGUE_ANIMATION_4.gif")).getImage(); 
-	private static final Image GRANDPA_DIALOGUE_ANIMATION_5 = (new ImageIcon("GRANDPA_DIALOGUE_ANIMATION_5.gif")).getImage(); 
-	private static final Image GRANDPA_DIALOGUE_ANIMATION_6 = (new ImageIcon("GRANDPA_DIALOGUE_ANIMATION_6.gif")).getImage(); 
-	private static final Image GRANDPA_DIALOGUE_ANIMATION_7 = (new ImageIcon("GRANDPA_DIALOGUE_ANIMATION_7.gif")).getImage(); 
-	private static final Image GRANDPA_DIALOGUE_ANIMATION_8 = (new ImageIcon("GRANDPA_DIALOGUE_ANIMATION_8.gif")).getImage(); 
-	private static final Image GRANDPA_DIALOGUE_ANIMATION_9 = (new ImageIcon("GRANDPA_DIALOGUE_ANIMATION_9.gif")).getImage(); 
+	private static final Image GRANDPA_DIALOGUE_ANIMATION_1 = Tools.getNewImageIcon("GRANDPA_DIALOGUE_ANIMATION_1.gif"); 
+	private static final Image GRANDPA_DIALOGUE_ANIMATION_2 = Tools.getNewImageIcon("GRANDPA_DIALOGUE_ANIMATION_2.gif"); 
+	private static final Image GRANDPA_DIALOGUE_ANIMATION_3 = Tools.getNewImageIcon("GRANDPA_DIALOGUE_ANIMATION_3.gif"); 
+	private static final Image GRANDPA_DIALOGUE_ANIMATION_4 = Tools.getNewImageIcon("GRANDPA_DIALOGUE_ANIMATION_4.gif"); 
+	private static final Image GRANDPA_DIALOGUE_ANIMATION_5 = Tools.getNewImageIcon("GRANDPA_DIALOGUE_ANIMATION_5.gif"); 
+	private static final Image GRANDPA_DIALOGUE_ANIMATION_6 = Tools.getNewImageIcon("GRANDPA_DIALOGUE_ANIMATION_6.gif"); 
+	private static final Image GRANDPA_DIALOGUE_ANIMATION_7 = Tools.getNewImageIcon("GRANDPA_DIALOGUE_ANIMATION_7.gif"); 
+	private static final Image GRANDPA_DIALOGUE_ANIMATION_8 = Tools.getNewImageIcon("GRANDPA_DIALOGUE_ANIMATION_8.gif"); 
+	private static final Image GRANDPA_DIALOGUE_ANIMATION_9 = Tools.getNewImageIcon("GRANDPA_DIALOGUE_ANIMATION_9.gif"); 
 
 	// Shop's dialogue animations (gif).
-	private static final Image SHOP_DIALOGUE_ANIMATION_1 = (new ImageIcon("SHOP_DIALOGUE_ANIMATION_1.gif")).getImage();
+	private static final Image SHOP_DIALOGUE_ANIMATION_1 = Tools.getNewImageIcon("SHOP_DIALOGUE_ANIMATION_1.gif");
 	
 	// Relik's description animations (gif).
-	private static final Image RELIK_DIALOGUE_ANIMATION_1 = (new ImageIcon("RELIK_DIALOGUE_ANIMATION_1.gif")).getImage();
+	private static final Image RELIK_DIALOGUE_ANIMATION_1 = Tools.getNewImageIcon("RELIK_DIALOGUE_ANIMATION_1.gif");
 	
 	// Bovis' dialogue animations (gif).
-	private static final Image BOVIS_DIALOGUE_ANIMATION_1 = (new ImageIcon("BOVIS_DIALOGUE_ANIMATION_1.gif")).getImage();
-	private static final Image BOVIS_DIALOGUE_ANIMATION_2 = (new ImageIcon("BOVIS_DIALOGUE_ANIMATION_2.gif")).getImage();
-	private static final Image BOVIS_DIALOGUE_ANIMATION_3 = (new ImageIcon("BOVIS_DIALOGUE_ANIMATION_3.gif")).getImage();
-	private static final Image BOVIS_DIALOGUE_ANIMATION_4 = (new ImageIcon("BOVIS_DIALOGUE_ANIMATION_4.gif")).getImage();
-	private static final Image BOVIS_DIALOGUE_ANIMATION_5 = (new ImageIcon("BOVIS_DIALOGUE_ANIMATION_5.gif")).getImage();
+	private static final Image BOVIS_DIALOGUE_ANIMATION_1 = Tools.getNewImageIcon("BOVIS_DIALOGUE_ANIMATION_1.gif");
+	private static final Image BOVIS_DIALOGUE_ANIMATION_2 = Tools.getNewImageIcon("BOVIS_DIALOGUE_ANIMATION_2.gif");
+	private static final Image BOVIS_DIALOGUE_ANIMATION_3 = Tools.getNewImageIcon("BOVIS_DIALOGUE_ANIMATION_3.gif");
+	private static final Image BOVIS_DIALOGUE_ANIMATION_4 = Tools.getNewImageIcon("BOVIS_DIALOGUE_ANIMATION_4.gif");
+	private static final Image BOVIS_DIALOGUE_ANIMATION_5 = Tools.getNewImageIcon("BOVIS_DIALOGUE_ANIMATION_5.gif");
 	
 	// Error model in case anything goes wrong.
 	//private final static Image ERROR = (new ImageIcon("ERROR.png")).getImage();

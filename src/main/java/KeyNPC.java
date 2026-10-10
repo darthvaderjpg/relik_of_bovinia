@@ -4,14 +4,14 @@
 // Notes  : 
 
 import java.awt.Image;
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class KeyNPC extends NPC 
 {
 	// Fields.
 	
-	private final static Image KEY_MODEL = (new ImageIcon("TEMPLE_KEY_MODEL.gif")).getImage();
-	private final static Image KEY_INTERACT_MODEL = (new ImageIcon("TEMPLE_KEY_INTERACT_MODEL.gif")).getImage();
+	private final static Image KEY_MODEL = Tools.getNewImageIcon("TEMPLE_KEY_MODEL.gif");
+	private final static Image KEY_INTERACT_MODEL = Tools.getNewImageIcon("TEMPLE_KEY_INTERACT_MODEL.gif");
 	private final static int X = 400;
 	private final static int Y = 300;
 	private final static int COLLISION_RADIUS = 100;

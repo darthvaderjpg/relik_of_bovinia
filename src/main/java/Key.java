@@ -5,14 +5,14 @@
 // Base weapon damage is 2. Then damage scales with the weapon type.
 
 
-import javax.swing.*;
+//import javax.swing.*;
 
 //import java.awt.Graphics;
 import java.awt.Image;
 
 public class Key extends Item {
-	public static final Image SPIRIT_KEY = (new ImageIcon("spirit-key-pixilart.png")).getImage();
-	public static final Image TEMPLE_KEY = (new ImageIcon("special-key-pixilart.png")).getImage(); // <- need Ofer to import the image for this too
+	public static final Image SPIRIT_KEY = Tools.getNewImageIcon("spirit-key-pixilart.png");
+	public static final Image TEMPLE_KEY = Tools.getNewImageIcon("special-key-pixilart.png");
 	
 	public Key(Image Keytype, int hitPoints, int type) {
 		super(Keytype, hitPoints, "Key");

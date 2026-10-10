@@ -4,14 +4,14 @@
 // Notes  :
 
 import java.awt.Image;
-import javax.swing.ImageIcon;
+//import javax.swing.ImageIcon;
 
 public class Grandpa extends NPC
 {
 	// Fields.
 	
-	private final static Image GRANDPA_MODEL = (new ImageIcon("GRANDPA_MODEL.gif")).getImage();
-	private final static Image GRANDPA_INTERACT_MODEL = (new ImageIcon("GRANDPA_INTERACT_MODEL.gif")).getImage();
+	private final static Image GRANDPA_MODEL = Tools.getNewImageIcon("GRANDPA_MODEL.gif");
+	private final static Image GRANDPA_INTERACT_MODEL = Tools.getNewImageIcon("GRANDPA_INTERACT_MODEL.gif");
 	private final static int X = 160;
 	private final static int Y = 223;
 	private final static int COLLISION_RADIUS = 120;
