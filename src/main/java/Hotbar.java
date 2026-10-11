@@ -33,7 +33,7 @@ public class Hotbar implements ImageObserver {
 	// Side and top UI models.
 	private final static Image SIDE_UI_MODEL = Tools.getNewImageIcon("SIDE_UI_MODEL.gif");
 	private final static Image NULL_UI_MODEL = Tools.getNewImageIcon("NULL_UI_MODEL.png");
-	public final static Image POTION_MODEL = Tools.getNewImageIcon("revised-b-to-buy-potions-pixilart.png");
+	public final static Image POTION_MODEL = Tools.getNewImageIcon("revised-b-to-buy-potions-pixilart (1).png");
 	
 	// Mini-map models (gif).
 	private final static Image MINI_MAP_ROOM_0 = Tools.getNewImageIcon("MAP_ROOM_0.gif");
@@ -262,7 +262,7 @@ public class Hotbar implements ImageObserver {
 	{
 		g.drawImage(Hotbar.getNullUIModel(), 0, 0, null);
 		g.drawImage(Hotbar.getSideUIModel(), 800, -1, null);
-		g.drawImage(Hotbar.getPotionModel(), 610, 120, null);
+		g.drawImage(Hotbar.getPotionModel(), 280, 39, null);
 		g.drawImage(Hotbar.getHealthModel(Player.getHealth(), Player.getMaxHealth(), "PLAYER_HEALTH_"), 808, 208, null);
 		
 		if (BovisFight.getBossToken() && Player.getRoom() == 8)

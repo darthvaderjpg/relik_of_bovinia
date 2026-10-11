@@ -146,7 +146,7 @@ public class GamePanel extends JPanel
 		numbers1.draw(g);
 		numbers2.draw(g);
 		
-		
+	/*
 		if (Hotbar.getWeapon() != null)
 			Hotbar.getWeapon().draw(g);
 		
@@ -164,7 +164,7 @@ public class GamePanel extends JPanel
 		
 		if (Hotbar.getRobes() != null)
 			Hotbar.getRobes().draw(g);
-		
+	*/	
 		// NPC functionality.
 		dude.testInteraction(Player.getX(), Player.getY(), dude.getX(), dude.getY(), dude.getCollisionRadius(), "dude");
 		grandpa.testInteraction(Player.getX(), Player.getY(), grandpa.getX(), grandpa.getY(), grandpa.getCollisionRadius(), "grandpa");

@@ -4,7 +4,7 @@
 //Notes:
 //This is the class that stores all the items as images. Basically if they have the images, that's how they'll access the items. 
 //import javax.swing.*;
-import java.awt.Graphics;
+//import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.util.Random;
@@ -172,11 +172,11 @@ public abstract class Item implements ImageObserver {
 			Hotbar.addCoins(5);
 	}
 	
-	public void draw(Graphics g)
+	/*public void draw(Graphics g)
 	{	
 		g.drawImage(getImage(), getX(), getY(), null);
 	}
-	
+	*/
 	// Unused but necessary method for ImageObserver.
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) 
