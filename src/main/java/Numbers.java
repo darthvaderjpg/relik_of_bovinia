@@ -26,6 +26,9 @@ public class Numbers implements ImageObserver
 	private final static Image NUMBER_SEVEN = Tools.getNewImageIcon("NUMBER_7.png");
 	private final static Image NUMBER_EIGHT = Tools.getNewImageIcon("NUMBER_8.png");
 	private final static Image NUMBER_NINE = Tools.getNewImageIcon("NUMBER_9.png");
+
+	//Buy Potions
+	
 	
 	// Number coordinate fields.
 	private int firstNumberX = 0;

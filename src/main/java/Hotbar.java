@@ -13,13 +13,16 @@
  */
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-//import java.awt.Color;
+import javax.swing.ImageIcon;
 import java.awt.Graphics;
+
+// Unused Graphics
+//import java.awt.Color;
 //import java.io.File;
 //import java.net.URL;
 //import javax.swing.*;
 
-import javax.swing.ImageIcon;
+
 
 
 public class Hotbar implements ImageObserver {
@@ -30,6 +33,7 @@ public class Hotbar implements ImageObserver {
 	// Side and top UI models.
 	private final static Image SIDE_UI_MODEL = Tools.getNewImageIcon("SIDE_UI_MODEL.gif");
 	private final static Image NULL_UI_MODEL = Tools.getNewImageIcon("NULL_UI_MODEL.png");
+	public final static Image POTION_MODEL = Tools.getNewImageIcon("revised-b-to-buy-potions-pixilart.png");
 	
 	// Mini-map models (gif).
 	private final static Image MINI_MAP_ROOM_0 = Tools.getNewImageIcon("MAP_ROOM_0.gif");
@@ -160,6 +164,10 @@ public class Hotbar implements ImageObserver {
 	public static int getPotionCount(){
 		return potionCount;
 	}
+
+	public static Image getPotionModel(){
+		return POTION_MODEL;
+	}
 	
 	// Uses health potions.
 	public static void usePotion() {
@@ -254,6 +262,7 @@ public class Hotbar implements ImageObserver {
 	{
 		g.drawImage(Hotbar.getNullUIModel(), 0, 0, null);
 		g.drawImage(Hotbar.getSideUIModel(), 800, -1, null);
+		g.drawImage(Hotbar.getPotionModel(), 610, 120, null);
 		g.drawImage(Hotbar.getHealthModel(Player.getHealth(), Player.getMaxHealth(), "PLAYER_HEALTH_"), 808, 208, null);
 		
 		if (BovisFight.getBossToken() && Player.getRoom() == 8)

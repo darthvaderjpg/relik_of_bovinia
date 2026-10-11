@@ -28,6 +28,7 @@ public class GamePanel extends JPanel
 	Numbers numbers1 = new Numbers(949, 16, "Ruby");
 	Numbers numbers2 = new Numbers(590, 250, "Shop");
 	
+	
 	// Enemy creation.
 	// Room 2 below
 	Infarctus infarctus1 = new Infarctus(0, 200, 2);
@@ -144,6 +145,7 @@ public class GamePanel extends JPanel
 		Dialogue.draw(g);
 		numbers1.draw(g);
 		numbers2.draw(g);
+		
 		
 		if (Hotbar.getWeapon() != null)
 			Hotbar.getWeapon().draw(g);
