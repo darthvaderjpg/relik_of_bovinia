@@ -41,8 +41,7 @@ public class Armor extends Item{
 	public static final Image    ARTIFACT_ROBE_BOTTOMS = Tools.getNewImageIcon("artifact-leggings-pixilart.png");
 	public static final Image    ARTIFACT_BOOTS = Tools.getNewImageIcon("artifact-boots-pixilart.png");
 	
-	public  final static Image    BOVINE_HELMET = Tools.getNewImageIcon("animal-helmet-pixilart.png");
-	public  final static Image    AZURE_SHROUD = Tools.getNewImageIcon("new-cloak-pixilart.png");
+	
 	
 	//The type is not just Armor but the different kinds of armor like chestplate, helmet, etc. 
 	//Hit points is the amount of extra health that the armor adds to the player's health
@@ -91,9 +90,4 @@ public Armor(Image Armortype, int hitPoints, String type) {
 	static Armor artifactRobeBottoms = new Armor(ARTIFACT_ROBE_BOTTOMS, 50, "Leggings");
 	
 	static Armor artifactBoots = new Armor(ARTIFACT_BOOTS, 50, "Boots");
-		
-	//Special items:
-	static Armor AnimalHelmet = new Armor(BOVINE_HELMET, 5, "Helmet");
-	
-	static Armor azureShroud = new Armor(AZURE_SHROUD, 40, "Robes");
 }
