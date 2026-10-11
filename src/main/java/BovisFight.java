@@ -15,7 +15,6 @@ public class BovisFight extends Enemy {
 	private int downTimer = 167;
 	private static boolean bossToken = false; //static so that player does not have to redo dialogue to fight bovis
 	
-	
 	//enemies spawned by bovis
 	//stage 1 
 	public Infarctus infarctus01 = new Infarctus(650, 200, 8); //above bovis
@@ -87,7 +86,6 @@ public class BovisFight extends Enemy {
 			super.hold();
 			holdMinions();
 		}
-		
 	} 
 	
 	//first stage, simply moves Bovis into the arena

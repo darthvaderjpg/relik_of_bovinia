@@ -10,14 +10,14 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.*;
-import javax.swing.ImageIcon;
 import java.io.File;
 import java.net.URL;
 
 public class Main implements KeyListener
 {
+	
 	// Fields.
-	//damn
+	
 	// Key fields.
 	private static boolean isPressingW = false;
 	private static boolean isPressingA = false;
@@ -89,6 +89,9 @@ public class Main implements KeyListener
 	
 	public static void main(String[] args)
 	{		 
+		System.out.println("Main class is loaded");
+		System.out.println("Starting Relik of Bovinia...");
+
 		ImageIcon logo = loadAppIcon();
 		
 		// Create a window frame.
@@ -274,6 +277,7 @@ public class Main implements KeyListener
 	// This method returns true if space is being pressed, and false if otherwise.
 	public static boolean getIsPressingSpace()
 	{
+	
 		return isPressingSpace;
 	}
 	
@@ -282,5 +286,8 @@ public class Main implements KeyListener
 	{
 		return lastButtonPressed;
 	}
+
+	
 }
-//dunno why this doesn't work
+
+

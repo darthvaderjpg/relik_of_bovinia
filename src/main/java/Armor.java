@@ -16,9 +16,6 @@ import java.awt.Image;
 
 public class Armor extends Item{
 
-
-	
-	
 	//Starter Gear Images
 	public static final Image 	 CRACKED_HELMET = Tools.getNewImageIcon("worn-out-helmet-pixilart.png");
 	public static final Image 	 WORN_CLOAK = Tools.getNewImageIcon("old-cloak-pixilart.png");
@@ -77,8 +74,6 @@ public Armor(Image Armortype, int hitPoints, String type) {
 	
 	static Armor soldierBoots = new Armor(SOLDIER_BOOTS,7, "Boots");
 	
-	
-	
 	//Elite Armor set
 	static Armor eliteHelmet = new Armor(ELITE_GUARD_HELMET, 10, "Helmet");
 	
@@ -88,8 +83,6 @@ public Armor(Image Armortype, int hitPoints, String type) {
 	
 	static Armor eliteBoots = new Armor(ELITE_GUARD_BOOTS, 10, "Boots");
 	
-	
-	
 	//Artifact-Infused Armor Set
 	static Armor artifactHelmet = new Armor(ARTIFACT_HELMET, 50, "Helmet");
 	
@@ -98,9 +91,7 @@ public Armor(Image Armortype, int hitPoints, String type) {
 	static Armor artifactRobeBottoms = new Armor(ARTIFACT_ROBE_BOTTOMS, 50, "Leggings");
 	
 	static Armor artifactBoots = new Armor(ARTIFACT_BOOTS, 50, "Boots");
-	
-	
-	
+		
 	//Special items:
 	static Armor AnimalHelmet = new Armor(BOVINE_HELMET, 5, "Helmet");
 	

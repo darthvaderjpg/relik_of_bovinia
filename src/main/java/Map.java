@@ -78,7 +78,6 @@ public class Map implements ImageObserver
 		return playerRoom >= 4 && playerRoom <= 7;
 	}
 	
-	
 	//This dictates the specific background for the rooms
 	public Image getMap(int playerRoom)
 	{

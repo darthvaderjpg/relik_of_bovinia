@@ -1,7 +1,7 @@
 /*
-Author: Jake Jiang (@Scrapnel on Youtube and Minecraft or spectr.x on discord)
+Author: Jake Jiang
 Date  : 05/05/26
-Notes : This class creates a entity
+Notes : This class creates a entity or rather each type of enemy in the game.
  */
 
 import java.awt.*;

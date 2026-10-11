@@ -21,7 +21,6 @@ public class Grandpa extends NPC
 	private final static int OFFSET_Y = 0;
 	
 	// Constructors.
-	
 	public Grandpa()
 	{
 		super(GRANDPA_MODEL, GRANDPA_INTERACT_MODEL, X, Y, COLLISION_RADIUS, ROOM, CAN_INTERACT, OFFSET_X, OFFSET_Y); 

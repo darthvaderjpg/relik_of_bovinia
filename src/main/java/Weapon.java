@@ -4,9 +4,7 @@
 //Notes: These are the weapon that the player can use.
 // Base weapon damage is 2. Then damage scales with the weapon type.
 
-
 //import javax.swing.*;
-
 //import java.awt.Graphics;
 import java.awt.Image;
 
@@ -17,7 +15,7 @@ public class Weapon  extends Item {
 	public static final Image    ELITE_GUARD_SWORD = Tools.getNewImageIcon("mirror-sword-pixilart.png");
 	public static final Image    ARTIFACT_SWORD = Tools.getNewImageIcon("shift-sword-pixilart.png");
 	    
-	    //Special Gear
+	//Special Gear
 	
 	public static final Image    MOSQUITO_SWORD = Tools.getNewImageIcon("slash-sword-pixilart.png");
 	public static final Image    GREAT_CLUB = Tools.getNewImageIcon("great-club-pixilart.png");
@@ -45,5 +43,4 @@ public class Weapon  extends Item {
 	static Weapon mosquitoSword = new Weapon(MOSQUITO_SWORD, 3, "Weapon");
 	
 	static Weapon greatClub = new Weapon(GREAT_CLUB, 30, "Weapon");
-	
 }
