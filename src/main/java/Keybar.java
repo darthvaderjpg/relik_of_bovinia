@@ -1,16 +1,15 @@
     //Siddarth Iyer
-    //Date : 5/14/2026
+    // Date:  10/11/2026
     //Rev : 01
     //Notes : This class is responsible for creating the keybar objects.
     
-    
     import java.awt.Graphics;
 
-    
     public class Keybar {
-    private int x;
-    private int y;
-    private Item item;
+   
+        private int x;
+        private int y;
+        private Item item;
 
     // Static array holding your two key slots
     private static Keybar[] keybar = new Keybar[2];

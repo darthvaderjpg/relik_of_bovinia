@@ -1,3 +1,8 @@
+//  Name: Siddarth Iyer
+// Date:  10/11/2026
+// Rev:01
+// Notes: This class manages the player's inventory slots and rendering of stored inventory items.
+
 public class HotbarSlot {
 
     private int x;

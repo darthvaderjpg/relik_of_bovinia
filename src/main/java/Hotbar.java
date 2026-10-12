@@ -206,8 +206,8 @@ public class Hotbar implements ImageObserver {
             if (POTION_ICON != null) {
                 g.drawImage(POTION_ICON, slotX, slotY, null);
             } else {
-                // Fallback red square if something ever goes wrong loading the asset
-                g.setColor(Color.RED);
+                // Fallback black square if something ever goes wrong loading the Potion Image
+                g.setColor(Color.BLACK);
                 g.fillRect(slotX, slotY, 32, 32);
                 g.setColor(Color.BLACK);
                 g.drawRect(slotX, slotY, 32, 32);

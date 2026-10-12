@@ -1,5 +1,5 @@
 //Name: Siddarth Iyer
-//Date: 4/30/26
+//Date:  10/11/2026
 //Rev:01
 //Notes: This is the class that holds all the armor
 //They're all objects because they're really similar
