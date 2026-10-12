@@ -3,6 +3,7 @@
 // Rev:01
 // Notes: This class manages the player's inventory slots and rendering of stored inventory items.
 
+
 public class HotbarSlot {
 
     private int x;
@@ -36,3 +37,4 @@ public class HotbarSlot {
     }
 
 }
+

@@ -17,6 +17,7 @@ import java.awt.image.ImageObserver;
 import javax.swing.ImageIcon;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Font;
 
 public class Hotbar implements ImageObserver {
     
@@ -25,8 +26,8 @@ public class Hotbar implements ImageObserver {
     private final static Image NULL_UI_MODEL = Tools.getNewImageIcon("NULL_UI_MODEL.png");
     public final static Image POTION_MODEL = Tools.getNewImageIcon("revised-b-to-buy-potions-pixilart (1).png");
     
-    // Dedicated potion icon for hotbar slot 2 with the correct spelling
-    private final static Image POTION_ICON = Tools.getNewImageIcon("rejuvenating-spirit-but-bigger-pixilart (1).gif");
+    // Dedicated potion icon for hotbar slot 2 with correct spelling
+    private final static Image POTION_ICON = Tools.getNewImageIcon("rejuvenating-spirit-pixilart.png");
     
     // Mini-map models (gif).
     private final static Image MINI_MAP_ROOM_0 = Tools.getNewImageIcon("MAP_ROOM_0.gif");
@@ -46,11 +47,11 @@ public class Hotbar implements ImageObserver {
     // Dedicated Hotbar array (3 slots: Weapon, Potion, Cloak)
     private static HotbarSlot[] hotbar = new HotbarSlot[3];
 
-    // Static initialization block with our perfected coordinates
+    // Static initialization block with perfected coordinates
     static {
-        hotbar[0] = new HotbarSlot(820, 255); // Slot 1: Left
-        hotbar[1] = new HotbarSlot(900, 260); // Slot 2: Center (Potion Slot)
-        hotbar[2] = new HotbarSlot(960, 255); // Slot 3: Right
+        hotbar[0] = new HotbarSlot(820, 255); // Slot 1: Left (Weapon)
+        hotbar[1] = new HotbarSlot(915, 275); // Slot 2: Center (Potion)
+        hotbar[2] = new HotbarSlot(960, 255); // Slot 3: Right (Cloak)
     }
     
     // Legacy equipment references
@@ -112,7 +113,6 @@ public class Hotbar implements ImageObserver {
         } 
         else if (type.equalsIgnoreCase("Potion")) {
             hotbar[1].updateItem(i);
-            potionCount++;
         } 
         else if (type.equalsIgnoreCase("Cloak")) {
             hotbar[2].updateItem(i);
@@ -156,6 +156,9 @@ public class Hotbar implements ImageObserver {
         if (potionCount >= 1) {
             Player.setHealth(Player.getHealth() + ((Player.getMaxHealth() - Player.getHealth()) * 0.5));
             potionCount--;
+            if (potionCount <= 0 && hotbar[1] != null) {
+                hotbar[1].updateItem(null);
+            }
         }
     }
     
@@ -186,19 +189,19 @@ public class Hotbar implements ImageObserver {
     public static void draw(Graphics g) {
         // 1. Draw "B TO BUY POTIONS" banner in top header
         if (POTION_MODEL != null) {
-            g.drawImage(POTION_MODEL, 260, 50, null);
+            g.drawImage(POTION_MODEL, 260, 40, null);
         }
 
-        // 2. Draw standard hotbar slot items
+        // 2. Draw standard hotbar slot items (slots 0 and 2)
         for (int i = 0; i < hotbar.length; i++) {
-            if (i == 1) continue; // Skip slot 1 so we render via hotbar[1] coordinates
+            if (i == 1) continue; // Skip slot 1 so we render our potion icon & count cleanly
             HotbarSlot slot = hotbar[i];
             if (slot != null && slot.getItem() != null && slot.getItem().getImage() != null) {
                 g.drawImage(slot.getItem().getImage(), slot.getX(), slot.getY(), null);
             }
         }
 
-        // 3. Draw Potion Icon in the second hotbar slot when potionCount > 0
+        // 3. Draw Potion Icon & `x#` count text in Slot 2 when potionCount > 0
         if (potionCount > 0 && hotbar[1] != null) {
             int slotX = hotbar[1].getX();
             int slotY = hotbar[1].getY();
@@ -206,12 +209,17 @@ public class Hotbar implements ImageObserver {
             if (POTION_ICON != null) {
                 g.drawImage(POTION_ICON, slotX, slotY, null);
             } else {
-                // Fallback black square if something ever goes wrong loading the Potion Image
-                g.setColor(Color.BLACK);
+                // Fallback red square if asset fails to load
+                g.setColor(Color.RED);
                 g.fillRect(slotX, slotY, 32, 32);
                 g.setColor(Color.BLACK);
                 g.drawRect(slotX, slotY, 32, 32);
             }
+            
+            // Draw tiny count text beside the icon formatted as x#
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Press Start 2P", Font.BOLD, 10));
+            g.drawString("x" + potionCount, slotX + 34, slotY + 22);
         }
 
         // 4. Draw Inventory items & Keybar items
@@ -222,5 +230,37 @@ public class Hotbar implements ImageObserver {
     @Override
     public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
         return false;
+    }
+
+    // --- Inner HotbarSlot Class to guarantee resolution ---
+    public static class HotbarSlot {
+        private int x;
+        private int y;
+        private Item item;
+
+        public HotbarSlot(int x, int y) {
+            this.x = x;
+            this.y = y;
+            this.item = null;
+        }
+
+        public void updateItem(Item i) {
+            this.item = i;
+            if (i != null && i.getImage() != null) {
+                // Keep item image tracked if needed
+            }
+        }
+
+        public Item getItem() {
+            return item;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
     }
 }
