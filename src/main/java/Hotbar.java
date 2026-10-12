@@ -25,6 +25,9 @@ public class Hotbar implements ImageObserver {
     private final static Image NULL_UI_MODEL = Tools.getNewImageIcon("NULL_UI_MODEL.png");
     public final static Image POTION_MODEL = Tools.getNewImageIcon("revised-b-to-buy-potions-pixilart (1).png");
     
+    // Dedicated potion icon for hotbar slot 2 with the correct spelling
+    private final static Image POTION_ICON = Tools.getNewImageIcon("rejuvenating-spirit-but-bigger-pixilart (1).gif");
+    
     // Mini-map models (gif).
     private final static Image MINI_MAP_ROOM_0 = Tools.getNewImageIcon("MAP_ROOM_0.gif");
     private final static Image MINI_MAP_ROOM_1 = Tools.getNewImageIcon("MAP_ROOM_1.gif");
@@ -43,11 +46,11 @@ public class Hotbar implements ImageObserver {
     // Dedicated Hotbar array (3 slots: Weapon, Potion, Cloak)
     private static HotbarSlot[] hotbar = new HotbarSlot[3];
 
-    // Static initialization block aligned with sidebar at X = 800
+    // Static initialization block with our perfected coordinates
     static {
-        hotbar[0] = new HotbarSlot(820, 100); // Slot 1: Weapon
-        hotbar[1] = new HotbarSlot(870, 100); // Slot 2: Potion Slot (Center)
-        hotbar[2] = new HotbarSlot(920, 100); // Slot 3: Cloak
+        hotbar[0] = new HotbarSlot(820, 255); // Slot 1: Left
+        hotbar[1] = new HotbarSlot(900, 260); // Slot 2: Center (Potion Slot)
+        hotbar[2] = new HotbarSlot(960, 255); // Slot 3: Right
     }
     
     // Legacy equipment references
@@ -186,24 +189,29 @@ public class Hotbar implements ImageObserver {
             g.drawImage(POTION_MODEL, 260, 50, null);
         }
 
-        // 2. Draw standard hotbar slot items (Left and Right slots)
+        // 2. Draw standard hotbar slot items
         for (int i = 0; i < hotbar.length; i++) {
-            if (i == 1) continue; // Skip slot 1 so we render our potion slot cleanly
+            if (i == 1) continue; // Skip slot 1 so we render via hotbar[1] coordinates
             HotbarSlot slot = hotbar[i];
             if (slot != null && slot.getItem() != null && slot.getItem().getImage() != null) {
                 g.drawImage(slot.getItem().getImage(), slot.getX(), slot.getY(), null);
             }
         }
 
-        // 3. Draw Red Square bound precisely to the second hotbar slot (hotbar[1]) when potionCount > 0
+        // 3. Draw Potion Icon in the second hotbar slot when potionCount > 0
         if (potionCount > 0 && hotbar[1] != null) {
             int slotX = hotbar[1].getX();
             int slotY = hotbar[1].getY();
             
-            g.setColor(Color.RED);
-            g.fillRect(slotX, slotY, 32, 32);
-            g.setColor(Color.BLACK);
-            g.drawRect(slotX, slotY, 32, 32); // Outline for contrast
+            if (POTION_ICON != null) {
+                g.drawImage(POTION_ICON, slotX, slotY, null);
+            } else {
+                // Fallback red square if something ever goes wrong loading the asset
+                g.setColor(Color.RED);
+                g.fillRect(slotX, slotY, 32, 32);
+                g.setColor(Color.BLACK);
+                g.drawRect(slotX, slotY, 32, 32);
+            }
         }
 
         // 4. Draw Inventory items & Keybar items
