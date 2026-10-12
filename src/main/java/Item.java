@@ -181,7 +181,6 @@ public abstract class Item implements ImageObserver {
 			Hotbar.addCoins(5);
 	}
 	
-
 	// Unused but necessary method for ImageObserver.
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) 

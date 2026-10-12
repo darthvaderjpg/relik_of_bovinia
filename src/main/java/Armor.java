@@ -52,8 +52,6 @@ public Armor(Image Armortype, int hitPoints, String type) {
 	
 	//Beginner Clothes Set
 
-
-	
 	static Armor crackedHelmet = new Armor(CRACKED_HELMET, 2, "Helmet");
 	
 	static Armor wornCloak = new Armor(WORN_CLOAK, 2, "Robes");
