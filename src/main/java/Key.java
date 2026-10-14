@@ -1,24 +1,40 @@
 //Name: Siddarth Iyer
-//Date: 4/30/26
-//Rev:01
-//Notes: These are the weapon that the player can use.
-// Base weapon damage is 2. Then damage scales with the weapon type.
+//Date: 10/13/2026
+//Rev:02
+//Notes: This is the class that holds all the keys.
 
-
-//import javax.swing.*;
-
-//import java.awt.Graphics;
 import java.awt.Image;
 
 public class Key extends Item {
-	public static final Image SPIRIT_KEY = Tools.getNewImageIcon("spirit-key-pixilart.png");
-	public static final Image TEMPLE_KEY = Tools.getNewImageIcon("special-key-pixilart.png");
-	
-	public Key(Image Keytype, int hitPoints, int type) {
-		super(Keytype, hitPoints, "Key");
-		
-	}
-	static Key spiritKey = new Key(SPIRIT_KEY, 2,7);
-	
-	static Key templeKey = new Key(TEMPLE_KEY, 2,6);
+    public static final Image SPIRIT_KEY = Tools.getNewImageIcon("spirit-key-pixilart.png");
+    public static final Image TEMPLE_KEY = Tools.getNewImageIcon("special-key-pixilart.png");
+    
+    private int hitPoints;
+    private int keyValue;
+
+    public Key(Image keyType, int hitPoints, int keyValue) {
+        super("Key", keyType);
+        this.hitPoints = hitPoints;
+        this.keyValue = keyValue;
+    }
+
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public int getKeyValue() {
+        return keyValue;
+    }
+
+    public void setKeyValue(int keyValue) {
+        this.keyValue = keyValue;
+    }
+    
+    static Key spiritKey = new Key(SPIRIT_KEY, 2, 7);
+    
+    static Key templeKey = new Key(TEMPLE_KEY, 2, 6);
 }

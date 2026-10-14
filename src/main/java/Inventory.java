@@ -2,7 +2,7 @@
 //Date:  10/11/2026
 //Rev:01
 //Notes: This class manages the player's inventory slots and rendering of stored inventory items.
-
+/*
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
@@ -44,5 +44,52 @@ public class Inventory implements ImageObserver {
     @Override
     public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
         return false;
+    }
+}
+*/
+//Name: Siddarth Iyer
+//Editor: Ofer Koren
+//Date: 5/14/2026
+//Rev:02
+//Notes:
+/*
+- Manages inventory slots for armor and equipment items.
+ */
+
+import java.awt.Graphics;
+import java.awt.Image;
+
+public class Inventory {
+    
+    // Inventory slots array (e.g., 0: Helmet, 1: Chestplate, 2: Leggings, 3: Boots, 4: Robes, etc.)
+    private static Item[] inventorySlots = new Item[5];
+
+    public static void setSlot(int index, Item item) {
+        if (index >= 0 && index < inventorySlots.length) {
+            inventorySlots[index] = item;
+        }
+    }
+
+    public static Item getSlot(int index) {
+        if (index >= 0 && index < inventorySlots.length) {
+            return inventorySlots[index];
+        }
+        return null;
+    }
+
+    public static void draw(Graphics g) {
+        // Draw inventory items in their designated slots
+        // Coordinates can be adjusted to match your inventory screen layout UI positions
+        int startX = 100; // Example inventory X starting coordinate
+        int startY = 100; // Example inventory Y starting coordinate
+        int slotSize = 40;
+
+        for (int i = 0; i < inventorySlots.length; i++) {
+            Item item = inventorySlots[i];
+            if (item != null && item.getImage() != null) {
+                // Renders inventory items linearly or at custom slot coordinates
+                g.drawImage(item.getImage(), startX + (i * (slotSize + 10)), startY, null);
+            }
+        }
     }
 }

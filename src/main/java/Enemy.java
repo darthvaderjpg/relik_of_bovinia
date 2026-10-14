@@ -3,7 +3,7 @@ Author: Jake Jiang
 Date  : 05/05/26
 Notes : This class creates a entity or rather each type of enemy in the game.
  */
-
+/* 
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import javax.swing.*;
@@ -686,4 +686,257 @@ public abstract class Enemy implements ImageObserver {
 	{
 		return false;
 	}
+}
+	*/
+	/*
+Author: Infarctus & Relik Devs
+Notes : Manages entity types, movement, stats, and loot drop triggers.
+ */
+
+import java.awt.*;
+import java.awt.image.ImageObserver;
+import javax.swing.*;
+
+public abstract class Enemy implements ImageObserver {
+    
+    // infarctus images
+    private final static Image INFARCTUS_NORTH = Tools.getNewImageIcon("INFARCTUS_NORTH.png");
+    private final static Image INFARCTUS_EAST = Tools.getNewImageIcon("INFARCTUS_EAST.png");
+    private final static Image INFARCTUS_SOUTH = Tools.getNewImageIcon("INFARCTUS_SOUTH.png");
+    private final static Image INFARCTUS_WEST = Tools.getNewImageIcon("INFARCTUS_WEST.png");
+    // Bovis fight images.
+    private final static Image BOVISFIGHT_NORTH = Tools.getNewImageIcon("BOVISFIGHT_WEST.png");
+    private final static Image BOVISFIGHT_EAST = Tools.getNewImageIcon("BOVISFIGHT_WEST.png");
+    private final static Image BOVISFIGHT_SOUTH = Tools.getNewImageIcon("BOVISFIGHT_WEST.png");
+    private final static Image BOVISFIGHT_WEST = Tools.getNewImageIcon("BOVISFIGHT_WEST.png");
+    // Elite guard images.
+    private final static Image ELITEGUARD_NORTH = Tools.getNewImageIcon("ELITE_GUARD_RIGHT.gif");
+    private final static Image ELITEGUARD_EAST = Tools.getNewImageIcon("ELITE_GUARD_RIGHT.gif");
+    private final static Image ELITEGUARD_SOUTH = Tools.getNewImageIcon("ELITE_GUARD_LEFT.gif");
+    private final static Image ELITEGUARD_WEST = Tools.getNewImageIcon("ELITE_GUARD_LEFT.gif");
+    // Knight images.
+    private final static Image KNIGHT_NORTH = Tools.getNewImageIcon("SOLDIER_RIGHT.gif");
+    private final static Image KNIGHT_EAST = Tools.getNewImageIcon("SOLDIER_RIGHT.gif");
+    private final static Image KNIGHT_SOUTH = Tools.getNewImageIcon("SOLDIER_LEFT.gif");
+    private final static Image KNIGHT_WEST = Tools.getNewImageIcon("SOLDIER_LEFT.gif");
+    
+    public final static Image ERROR = (new ImageIcon("ERROR.png")).getImage();
+    public static final int NORTH = 1, EAST = 2, SOUTH = 3, WEST = 4;
+    private static int deathCounter;
+
+    private int hp, dmg, x, y, speed, direction, roomID, range, dashDuration, releaseToken = 0, dashToken = 0, attackCooldown, currentAttackCooldown, dropCount = 1;
+    private int x2, y2, speed2, hp2, dmg2;
+    private Image weapon, body;
+    private Image weapon2, body2;
+    private boolean isMoving, moveToken = true;
+    private String enemyType = "[undefined]";
+    private String enemyType2 = enemyType;
+    
+    private static final int INFARCTUS_OFFSET_X = -25;
+    private static final int INFARCTUS_OFFSET_Y = -25;
+    private static final int KNIGHT_OFFSET_X = -25;
+    private static final int KNIGHT_OFFSET_Y = -25;
+    private static final int ELITEGUARD_OFFSET_X = -45;
+    private static final int ELITEGUARD_OFFSET_Y = -45;
+
+    public Enemy(int x, int y, int roomID, String enemyType) {
+        enemyType = enemyType.toLowerCase().trim();
+        setRoomID(roomID);
+        setCoordinates(x, y);
+        
+        switch (enemyType) {
+            case "infarctus": assignEnemy(1); break;
+            case "bovisfight": assignEnemy(2); break;
+            case "eliteguard": assignEnemy(3); break;
+            case "knight": assignEnemy(4); break;
+            default: System.out.println(">" + enemyType + "< did not match known types."); break;
+        }
+    }
+    
+    private void assignEnemy(int type) {
+        switch(type) {
+            case 1:
+                this.speed = 1; this.speed2 = speed; this.dmg = 3; this.dmg2 = dmg;
+                this.hp = 20; this.hp2 = hp; this.range = 35; this.direction = SOUTH;
+                this.dashDuration = (int)(100.0 * (1 + Math.random())); 
+                this.attackCooldown = 10; this.currentAttackCooldown = attackCooldown;
+                this.body = INFARCTUS_SOUTH; enemyType = "infarctus"; enemyType2 = enemyType;
+                break;
+            case 2:
+                this.speed = 2; this.speed2 = speed; this.dmg = 30; this.dmg2 = dmg;
+                this.hp = 200; this.hp2 = hp; this.range = 70; this.direction = SOUTH;
+                this.attackCooldown = 37; this.currentAttackCooldown = attackCooldown;
+                this.body = BOVISFIGHT_SOUTH; enemyType = "bovisfight"; enemyType2 = enemyType;
+                break;
+            case 3:
+                this.speed = 3; this.speed2 = speed; this.dmg = 10; this.dmg2 = dmg;
+                this.hp = 100; this.hp2 = hp; this.range = 60; this.direction = SOUTH;
+                this.attackCooldown = 25; this.currentAttackCooldown = 35;
+                this.body = ELITEGUARD_SOUTH; enemyType = "eliteguard"; enemyType2 = enemyType;
+                break;
+            case 4:
+                this.speed = 3; this.speed2 = speed; this.dmg = 25; this.dmg2 = dmg;
+                this.hp = 50; this.hp2 = hp; this.range = 27; this.direction = SOUTH;
+                this.attackCooldown = 8; this.currentAttackCooldown = attackCooldown;
+                this.body = KNIGHT_SOUTH; this.body2 = body; enemyType = "knight"; enemyType2 = enemyType;
+                break;
+        }
+    }
+    
+    public int getHealth() { return hp; }
+    public int getHealth2() { return hp2; }
+    public void setHealth(int hp) { this.hp = hp; }
+    public void setCoordinates(int x, int y) { this.x = x; this.y = y; }
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public int getroomID() { return roomID; }
+    
+    public void die() {
+        if (dropCount > 0) {
+            dropCount = 0;
+            dropLoot(enemyType2);
+        }
+        hp = -1;
+        dmg = 0;
+        body = null;
+        weapon = null;
+        hold();
+        deathCounter++;
+        setEnemyType("dead");
+    }
+    
+    public void respawn() {
+        hp = hp2;
+        dmg = dmg2;
+        body = body2;
+        weapon = weapon2;
+        setEnemyType(enemyType2);
+        releaseToken = 1; // reset hold state
+        release();
+    }
+    
+    public int getDeathCount() { return deathCounter; }
+    
+    // Calls Item class drop methods which now route directly into Hotbar/Inventory
+    private static void dropLoot(String enemyType) {
+        switch (enemyType) {
+            case "infarctus": Item.getDroppedInfarctus(); break;
+            case "eliteguard": Item.getDroppedEliteGuard(); break;
+            case "knight": Item.getDroppedSoldier(); break;
+            default: System.out.println("Could not find >" + enemyType + "<"); break;
+        }
+    }
+    
+    public void stop() { moveToken = false; }
+    public void allowMove() { moveToken = true; }
+    
+    public int takeDMG(int dmg) {
+        hp -= dmg;
+        if(hp <= 0) { die(); }
+        return hp;
+    }
+    
+    public void setEnemyType(String enemyType) { this.enemyType = enemyType; }
+    public String getEnemyType() { return enemyType; }
+    public void setRoomID(int ID) { roomID = ID; }
+    
+    public void moveLeft() { x -= speed; setDirection(WEST); }
+    public void moveRight() { x += speed; setDirection(EAST); }
+    public void moveUp() { y -= speed; setDirection(NORTH); }
+    public void moveDown() { y += speed; setDirection(SOUTH); }
+    
+    public void trackPlayer(int px, int py, int pRoomID) {
+        if (roomID == pRoomID) {
+            moveToken = true;
+            if (x < px) moveRight();
+            else if (x > px) moveLeft();
+            if (y < py) moveDown();
+            else if (y > py) moveUp();
+        } else {
+            moveToken = false;
+        }
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+        switch(getEnemyType()) {
+            case "infarctus":
+                if (direction == NORTH) setBodyImage(INFARCTUS_NORTH);
+                else if (direction == EAST) setBodyImage(INFARCTUS_EAST);
+                else if (direction == SOUTH) setBodyImage(INFARCTUS_SOUTH);
+                else setBodyImage(INFARCTUS_WEST);
+                break;
+            case "bovisfight":
+                if (direction == NORTH) setBodyImage(BOVISFIGHT_NORTH);
+                else if (direction == EAST) setBodyImage(BOVISFIGHT_EAST);
+                else if (direction == SOUTH) setBodyImage(BOVISFIGHT_SOUTH);
+                else setBodyImage(BOVISFIGHT_WEST);
+                break;
+            case "eliteguard":
+                if (direction == NORTH) setBodyImage(ELITEGUARD_NORTH);
+                else if (direction == EAST) setBodyImage(ELITEGUARD_EAST);
+                else if (direction == SOUTH) setBodyImage(ELITEGUARD_SOUTH);
+                else setBodyImage(ELITEGUARD_WEST);
+                break;
+            case "knight":
+                if (direction == NORTH) setBodyImage(KNIGHT_NORTH);
+                else if (direction == EAST) setBodyImage(KNIGHT_EAST);
+                else if (direction == SOUTH) setBodyImage(KNIGHT_SOUTH);
+                else setBodyImage(KNIGHT_WEST);
+                break;
+            default: setBodyImage(ERROR); break;
+        }
+    }
+    
+    public void setBodyImage(Image body) { this.body = body; }
+    public Image getBodyImage() { return body; }
+    
+    public void hold() {
+        if(releaseToken == 0) { x2 = x; y2 = y; }
+        releaseToken = 1;
+        setCoordinates(-10000, -10000);
+        stop();
+    }
+    
+    public void release() {
+        if(releaseToken == 1) {
+            x = x2; y2 = y2;
+            releaseToken = 0;
+            setCoordinates(x, y);
+            allowMove();
+        }
+    }
+
+    public void checkIfAttacked() {
+        if (Player.getAttackingState()) {
+            switch (Main.getLastButtonPressed()) {
+                case "W":
+                    if (y <= Player.getY() && Player.getY() - Player.getAttackingRange() - 40 <= y && x <= Player.getX() + Player.getAttackingRange() && x >= Player.getX() - Player.getAttackingRange())
+                        takeDMG(Player.getDamage());
+                    break;
+                case "A":
+                    if (x <= Player.getX() && Player.getX() - Player.getAttackingRange() - 40 <= x && y >= Player.getY() - Player.getAttackingRange() && y <= Player.getY() + Player.getAttackingRange())
+                        takeDMG(Player.getDamage());
+                    break;
+                case "S":
+                    if (y >= Player.getY() && Player.getY() + Player.getAttackingRange() + 40 >= y && x <= Player.getX() + Player.getAttackingRange() && x >= Player.getX() - Player.getAttackingRange())
+                        takeDMG(Player.getDamage());
+                    break;
+                case "D":
+                    if (x >= Player.getX() && Player.getX() + Player.getAttackingRange() + 40 >= x && y >= Player.getY() - Player.getAttackingRange() && y <= Player.getY() + Player.getAttackingRange())
+                        takeDMG(Player.getDamage());
+                    break;
+            }
+        }
+        if(hp <= 0) die();
+    }
+    
+    public void draw(Graphics g) {
+        if (body != null) {
+            g.drawImage(body, x, y, null);
+        }
+    }
+
+    @Override
+    public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) { return false; }
 }

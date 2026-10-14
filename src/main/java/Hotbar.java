@@ -1,3 +1,4 @@
+
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
 //Date: 5/14/2026
@@ -215,6 +216,10 @@ public class Hotbar implements ImageObserver {
                 g.setColor(Color.BLACK);
                 g.drawRect(slotX, slotY, 32, 32);
             }
+
+			if (potionCount > 99) {
+				potionCount = 99; // Cap potion count at 99
+			}
             
             // Draw tiny count text beside the icon formatted as x#
             g.setColor(Color.BLACK);
