@@ -1,8 +1,8 @@
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
 //Date: 5/14/2026
-//Rev:15
-//Notes: Shifted minimap coordinates to (798, 60) (1 left, 1 down from 799, 59).
+//Rev:23
+//Notes: Updated health bar coordinates to exact position (808, 210).
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,7 +18,7 @@ public class Hotbar implements ImageObserver {
     private final static Image NULL_UI_MODEL = Tools.getNewImageIcon("NULL_UI_MODEL.png");
     public final static Image POTION_MODEL = Tools.getNewImageIcon("revised-b-to-buy-potions-pixilart (1).png");
     
-    // Dedicated potion icon for hotbar slot 2 with correct spelling
+    // Dedicated potion icon for hotbar slot 2
     private final static Image POTION_ICON = Tools.getNewImageIcon("rejuvenating-spirit-pixilart.png");
     
     // Mini-map models (gif).
@@ -39,14 +39,12 @@ public class Hotbar implements ImageObserver {
     // Dedicated Hotbar array (3 slots: Weapon, Potion, Cloak)
     private static HotbarSlot[] hotbar = new HotbarSlot[3];
 
-    // Static initialization block with perfected coordinates
     static {
         hotbar[0] = new HotbarSlot(826, 273); // Slot 1: Left (Weapon)
         hotbar[1] = new HotbarSlot(915, 275); // Slot 2: Center (Potion)
         hotbar[2] = new HotbarSlot(960, 255); // Slot 3: Right (Cloak)
     }
     
-    // Legacy equipment references (Kept for safety)
     private static Weapon weapon;
     private static Armor helmet;
     private static Armor chestplate;
@@ -60,36 +58,32 @@ public class Hotbar implements ImageObserver {
         String type = (i.getType() != null) ? i.getType().toLowerCase() : "";
         String str = i.toString().toLowerCase();
 
-        // --- DIRECT INVENTORY ARMOR ROUTER ---
-        // Guarantees all armor goes to Inventory, not the hotbar slots.
         if (i instanceof Armor || type.contains("helm") || type.contains("chest") || type.contains("pant") || type.contains("boot") || type.contains("armor")) {
             Armor armor = (i instanceof Armor) ? (Armor) i : null;
 
             if (type.contains("helm") || type.contains("head") || type.contains("cap") || str.contains("helm")) {
                 setHelmet(armor);
-                Inventory.setSlot(0, i); // Slot 0: Helmet (Top)
+                Inventory.setSlot(0, i);
             } 
             else if (type.contains("chest") || type.contains("plate") || type.contains("cuirass") || str.contains("chest")) {
                 setChestplate(armor);
-                Inventory.setSlot(1, i); // Slot 1: Chestplate (Second)
+                Inventory.setSlot(1, i);
             } 
             else if (type.contains("pant") || type.contains("leg") || type.contains("bottom") || type.contains("explorer") || str.contains("pants")) {
                 setLeggings(armor);
-                Inventory.setSlot(2, i); // Slot 2: Leggings / Pants (Third)
+                Inventory.setSlot(2, i);
             } 
             else if (type.contains("boot") || type.contains("shoe") || str.contains("boot")) {
                 setBoots(armor);
-                Inventory.setSlot(3, i); // Slot 3: Boots (Bottom)
+                Inventory.setSlot(3, i);
             } 
             else {
-                // If the specific type is unclear but it's armor, assume chestplate slot (fallback)
                 setChestplate(armor);
                 Inventory.setSlot(1, i); 
             }
-            return; // EXIT EARLY - never reaches hotbar slots for armor!
+            return;
         }
 
-        // --- HOTBAR ITEMS ONLY (Weapons, Cloaks, Keys, Potions) ---
         if (i instanceof Weapon || type.contains("weapon") || type.contains("sword") || type.contains("club")) {
             hotbar[0].updateItem(i);
             if (i instanceof Weapon) setWeapon((Weapon) i);
@@ -125,11 +119,15 @@ public class Hotbar implements ImageObserver {
     public static Image getSideUIModel() { return SIDE_UI_MODEL; }
     public static Image getNullUIModel() { return NULL_UI_MODEL; }
     
-    public static Image getHealthModel(int health, int maxHealth, String type) {
-        double ratio = (double)health / (double)maxHealth;
+    public static Image getHealthModel(int health, int maxHealth, String prefix) {
+        if (maxHealth <= 0) maxHealth = 100;
+        double ratio = (double) health / (double) maxHealth;
+        if (ratio < 0) ratio = 0;
+        if (ratio > 1) ratio = 1;
+        
         int healthPercent = (int)(ratio * 100);
-        int roundedHealthPercent = ((int)(healthPercent/10)) * 10;
-        return (new ImageIcon(type + roundedHealthPercent + "_PERCENT.png")).getImage();
+        int roundedHealthPercent = ((int)(healthPercent / 10)) * 10;
+        return Tools.getNewImageIcon(prefix + roundedHealthPercent + "_PERCENT.png");
     } 
     
     public static int getPotionCount() { return potionCount; }
@@ -171,17 +169,23 @@ public class Hotbar implements ImageObserver {
     
     public static void draw(Graphics g) {
         // --- DRAW MINIMAP BASED ON CURRENT ROOM ---
-        // Positioned at (798, 60) with 140x140 scaling
         Image currentMap = getMapModel();
         if (currentMap != null) {
-            g.drawImage(currentMap, 800, 60, 136, 140, null);
+            g.drawImage(currentMap, 794, 60, 140, 140, null);
+        }
+
+        // --- DRAW DYNAMIC HEALTH BAR ---
+        // Positioned at exact coordinates (808, 210)
+        Image healthImg = getHealthModel(Player.getHealth(), Player.getMaxHealth(), "PLAYER_HEALTH_");
+        if (healthImg != null) {
+            g.drawImage(healthImg, 808, 210, null);
         }
 
         if (POTION_MODEL != null) {
             g.drawImage(POTION_MODEL, 260, 40, null);
         }
 
-        // Draw hotbar slots (weapons and cloaks only)
+        // Draw hotbar slots
         for (int i = 0; i < hotbar.length; i++) {
             if (i == 1) continue;
             HotbarSlot slot = hotbar[i];

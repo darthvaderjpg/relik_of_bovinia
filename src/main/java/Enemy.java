@@ -1,5 +1,5 @@
 // Author : Jake Jiang / Siddarth Iyer / Ofer Koren
-// Notes  : Abstract base class for all enemies in Relik of Bovinia.
+// Notes  : Abstract base class for all enemies in Relik of Bovinia. Updated with combat rebalance damage metrics.
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -61,27 +61,27 @@ public abstract class Enemy implements ImageObserver {
     
     private void assignEnemy(int type) {
         switch(type) {
-            case 1:
-                this.speed = 1; this.speed2 = speed; this.dmg = 3; this.dmg2 = dmg;
+            case 1: // Infarctus: 20 DMG (5 hits to kill unarmored player)
+                this.speed = 1; this.speed2 = speed; this.dmg = 20; this.dmg2 = dmg;
                 this.hp = 20; this.hp2 = hp; this.range = 35; this.direction = SOUTH;
                 this.dashDuration = (int)(100.0 * (1 + Math.random()) * (1 + Math.random()) * (1 + Math.random())); 
                 this.attackCooldown = 10; this.currentAttackCooldown = attackCooldown;
                 this.body = INFARCTUS_SOUTH; enemyType = "infarctus"; enemyType2 = enemyType;
                 break;
-            case 2:
+            case 2: // Bovisfight (Boss)
                 this.speed = 2; this.speed2 = speed; this.dmg = 30; this.dmg2 = dmg;
                 this.hp = 200; this.hp2 = hp; this.range = 70; this.direction = SOUTH;
                 this.attackCooldown = 37; this.currentAttackCooldown = attackCooldown;
                 this.body = BOVISFIGHT_SOUTH; enemyType = "bovisfight"; enemyType2 = enemyType;
                 break;
-            case 3:
-                this.speed = 3; this.speed2 = speed; this.dmg = 10; this.dmg2 = dmg;
+            case 3: // Elite Guard / Elite Knight: 100 DMG (1-shot unarmored player)
+                this.speed = 3; this.speed2 = speed; this.dmg = 100; this.dmg2 = dmg;
                 this.hp = 100; this.hp2 = hp; this.range = 60; this.direction = SOUTH;
                 this.attackCooldown = 25; this.currentAttackCooldown = 35;
                 this.body = ELITEGUARD_SOUTH; enemyType = "eliteguard"; enemyType2 = enemyType;
                 break;
-            case 4:
-                this.speed = 3; this.speed2 = speed; this.dmg = 25; this.dmg2 = dmg;
+            case 4: // Knight / Soldier: 50 DMG (2 hits to kill unarmored player)
+                this.speed = 3; this.speed2 = speed; this.dmg = 50; this.dmg2 = dmg;
                 this.hp = 50; this.hp2 = hp; this.range = 27; this.direction = SOUTH;
                 this.attackCooldown = 8; this.currentAttackCooldown = attackCooldown;
                 this.body = KNIGHT_SOUTH; this.body2 = body; enemyType = "knight"; enemyType2 = enemyType;
@@ -264,14 +264,14 @@ public abstract class Enemy implements ImageObserver {
     private void runAttackCooldown() { currentAttackCooldown--; }
     
     public void proximityHit(int px, int py) {
-        int dmg;
+        int hitDmg;
         runAttackCooldown();
         if(checkProximityBox(px, py) && attackAllowed()) {
-            dmg = attack();
-        } else {
-            dmg = 0;
+            hitDmg = attack();
+            if (hitDmg > 0) {
+                Player.takeDamage(hitDmg);
+            }
         }
-        Player.takeDamage(dmg);
     }
     
     public boolean checkProximityBox(int tx, int ty) {

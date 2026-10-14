@@ -5,6 +5,7 @@
 
 import java.awt.Image;
 //import javax.swing.ImageIcon;
+//import java.awt.Graphics;
 
 public class Dude extends NPC 
 {

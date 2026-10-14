@@ -46,7 +46,7 @@ public class Inventory {
             default: return null;
         }
     }
-
+    // Draws all 4 items where they are supposed to be. 
     public static void draw(Graphics g) {
         helmetSlot.draw(g);
         chestplateSlot.draw(g);
