@@ -1,24 +1,15 @@
-
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
 //Date: 5/14/2026
-//Rev:01
-//Notes:
-/*
-- This class Stores everything the hotbar needs: 
-- 1. The Minimap
-- 2. The Armor Display
-- 3. The Key display
-- 4. The Health Bar
-- 5. The potion's display and functionality
- */
+//Rev:06
+//Notes: Forces all armor into Inventory vertical slots, preventing hotbar placement entirely.
 
-import java.awt.Image;
-import java.awt.image.ImageObserver;
-import javax.swing.ImageIcon;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.ImageIcon;
+import java.awt.image.ImageObserver;
 
 public class Hotbar implements ImageObserver {
     
@@ -50,12 +41,12 @@ public class Hotbar implements ImageObserver {
 
     // Static initialization block with perfected coordinates
     static {
-        hotbar[0] = new HotbarSlot(820, 255); // Slot 1: Left (Weapon)
+        hotbar[0] = new HotbarSlot(826, 273); // Slot 1: Left (Weapon)
         hotbar[1] = new HotbarSlot(915, 275); // Slot 2: Center (Potion)
         hotbar[2] = new HotbarSlot(960, 255); // Slot 3: Right (Cloak)
     }
     
-    // Legacy equipment references
+    // Legacy equipment references (Kept for safety)
     private static Weapon weapon;
     private static Armor helmet;
     private static Armor chestplate;
@@ -66,60 +57,51 @@ public class Hotbar implements ImageObserver {
     public static void updateHotbar(Item i) {
         if (i == null) return;
         
-        if (i instanceof Weapon) {
-            hotbar[0].updateItem(i);
-            setWeapon((Weapon) i);
-            return;
-        }
-        if (i instanceof Cloak) {
-            hotbar[2].updateItem(i);
-            return;
-        }
-        if (i instanceof Key) {
-            Keybar.addKey(i);
-            return;
-        }
-        
-        String type = i.getType();
-        
-        if (i instanceof Armor) {
-            Armor armor = (Armor) i;
-            if (type != null && type.equalsIgnoreCase("Helmet")) {
+        String type = (i.getType() != null) ? i.getType().toLowerCase() : "";
+        String str = i.toString().toLowerCase();
+
+        // --- DIRECT INVENTORY ARMOR ROUTER ---
+        // Guarantees all armor goes to Inventory, not the hotbar slots.
+        if (i instanceof Armor || type.contains("helm") || type.contains("chest") || type.contains("pant") || type.contains("boot") || type.contains("armor")) {
+            Armor armor = (i instanceof Armor) ? (Armor) i : null;
+
+            if (type.contains("helm") || type.contains("head") || type.contains("cap") || str.contains("helm")) {
                 setHelmet(armor);
-                Inventory.setSlot(0, i);
+                Inventory.setSlot(0, i); // Slot 0: Helmet (Top)
             } 
-            else if (type != null && type.equalsIgnoreCase("Chestplate")) {
+            else if (type.contains("chest") || type.contains("plate") || type.contains("cuirass") || str.contains("chest")) {
                 setChestplate(armor);
-                Inventory.setSlot(1, i);
+                Inventory.setSlot(1, i); // Slot 1: Chestplate (Second)
             } 
-            else if (type != null && type.equalsIgnoreCase("Leggings")) {
+            else if (type.contains("pant") || type.contains("leg") || type.contains("bottom") || type.contains("explorer") || str.contains("pants")) {
                 setLeggings(armor);
-                Inventory.setSlot(2, i);
+                Inventory.setSlot(2, i); // Slot 2: Leggings / Pants (Third)
             } 
-            else if (type != null && type.equalsIgnoreCase("Boots")) {
+            else if (type.contains("boot") || type.contains("shoe") || str.contains("boot")) {
                 setBoots(armor);
-                Inventory.setSlot(3, i);
+                Inventory.setSlot(3, i); // Slot 3: Boots (Bottom)
             } 
-            else if (type != null && type.equalsIgnoreCase("Robes")) {
-                setRobes(armor);
+            else {
+                // If the specific type is unclear but it's armor, assume chestplate slot (fallback)
+                setChestplate(armor);
+                Inventory.setSlot(1, i); 
             }
-            return;
+            return; // EXIT EARLY - never reaches hotbar slots for armor!
         }
 
-        if (type == null) return;
-        
-        if (type.equalsIgnoreCase("Weapon")) {
+        // --- HOTBAR ITEMS ONLY (Weapons, Cloaks, Keys, Potions) ---
+        if (i instanceof Weapon || type.contains("weapon") || type.contains("sword") || type.contains("club")) {
             hotbar[0].updateItem(i);
             if (i instanceof Weapon) setWeapon((Weapon) i);
         } 
-        else if (type.equalsIgnoreCase("Potion")) {
-            hotbar[1].updateItem(i);
-        } 
-        else if (type.equalsIgnoreCase("Cloak")) {
+        else if (i instanceof Cloak || type.contains("cloak")) {
             hotbar[2].updateItem(i);
         } 
-        else if (type.equalsIgnoreCase("Key")) {
+        else if (i instanceof Key || type.contains("key")) {
             Keybar.addKey(i);
+        }
+        else if (type.contains("potion")) {
+            hotbar[1].updateItem(i);
         }
     }
     
@@ -188,21 +170,19 @@ public class Hotbar implements ImageObserver {
     public static Armor getRobes() { return robes; }
     
     public static void draw(Graphics g) {
-        // 1. Draw "B TO BUY POTIONS" banner in top header
         if (POTION_MODEL != null) {
             g.drawImage(POTION_MODEL, 260, 40, null);
         }
 
-        // 2. Draw standard hotbar slot items (slots 0 and 2)
+        // Draw hotbar slots (weapons and cloaks only)
         for (int i = 0; i < hotbar.length; i++) {
-            if (i == 1) continue; // Skip slot 1 so we render our potion icon & count cleanly
+            if (i == 1) continue;
             HotbarSlot slot = hotbar[i];
             if (slot != null && slot.getItem() != null && slot.getItem().getImage() != null) {
                 g.drawImage(slot.getItem().getImage(), slot.getX(), slot.getY(), null);
             }
         }
 
-        // 3. Draw Potion Icon & `x#` count text in Slot 2 when potionCount > 0
         if (potionCount > 0 && hotbar[1] != null) {
             int slotX = hotbar[1].getX();
             int slotY = hotbar[1].getY();
@@ -210,25 +190,21 @@ public class Hotbar implements ImageObserver {
             if (POTION_ICON != null) {
                 g.drawImage(POTION_ICON, slotX, slotY, null);
             } else {
-                // Fallback red square if asset fails to load
                 g.setColor(Color.RED);
                 g.fillRect(slotX, slotY, 32, 32);
                 g.setColor(Color.BLACK);
                 g.drawRect(slotX, slotY, 32, 32);
             }
 
-			if (potionCount > 99) {
-				potionCount = 99; // Cap potion count at 99
-			}
+            if (potionCount > 99) { potionCount = 99; }
             
-            // Draw tiny count text beside the icon formatted as x#
             g.setColor(Color.BLACK);
             g.setFont(new Font("Press Start 2P", Font.BOLD, 10));
             g.drawString("x" + potionCount, slotX + 34, slotY + 22);
         }
 
-        // 4. Draw Inventory items & Keybar items
-        Inventory.draw(g);
+        // --- DRAW INVENTORY (EQUIPMENT SLOTS) ---
+        Inventory.draw(g); // Draws the 4 vertical armor slots using the new high-starting-Y!
         Keybar.draw(g);
     }
     
@@ -237,7 +213,6 @@ public class Hotbar implements ImageObserver {
         return false;
     }
 
-    // --- Inner HotbarSlot Class to guarantee resolution ---
     public static class HotbarSlot {
         private int x;
         private int y;
@@ -251,9 +226,6 @@ public class Hotbar implements ImageObserver {
 
         public void updateItem(Item i) {
             this.item = i;
-            if (i != null && i.getImage() != null) {
-                // Keep item image tracked if needed
-            }
         }
 
         public Item getItem() {
