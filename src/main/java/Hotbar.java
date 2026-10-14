@@ -1,8 +1,8 @@
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
 //Date: 5/14/2026
-//Rev:06
-//Notes: Forces all armor into Inventory vertical slots, preventing hotbar placement entirely.
+//Rev:15
+//Notes: Shifted minimap coordinates to (798, 60) (1 left, 1 down from 799, 59).
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -170,6 +170,13 @@ public class Hotbar implements ImageObserver {
     public static Armor getRobes() { return robes; }
     
     public static void draw(Graphics g) {
+        // --- DRAW MINIMAP BASED ON CURRENT ROOM ---
+        // Positioned at (798, 60) with 140x140 scaling
+        Image currentMap = getMapModel();
+        if (currentMap != null) {
+            g.drawImage(currentMap, 800, 60, 136, 140, null);
+        }
+
         if (POTION_MODEL != null) {
             g.drawImage(POTION_MODEL, 260, 40, null);
         }
@@ -204,7 +211,7 @@ public class Hotbar implements ImageObserver {
         }
 
         // --- DRAW INVENTORY (EQUIPMENT SLOTS) ---
-        Inventory.draw(g); // Draws the 4 vertical armor slots using the new high-starting-Y!
+        Inventory.draw(g); 
         Keybar.draw(g);
     }
     
