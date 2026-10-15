@@ -1,8 +1,8 @@
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
 //Date: 5/14/2026
-//Rev:23
-//Notes: Updated health bar coordinates to exact position (808, 210).
+//Rev:24
+//Notes: Adjusted Hotbar Slot 3 (Cloak slot) coordinates to (935, 275).
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -42,7 +42,7 @@ public class Hotbar implements ImageObserver {
     static {
         hotbar[0] = new HotbarSlot(826, 273); // Slot 1: Left (Weapon)
         hotbar[1] = new HotbarSlot(915, 275); // Slot 2: Center (Potion)
-        hotbar[2] = new HotbarSlot(960, 255); // Slot 3: Right (Cloak)
+        hotbar[2] = new HotbarSlot(1004, 275); // Slot 3: Right (Cloak)
     }
     
     private static Weapon weapon;
@@ -88,7 +88,7 @@ public class Hotbar implements ImageObserver {
             hotbar[0].updateItem(i);
             if (i instanceof Weapon) setWeapon((Weapon) i);
         } 
-        else if (i instanceof Cloak || type.contains("cloak")) {
+        else if (i instanceof Cloak || type.contains("cloak") || type.contains("shroud")) {
             hotbar[2].updateItem(i);
         } 
         else if (i instanceof Key || type.contains("key")) {
@@ -171,11 +171,10 @@ public class Hotbar implements ImageObserver {
         // --- DRAW MINIMAP BASED ON CURRENT ROOM ---
         Image currentMap = getMapModel();
         if (currentMap != null) {
-            g.drawImage(currentMap, 794, 60, 140, 140, null);
+            g.drawImage(currentMap, 797, 60, 140, 140, null);
         }
 
         // --- DRAW DYNAMIC HEALTH BAR ---
-        // Positioned at exact coordinates (808, 210)
         Image healthImg = getHealthModel(Player.getHealth(), Player.getMaxHealth(), "PLAYER_HEALTH_");
         if (healthImg != null) {
             g.drawImage(healthImg, 808, 210, null);
@@ -185,15 +184,16 @@ public class Hotbar implements ImageObserver {
             g.drawImage(POTION_MODEL, 260, 40, null);
         }
 
-        // Draw hotbar slots
+        // Draw hotbar slots (Weapon & Cloak)
         for (int i = 0; i < hotbar.length; i++) {
-            if (i == 1) continue;
+            if (i == 1) continue; // Potion handled separately below
             HotbarSlot slot = hotbar[i];
             if (slot != null && slot.getItem() != null && slot.getItem().getImage() != null) {
                 g.drawImage(slot.getItem().getImage(), slot.getX(), slot.getY(), null);
             }
         }
 
+        // Draw potion slot (Slot 2)
         if (potionCount > 0 && hotbar[1] != null) {
             int slotX = hotbar[1].getX();
             int slotY = hotbar[1].getY();
@@ -214,7 +214,7 @@ public class Hotbar implements ImageObserver {
             g.drawString("x" + potionCount, slotX + 34, slotY + 22);
         }
 
-        // --- DRAW INVENTORY (EQUIPMENT SLOTS) ---
+        // --- DRAW INVENTORY & KEYBAR ---
         Inventory.draw(g); 
         Keybar.draw(g);
     }

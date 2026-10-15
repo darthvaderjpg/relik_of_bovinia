@@ -1,5 +1,6 @@
 // Author : Siddarth Iyer
-// Notes  : Base item class handling factors, images, types, and routing enemy drops to Inventory/Hotbar.
+// Notes  : Base item class handling factors, images, types, and routing enemy drops to Inventory/Hotbar. 
+//          Updated drop tables to include Cloaks and fix drop rollout logic.
 
 import java.awt.Image;
 import java.util.Random;
@@ -30,18 +31,13 @@ public class Item {
     // --- Enemy Drop Handlers routed through Hotbar.updateHotbar for Inventory registration ---
     
     public static void getDroppedInfarctus() {
-        double roll1 = random.nextDouble();
-        double roll2 = random.nextDouble();
-        double roll3 = random.nextDouble();
-        double roll4 = random.nextDouble();
+        double roll = random.nextDouble();
             
-        if (roll1 < 0.75) {
+        if (roll < 0.35) {
             Hotbar.updateHotbar(Armor.explorerPants);
-        } else if (roll2 < 0.75) {
+        } else if (roll < 0.70) {
             Hotbar.updateHotbar(Armor.dustyBoots);
-        } else if (roll3 < 0.75) {
-            Hotbar.addCoins(1);
-        } else if (roll4 < 0.15){
+        } else if (roll < 0.85) {
             Hotbar.updateHotbar(Weapon.mosquitoSword);
         }
         
@@ -49,40 +45,43 @@ public class Item {
     }           
 
     public static void getDroppedSoldier() {
-        double roll1 = random.nextDouble();
-        double roll2 = random.nextDouble();
-        double roll3 = random.nextDouble();
-        double roll4 = random.nextDouble(); 
+        double roll = random.nextDouble();
         
-        if (roll1 < 0.5) {
+        if (roll < 0.20) {
             Hotbar.updateHotbar(Weapon.soldierSword);
-        } else if (roll2 < 0.5) {
+        } else if (roll < 0.40) {
             Hotbar.updateHotbar(Armor.soldierBoots);
-        } else if (roll3 < 0.5) {
+        } else if (roll < 0.60) {
             Hotbar.updateHotbar(Armor.soldierChestplate);
-        } else if (roll4 < 0.5) {
+        } else if (roll < 0.80) {
             Hotbar.updateHotbar(Armor.soldierHelm);
+        } else {
+            // 20% chance to drop a Cloak if initialized in Cloak class
+            Hotbar.updateHotbar(Cloak.azureShroud);
         }
         
         Hotbar.addCoins(3);
     }
 
     public static void getDroppedEliteGuard() {
-        double roll1 = random.nextDouble();
-        double roll2 = random.nextDouble();
-        double roll3 = random.nextDouble();
-        double roll4 = random.nextDouble();
-        double roll5 = random.nextDouble();
+        double roll = random.nextDouble();
         
-        if (roll1 < 0.25) {
+        if (roll < 0.20) {
             Hotbar.updateHotbar(Weapon.mirrorSword);
-        } else if (roll2 < 0.25) {
+        }else if(roll <0.25){
+            Hotbar.updateHotbar(Armor.eliteHelmet);
+        } 
+        else if (roll < 0.35) {
             Hotbar.updateHotbar(Armor.eliteBoots);
-        } else if (roll3 < 0.25) {
+        } else if (roll < 0.60) {
             Hotbar.updateHotbar(Armor.eliteChestplate);
-        } else if (roll4 < 0.25) {
+        } else if (roll < 0.80) {
             Hotbar.updateHotbar(Armor.eliteRobeBottoms);
-        } else if (roll5 < 0.05) {
+        } else if (roll < 0.93) {
+            // 13% chance to drop an Elite Cloak
+            Hotbar.updateHotbar(Cloak.azureShroud);
+        } else {
+            // 7% chance to drop Great Club
             Hotbar.updateHotbar(Weapon.greatClub);
         }
         
