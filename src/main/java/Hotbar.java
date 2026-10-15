@@ -1,8 +1,8 @@
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
 //Date: 5/14/2026
-//Rev:24
-//Notes: Adjusted Hotbar Slot 3 (Cloak slot) coordinates to (935, 275).
+//Rev:26
+//Notes: Updated Hotbar Slot 3 (Cloak slot) coordinates to (1004, 275). Retained tier/stat comparison logic in updateHotbar().
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -40,8 +40,8 @@ public class Hotbar implements ImageObserver {
     private static HotbarSlot[] hotbar = new HotbarSlot[3];
 
     static {
-        hotbar[0] = new HotbarSlot(826, 273); // Slot 1: Left (Weapon)
-        hotbar[1] = new HotbarSlot(915, 275); // Slot 2: Center (Potion)
+        hotbar[0] = new HotbarSlot(826, 273);  // Slot 1: Left (Weapon)
+        hotbar[1] = new HotbarSlot(915, 275);  // Slot 2: Center (Potion)
         hotbar[2] = new HotbarSlot(1004, 275); // Slot 3: Right (Cloak)
     }
     
@@ -58,35 +58,54 @@ public class Hotbar implements ImageObserver {
         String type = (i.getType() != null) ? i.getType().toLowerCase() : "";
         String str = i.toString().toLowerCase();
 
+        // --- ARMOR STAT COMPARISON ---
         if (i instanceof Armor || type.contains("helm") || type.contains("chest") || type.contains("pant") || type.contains("boot") || type.contains("armor")) {
             Armor armor = (i instanceof Armor) ? (Armor) i : null;
+            int newFactor = (armor != null) ? armor.getFactor() : i.getFactor();
 
             if (type.contains("helm") || type.contains("head") || type.contains("cap") || str.contains("helm")) {
-                setHelmet(armor);
-                Inventory.setSlot(0, i);
+                if (helmet == null || newFactor > helmet.getFactor()) {
+                    setHelmet(armor);
+                    Inventory.setSlot(0, i);
+                }
             } 
             else if (type.contains("chest") || type.contains("plate") || type.contains("cuirass") || str.contains("chest")) {
-                setChestplate(armor);
-                Inventory.setSlot(1, i);
+                if (chestplate == null || newFactor > chestplate.getFactor()) {
+                    setChestplate(armor);
+                    Inventory.setSlot(1, i);
+                }
             } 
             else if (type.contains("pant") || type.contains("leg") || type.contains("bottom") || type.contains("explorer") || str.contains("pants")) {
-                setLeggings(armor);
-                Inventory.setSlot(2, i);
+                if (leggings == null || newFactor > leggings.getFactor()) {
+                    setLeggings(armor);
+                    Inventory.setSlot(2, i);
+                }
             } 
             else if (type.contains("boot") || type.contains("shoe") || str.contains("boot")) {
-                setBoots(armor);
-                Inventory.setSlot(3, i);
+                if (boots == null || newFactor > boots.getFactor()) {
+                    setBoots(armor);
+                    Inventory.setSlot(3, i);
+                }
             } 
             else {
-                setChestplate(armor);
-                Inventory.setSlot(1, i); 
+                if (chestplate == null || newFactor > chestplate.getFactor()) {
+                    setChestplate(armor);
+                    Inventory.setSlot(1, i); 
+                }
             }
             return;
         }
 
+        // --- WEAPON STAT COMPARISON ---
         if (i instanceof Weapon || type.contains("weapon") || type.contains("sword") || type.contains("club")) {
-            hotbar[0].updateItem(i);
-            if (i instanceof Weapon) setWeapon((Weapon) i);
+            Weapon newWeapon = (i instanceof Weapon) ? (Weapon) i : null;
+            int newFactor = (newWeapon != null) ? newWeapon.getFactor() : i.getFactor();
+            int currentFactor = (weapon != null) ? weapon.getFactor() : 0;
+
+            if (weapon == null || newFactor > currentFactor) {
+                hotbar[0].updateItem(i);
+                if (newWeapon != null) setWeapon(newWeapon);
+            }
         } 
         else if (i instanceof Cloak || type.contains("cloak") || type.contains("shroud")) {
             hotbar[2].updateItem(i);
@@ -171,7 +190,7 @@ public class Hotbar implements ImageObserver {
         // --- DRAW MINIMAP BASED ON CURRENT ROOM ---
         Image currentMap = getMapModel();
         if (currentMap != null) {
-            g.drawImage(currentMap, 797, 60, 140, 140, null);
+            g.drawImage(currentMap, 794, 60, 140, 140, null);
         }
 
         // --- DRAW DYNAMIC HEALTH BAR ---

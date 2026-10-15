@@ -14,10 +14,10 @@ public class Inventory {
 
     // Explicitly configure the exact (X, Y) pixel coordinates for each individual slot
     static {
-        helmetSlot     = new InventorySlot(820, 410); // Slot 0: Helmet
+        helmetSlot     = new InventorySlot(823, 410); // Slot 0: Helmet
         chestplateSlot = new InventorySlot(823, 488); // Slot 1: Chestplate
         leggingsSlot   = new InventorySlot(823, 577); // Slot 2: Leggings
-        bootsSlot      = new InventorySlot(824, 664); // Slot 3: Boots
+        bootsSlot      = new InventorySlot(823, 664); // Slot 3: Boots
     }
 
     public static void setSlot(int index, Item item) {
