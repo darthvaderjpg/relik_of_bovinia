@@ -19,7 +19,7 @@ public class Shop extends NPC
 	private final static boolean CAN_INTERACT = false;
 	private final static int OFFSET_X = 0;
 	private final static int OFFSET_Y = 0;
-	private static int potionStock = 10;
+	private static int potionStock = 99;
 	
 	// Constructors.
 	

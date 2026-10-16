@@ -2,8 +2,8 @@
 // Co Editor: Jake Jiang SUB TO SCRAPNEL!!!
 // Editor 3: Siddarth Iyer
 // Date   : 5/19/2026
-// Rev    : 06
-// Notes  : Manages background, player, NPCs, safe room spawner (skipping Room 0 & Artifact Room), and Boss.
+// Rev    : 09
+// Notes  : Manages background, player, NPCs, dynamic room enemy respawning with random counts, and Boss.
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,44 +25,104 @@ public class GamePanel extends JPanel
     Numbers numbers1 = new Numbers(949, 16, "Ruby");
     Numbers numbers2 = new Numbers(590, 250, "Shop");
     
-    // Dynamic Enemy List for Random Spawning
+    // Dynamic Enemy List for Room Spawning
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     
     // Boss in Room 8 (Guaranteed every time)
     public static BovisFight bovis = new BovisFight(800, 400, 8);
     
-    // Define the Artifact room number here so enemies never spawn in it (change if needed)
-    private static final int ARTIFACT_ROOM = 1; 
+    // Tracks previous room to detect room transitions for respawning
+    private int lastRoom = -1;
     
     public GamePanel() {
-        spawnRandomEnemies();
+        spawnAllRooms();
     }
     
-    // Spawns enemies safely in Rooms 1-7, strictly skipping Room 0 (Grandpa) and the Artifact Room
-    private void spawnRandomEnemies() {
+    // Initial spawn across all rooms on game start
+    private void spawnAllRooms() {
+        for (int room = 2; room <= 8; room++) {
+            spawnEnemiesForRoom(room);
+        }
+    }
+    
+    // Spawns or re-rolls enemies for a specific room following your exact rules
+    private void spawnEnemiesForRoom(int roomID) {
         Random rand = new Random();
-        int totalEnemies = rand.nextInt(7) + 8; // 8 to 14 enemies
+        int count = 0;
         
-        for (int i = 0; i < totalEnemies; i++) {
-            int randomRoom;
-            
-            // Loop ensures randomRoom is NEVER Room 0 (Grandpa's room) and NEVER the Artifact Room
-            do {
-                randomRoom = rand.nextInt(7) + 1; // Generates 1 through 7
-            } while (randomRoom == ARTIFACT_ROOM);
-            
-            int randomX = rand.nextInt(500) + 150;
-            int randomY = rand.nextInt(400) + 150;
-            
-            int enemyTypeChoice = rand.nextInt(3); // 0: Infarctus, 1: Knight, 2: EliteGuard
-            
-            if (enemyTypeChoice == 0) {
-                enemies.add(new Infarctus(randomX, randomY, randomRoom));
-            } else if (enemyTypeChoice == 1) {
-                enemies.add(new Knight(randomX, randomY, randomRoom));
-            } else {
-                enemies.add(new EliteGuard(randomX, randomY, randomRoom));
-            }
+        switch (roomID) {
+            case 2: // Room 2: Random 3 to 6 Infarctus each time they respawn
+                count = rand.nextInt(4) + 3; // 3, 4, 5, or 6
+                for (int i = 0; i < count; i++) {
+                    enemies.add(new Infarctus(rand.nextInt(600) + 100, rand.nextInt(350) + 200, roomID));
+                }
+                break;
+                
+            case 3: // Room 3: Exactly 3 Infarctus
+                count = 3;
+                for (int i = 0; i < count; i++) {
+                    enemies.add(new Infarctus(rand.nextInt(600) + 100, rand.nextInt(350) + 200, roomID));
+                }
+                break;
+                
+            case 4: // Room 4: 5-7 total; primarily Soldiers, Infarctus > Elite Guards
+                count = rand.nextInt(3) + 5; // 5, 6, or 7
+                for (int i = 0; i < count; i++) {
+                    int x = rand.nextInt(600) + 100;
+                    int y = rand.nextInt(350) + 200;
+                    int roll = rand.nextInt(10);
+                    if (roll < 6) {
+                        enemies.add(new Knight(x, y, roomID)); // Primarily Soldiers (60%)
+                    } else if (roll < 9) {
+                        enemies.add(new Infarctus(x, y, roomID)); // Infarctus (30%)
+                    } else {
+                        enemies.add(new EliteGuard(x, y, roomID)); // Rare Elite Guard (10%)
+                    }
+                }
+                break;
+                
+            case 5: // Room 5 (Artifact Room): Completely empty (0 enemies)
+                break;
+                
+            case 6: // Room 6: 5 to 7 total enemies
+                count = rand.nextInt(3) + 5; // 5, 6, or 7
+                for (int i = 0; i < count; i++) {
+                    int x = rand.nextInt(600) + 100;
+                    int y = rand.nextInt(350) + 200;
+                    int type = rand.nextInt(3);
+                    if (type == 0) enemies.add(new Infarctus(x, y, roomID));
+                    else if (type == 1) enemies.add(new Knight(x, y, roomID));
+                    else enemies.add(new EliteGuard(x, y, roomID));
+                }
+                break;
+                
+            case 7: // Room 7: 5 to 7 total enemies (Introduces Elite Guards)
+                count = rand.nextInt(3) + 5; // 5, 6, or 7
+                for (int i = 0; i < count; i++) {
+                    int x = rand.nextInt(600) + 100;
+                    int y = rand.nextInt(350) + 200;
+                    int roll = rand.nextInt(10);
+                    if (roll < 4) enemies.add(new Infarctus(x, y, roomID));
+                    else if (roll < 7) enemies.add(new Knight(x, y, roomID));
+                    else enemies.add(new EliteGuard(x, y, roomID));
+                }
+                break;
+                
+            case 8: // Room 8: 5 to 7 total enemies (Heavy Elite Guards concentration)
+                count = rand.nextInt(3) + 5; // 5, 6, or 7
+                for (int i = 0; i < count; i++) {
+                    int x = rand.nextInt(600) + 100;
+                    int y = rand.nextInt(350) + 200;
+                    int roll = rand.nextInt(10);
+                    if (roll < 7) {
+                        enemies.add(new EliteGuard(x, y, roomID)); // Primarily Elite Guards (70%)
+                    } else if (roll < 9) {
+                        enemies.add(new Knight(x, y, roomID)); // Soldiers (20%)
+                    } else {
+                        enemies.add(new Infarctus(x, y, roomID)); // Infarctus (10%)
+                    }
+                }
+                break;
         }
     }
     
@@ -70,6 +130,16 @@ public class GamePanel extends JPanel
     public void paintComponent(Graphics g) 
     {
         super.paintComponent(g);
+        
+        // Detect room transitions: when leaving a room, clear and re-spawn fresh enemies for that room
+        int currentRoom = Player.getRoom();
+        if (currentRoom != lastRoom) {
+            if (lastRoom != -1) {
+                enemies.removeIf(e -> e.getRoomID() == lastRoom);
+                spawnEnemiesForRoom(lastRoom);
+            }
+            lastRoom = currentRoom;
+        }
         
         background.draw(g);
         
@@ -83,12 +153,12 @@ public class GamePanel extends JPanel
         relik.draw(g);
         bovisTalk.draw(g);
         
-        // Draw all dynamically spawned random enemies polymorphically
+        
         for (Enemy e : enemies) {
             e.draw(g);
         }
 
-        // Draw Boss and Boss Minions in Room 8
+        //Draws the boss
         bovis.draw(g);
         bovis.trackPlayer(Player.getX(), Player.getY(), Player.getRoom());
         bovis.infarctus01.draw(g);
@@ -106,13 +176,13 @@ public class GamePanel extends JPanel
         
         Player.draw(g);
         
-        // Draw Side UI background container precisely at X = 800
+        // Draws the side UI
         if (Hotbar.getSideUIModel() != null) {
             g.drawImage(Hotbar.getSideUIModel(), 800, 0, null);
         }
         
         Hotbar.draw(g);
-        Inventory.draw(g); // Renders centered items into the 4 vertical armor slots
+        Inventory.draw(g); // puts the items in their slots
         Dialogue.draw(g);
         numbers1.draw(g);
         numbers2.draw(g);
@@ -123,7 +193,7 @@ public class GamePanel extends JPanel
         relik.testInteraction(Player.getX(), Player.getY(), relik.getX(), relik.getY(), relik.getCollisionRadius(), "relik");
         bovisTalk.testInteraction(Player.getX(), Player.getY(), bovisTalk.getX(), bovisTalk.getY(), bovisTalk.getCollisionRadius(), "bovisTalk");
         
-        // Update room availability check and AI tracking for all dynamically spawned random enemies
+        // Update room availability check and AI tracking for all enemies
         for (Enemy e : enemies) {
             e.getTargetAvailability(Player.getRoom());
             e.trackPlayer(Player.getX(), Player.getY(), Player.getRoom());

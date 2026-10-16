@@ -8,22 +8,22 @@ import java.awt.Image;
 public class Armor extends Item {
 
     //Starter Gear Images
-    public static final Image CRACKED_HELMET = Tools.getNewImageIcon("worn-out-helmet-pixilart.png");
+    public static final Image CRACKED_HELMET = Tools.getNewImageIcon("Cracked Helmet.png");
     public static final Image WORN_CLOAK = Tools.getNewImageIcon("old-cloak-pixilart.png");
-    public static final Image EXPLORER_SWEATER = Tools.getNewImageIcon("old-explorer's-sweater-pixilart.png");
-    public static final Image EXPLORER_PANTS = Tools.getNewImageIcon("protected-long-pants-pixilart.png");
+    public static final Image EXPLORER_SWEATER = Tools.getNewImageIcon("old-explorer's-sweater-pixilart (1).png");
+    public static final Image EXPLORER_PANTS = Tools.getNewImageIcon("Long Pants.png");
     public static final Image DUSTY_BOOTS = Tools.getNewImageIcon("dusty-boots-pixilart.png");
     
     //Soldier Gear Images
-    public static final Image SOLDIER_HELMET = Tools.getNewImageIcon("soldier-helmet-pixilart-gif.gif");
-    public static final Image SOLDIER_CHESTPLATE = Tools.getNewImageIcon("soldier-chestplate-pixilart.png");
+    public static final Image SOLDIER_HELMET = Tools.getNewImageIcon("soldier-helmet-gif-pixilart.gif");
+    public static final Image SOLDIER_CHESTPLATE = Tools.getNewImageIcon("soldier-chestplate-pixilart (1).png");
     public static final Image SOLDIER_LEGGINGS = Tools.getNewImageIcon("soldier-leggings-pixilart.png");
     public static final Image SOLDIER_BOOTS = Tools.getNewImageIcon("soldier-boots-pixilart.png");
     
     //Elite Guard Gear Images
-    public static final Image ELITE_GUARD_HELMET = Tools.getNewImageIcon("elite-helmet-gif-pixilart.gif");
+    public static final Image ELITE_GUARD_HELMET = Tools.getNewImageIcon("elite-helmet-gif-pixilart (1).gif");
     public static final Image ELITE_GUARD_CHESTPLATE = Tools.getNewImageIcon("(newer)elite-guard-chestplate-pixilart.png");
-    public static final Image ELITE_GUARD_ROBE_BOTTOMS = Tools.getNewImageIcon("elite-guard-leggings.png");
+    public static final Image ELITE_GUARD_ROBE_BOTTOMS = Tools.getNewImageIcon("(newer)elite-guard-leggings.png");
     public static final Image ELITE_GUARD_BOOTS = Tools.getNewImageIcon("elite-guard-boots-pixilart.png");
     
     // Artifact Gear Images

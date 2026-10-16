@@ -9,12 +9,12 @@ import java.awt.Image;
 public class Weapon extends Item {
     public static final Image ENEMY_DAGGER = Tools.getNewImageIcon("enemy-dagger-pixilart.png");
     public static final Image STARTER_SWORD = Tools.getNewImageIcon("simple-sword-pixilart.png");
-    public static final Image SOLDIER_SWORD = Tools.getNewImageIcon("normal-sword-pixilart.png");
-    public static final Image ELITE_GUARD_SWORD = Tools.getNewImageIcon("mirror-sword-pixilart.png");
+    public static final Image SOLDIER_SWORD = Tools.getNewImageIcon("Common Sword.png");
+    public static final Image ELITE_GUARD_SWORD = Tools.getNewImageIcon("Elite Sword.png");
     public static final Image ARTIFACT_SWORD = Tools.getNewImageIcon("shift-sword-pixilart.png");
         
     //Special Gear
-    public static final Image MOSQUITO_SWORD = Tools.getNewImageIcon("slash-sword-pixilart.png");
+    public static final Image MOSQUITO_SWORD = Tools.getNewImageIcon("Slash Sword.png");
     public static final Image GREAT_CLUB = Tools.getNewImageIcon("great-club-pixilart.png");
     
     private int dmg;

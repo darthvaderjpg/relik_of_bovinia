@@ -1,8 +1,9 @@
 // Author : Jake Jiang / Siddarth Iyer / Ofer Koren
-// Notes  : Abstract base class for all enemies in Relik of Bovinia. Updated with combat rebalance damage metrics.
+// Notes  : Abstract base class for all enemies in Relik of Bovinia. Updated with spawn factory integration.
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public abstract class Enemy implements ImageObserver {
@@ -59,28 +60,79 @@ public abstract class Enemy implements ImageObserver {
         }
     }
     
+    // Static Spawner Factory Method connected to Map.getRoomSpawnConfig()
+    public static ArrayList<Enemy> spawnEnemiesForRoom(int roomID) {
+        Map.SpawnConfig config = Map.getRoomSpawnConfig(roomID);
+        ArrayList<Enemy> roomEnemies = new ArrayList<>();
+        
+        if (config.minCount == 0 && config.maxCount == 0) {
+            return roomEnemies;
+        }
+        
+        int count;
+        if (config.minCount == config.maxCount) {
+            count = config.minCount;
+        } else {
+            count = config.minCount + (int)(Math.random() * (config.maxCount - config.minCount + 1));
+        }
+        
+        for (int i = 0; i < count; i++) {
+            String enemyType = "infarctus";
+            double roll = Math.random();
+            double sum = 0;
+            
+            sum += config.infarctusWeight;
+            if (roll < sum) {
+                enemyType = "infarctus";
+            } else {
+                sum += config.soldierWeight;
+                if (roll < sum) {
+                    enemyType = "knight"; // Soldier / Knight
+                } else {
+                    enemyType = "eliteguard";
+                }
+            }
+            
+            int spawnX = 250 + (int)(Math.random() * 500);
+            int spawnY = 250 + (int)(Math.random() * 350);
+            
+            roomEnemies.add(new Enemy(spawnX, spawnY, roomID, enemyType) {
+                @Override
+                public void trackPlayer(int px, int py, int pRoomID) {
+                    if (getTargetAvailability(pRoomID)) {
+                        if (getX() < px) moveRight();
+                        else if (getX() > px) moveLeft();
+                        if (getY() < py) moveDown();
+                        else if (getY() > py) moveUp();
+                    }
+                }
+            });
+        }
+        return roomEnemies;
+    }
+    
     private void assignEnemy(int type) {
         switch(type) {
-            case 1: // Infarctus: 20 DMG (5 hits to kill unarmored player)
+            case 1: 
                 this.speed = 1; this.speed2 = speed; this.dmg = 20; this.dmg2 = dmg;
                 this.hp = 20; this.hp2 = hp; this.range = 35; this.direction = SOUTH;
                 this.dashDuration = (int)(100.0 * (1 + Math.random()) * (1 + Math.random()) * (1 + Math.random())); 
                 this.attackCooldown = 10; this.currentAttackCooldown = attackCooldown;
                 this.body = INFARCTUS_SOUTH; enemyType = "infarctus"; enemyType2 = enemyType;
                 break;
-            case 2: // Bovisfight (Boss)
+            case 2: 
                 this.speed = 2; this.speed2 = speed; this.dmg = 30; this.dmg2 = dmg;
                 this.hp = 200; this.hp2 = hp; this.range = 70; this.direction = SOUTH;
                 this.attackCooldown = 37; this.currentAttackCooldown = attackCooldown;
                 this.body = BOVISFIGHT_SOUTH; enemyType = "bovisfight"; enemyType2 = enemyType;
                 break;
-            case 3: // Elite Guard / Elite Knight: 100 DMG (1-shot unarmored player)
+            case 3: 
                 this.speed = 3; this.speed2 = speed; this.dmg = 100; this.dmg2 = dmg;
                 this.hp = 100; this.hp2 = hp; this.range = 60; this.direction = SOUTH;
                 this.attackCooldown = 25; this.currentAttackCooldown = 35;
                 this.body = ELITEGUARD_SOUTH; enemyType = "eliteguard"; enemyType2 = enemyType;
                 break;
-            case 4: // Knight / Soldier: 50 DMG (2 hits to kill unarmored player)
+            case 4: 
                 this.speed = 3; this.speed2 = speed; this.dmg = 50; this.dmg2 = dmg;
                 this.hp = 50; this.hp2 = hp; this.range = 27; this.direction = SOUTH;
                 this.attackCooldown = 8; this.currentAttackCooldown = attackCooldown;

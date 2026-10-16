@@ -7,8 +7,8 @@ import java.awt.Image;
 
 public class Cloak extends Item {
 
-    public final static Image BOVINE_HELMET = Tools.getNewImageIcon("animal-helmet-pixilart.png");
-    public final static Image AZURE_SHROUD = Tools.getNewImageIcon("new-cloak-pixilart.png");
+    public final static Image BOVINE_HELMET = Tools.getNewImageIcon("animal-helmet-pixilart (1).png");
+    public final static Image AZURE_SHROUD = Tools.getNewImageIcon("Azure Shroud.png");
 
     private int hp;
 

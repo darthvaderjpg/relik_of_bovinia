@@ -34,6 +34,7 @@ public class Player implements ImageObserver
     private static int health = 100;
     private static int maxHealth = 100;
     private static int baseDamage = 3;
+    private static int currentDamage = baseDamage;
     private static int x = 708;
     private static int y = 289;
     private static int speed = 7;
