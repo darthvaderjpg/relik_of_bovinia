@@ -1,5 +1,5 @@
 // Author : Jake Jiang / Siddarth Iyer / Ofer Koren
-// Notes  : Abstract base class for all enemies in Relik of Bovinia. Updated with spawn factory integration.
+// Notes  : Abstract base class for all enemies in Relik of Bovinia. Updated with weapon damage calculation and respawn loot reset.
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -28,6 +28,7 @@ public abstract class Enemy implements ImageObserver {
     private final static Image KNIGHT_SOUTH = Tools.getNewImageIcon("SOLDIER_LEFT.gif");
     private final static Image KNIGHT_WEST = Tools.getNewImageIcon("SOLDIER_LEFT.gif");
     
+    // We're not really using this anymore but we have it just in case there is some sort of error with the enemy type. It will display a page not found icon. 
     public final static Image ERROR = (new ImageIcon("ERROR.png")).getImage();
     public static final int NORTH = 1, EAST = 2, SOUTH = 3, WEST = 4;
     private static int deathCounter;
@@ -181,6 +182,7 @@ public abstract class Enemy implements ImageObserver {
         body = body2;
         weapon = weapon2;
         setEnemyType(enemyType2);
+        dropCount = 1;
         hold();
     }
     
@@ -338,22 +340,22 @@ public abstract class Enemy implements ImageObserver {
             switch (Main.getLastButtonPressed()) {
                 case "W":
                     if (y <= Player.getY() && Player.getY() - Player.getAttackingRange() - 40 <= y && x <= Player.getX() + Player.getAttackingRange() && x >= Player.getX() - Player.getAttackingRange()) {
-                        takeDMG(Player.getDamage());
+                        takeDMG(Player.calculateDamage(getEnemyType()));
                     }
                     break;
                 case "A":
                     if (x <= Player.getX() && Player.getX() - Player.getAttackingRange() - 40 <= x && y >= Player.getY() - Player.getAttackingRange() && y <= Player.getY() + Player.getAttackingRange()) {
-                        takeDMG(Player.getDamage()); 
+                        takeDMG(Player.calculateDamage(getEnemyType())); 
                     }
                     break;
                 case "S":
                     if (y >= Player.getY() && Player.getY() + Player.getAttackingRange() + 40 >= y && x <= Player.getX() + Player.getAttackingRange() && x >= Player.getX() - Player.getAttackingRange()) {                   
-                        takeDMG(Player.getDamage());
+                        takeDMG(Player.calculateDamage(getEnemyType()));
                     }
                     break;
                 case "D":
                     if (x >= Player.getX() && Player.getX() + Player.getAttackingRange() + 40 >= x && y >= Player.getY() - Player.getAttackingRange() && y <= Player.getY() + Player.getAttackingRange()) {
-                        takeDMG(Player.getDamage()); 
+                        takeDMG(Player.calculateDamage(getEnemyType())); 
                     }
                     break;
             }

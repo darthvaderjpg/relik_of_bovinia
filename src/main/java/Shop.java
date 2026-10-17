@@ -9,7 +9,7 @@ import java.awt.Image;
 public class Shop extends NPC
 {
 	// Fields.
-	
+	//We have gif models as shown below.
 	private final static Image SHOP_KEEPER_MODEL = Tools.getNewImageIcon("SHOP_KEEPER_MODEL.gif");
 	private final static Image SHOP_KEEPER_INTERACT_MODEL = Tools.getNewImageIcon("SHOP_KEEPER_INTERACT_MODEL.gif");
 	private final static int X = 150;

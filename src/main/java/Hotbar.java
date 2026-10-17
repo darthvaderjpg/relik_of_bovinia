@@ -18,7 +18,7 @@ public class Hotbar implements ImageObserver {
     private final static Image NULL_UI_MODEL = Tools.getNewImageIcon("NULL_UI_MODEL.png");
     public final static Image POTION_MODEL = Tools.getNewImageIcon("revised-b-to-buy-potions-pixilart (1).png");
     
-    // Dedicated potion icon for hotbar slot 2
+    // Potion Image
     private final static Image POTION_ICON = Tools.getNewImageIcon("rejuvenating-spirit-pixilart.png");
     
     // Mini-map models (gif).
@@ -32,17 +32,17 @@ public class Hotbar implements ImageObserver {
     private final static Image MINI_MAP_ROOM_7 = Tools.getNewImageIcon("MAP_ROOM_7.gif");
     private final static Image MINI_MAP_ROOM_8 = Tools.getNewImageIcon("MAP_ROOM_8.gif");
     
-    // Player stats
+    // Player initial hotbar counts
     private static int coins = 0;
     private static int potionCount = 0;
     
-    // Dedicated Hotbar array (3 slots: Weapon, Potion, Cloak)
+    // Hotbar slots
     private static HotbarSlot[] hotbar = new HotbarSlot[3];
 
     static {
-        hotbar[0] = new HotbarSlot(826, 273);  // Slot 1: Left (Weapon)
+        hotbar[0] = new HotbarSlot(815, 262);  // Slot 1: Left (Weapon)
         hotbar[1] = new HotbarSlot(915, 275);  // Slot 2: Center (Potion)
-        hotbar[2] = new HotbarSlot(1004, 275); // Slot 3: Right (Cloak)
+        hotbar[2] = new HotbarSlot(989, 262); // Slot 3: Right (Cloak)
     }
     
     private static Weapon weapon;
@@ -120,6 +120,7 @@ public class Hotbar implements ImageObserver {
     
     public static int getCoins() { return coins; }
     
+    //Minimap models
     public static Image getMapModel() {
         switch (Player.getRoom()) {
             case 0: return MINI_MAP_ROOM_0;

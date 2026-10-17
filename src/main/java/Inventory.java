@@ -1,5 +1,7 @@
 // Author : Siddarth Iyer / Ofer Koren
-// Notes  : Defines 4 distinct, independently configurable equipment slots for precise UI placement.
+//Date  : 10/13/2026
+//Rev   : 01
+// Notes: none
 
 import java.awt.Graphics;
 import java.awt.Image;

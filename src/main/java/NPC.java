@@ -1,5 +1,5 @@
 // Author : Ofer Koren
-// Co-Editor: Jake Jiang
+// Co-Editor: Jake Jiang & Siddarth Iyer
 // Date   : 5/14/2026
 // Rev    : 01
 // Notes  : 
@@ -116,7 +116,6 @@ public class NPC implements ImageObserver
 		g.drawImage(getModel(), getX() + offsetX, getY() + offsetY, null);
 	}
 
-	// Unused but necessary method for ImageObserver.
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) 
 	{

@@ -28,7 +28,7 @@ public class Item {
     public Image getImage() { return image; }
     public int getFactor() { return factor; }
     
-    // --- Enemy Drop Handlers routed through Hotbar.updateHotbar for Inventory registration ---
+    // Handles Enemy Droprates and where the drops go
     
     public static void getDroppedInfarctus() {
         double roll = random.nextDouble();
@@ -37,7 +37,7 @@ public class Item {
             Hotbar.updateHotbar(Armor.explorerPants);
         } else if (roll < 0.70) {
             Hotbar.updateHotbar(Armor.dustyBoots);
-        } else if (roll < 0.85) {
+        } else if (roll < 0.95) {
             Hotbar.updateHotbar(Weapon.mosquitoSword);
         }
         
@@ -51,6 +51,8 @@ public class Item {
             Hotbar.updateHotbar(Weapon.soldierSword);
         } else if (roll < 0.40) {
             Hotbar.updateHotbar(Armor.soldierBoots);
+        } else if (roll < 0.50) {
+            Hotbar.updateHotbar(Armor.soldierLeggings);
         } else if (roll < 0.60) {
             Hotbar.updateHotbar(Armor.soldierChestplate);
         } else if (roll < 0.80) {
@@ -70,8 +72,7 @@ public class Item {
             Hotbar.updateHotbar(Weapon.mirrorSword);
         }else if(roll <0.25){
             Hotbar.updateHotbar(Armor.eliteHelmet);
-        } 
-        else if (roll < 0.35) {
+        } else if (roll < 0.35) {
             Hotbar.updateHotbar(Armor.eliteBoots);
         } else if (roll < 0.60) {
             Hotbar.updateHotbar(Armor.eliteChestplate);
@@ -80,8 +81,8 @@ public class Item {
         } else if (roll < 0.93) {
             // 13% chance to drop an Elite Cloak
             Hotbar.updateHotbar(Cloak.azureShroud);
-        } else {
-            // 7% chance to drop Great Club
+        } else if(roll < .96) {
+            // 4% chance to drop Great Club
             Hotbar.updateHotbar(Weapon.greatClub);
         }
         

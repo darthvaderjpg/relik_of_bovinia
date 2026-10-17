@@ -2,8 +2,8 @@
 // Editor : Jake Jiang -- Subscribe to Scrapnel on YT
 // Editor2 :Siddarth Iyer
 // Date   : 5/14/2026
-// Rev    : 03
-// Notes  : Fixed takeDamage to clamp player health, auto-trigger die() on 0 HP, and apply armor mitigation properly.
+// Rev    : 04
+// Notes  : Restored full multi-line formatting and added calculateDamage for precise weapon/enemy hit-count balancing.
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -322,6 +322,78 @@ public class Player implements ImageObserver
         return totalDamage;
     }
     
+    // Calculates precise damage per weapon vs. enemy type to meet exact hit-count requirements
+    public static int calculateDamage(String enemyType) 
+    {
+        if (enemyType == null) enemyType = "";
+        enemyType = enemyType.toLowerCase().trim();
+        
+        String weaponName = "";
+        if (Hotbar.getWeapon() != null) {
+            weaponName = Hotbar.getWeapon().getClass().getSimpleName().toLowerCase();
+        }
+        
+        boolean hasNoSword = (Hotbar.getWeapon() == null);
+        boolean isSoldierSword = weaponName.contains("soldier") || weaponName.contains("knight");
+        boolean isMosquitoSword = weaponName.contains("mosquito");
+        boolean isEliteSword = weaponName.contains("elite");
+        boolean isClub = weaponName.contains("club");
+        
+        int damage = 4;
+        
+        //Essentially how many hits it takes with each weapon to kill an enemy type. 
+        switch (enemyType) {
+            case "infarctus": // 20 HP
+                if (hasNoSword) damage = 4;          // 5 hits
+                else if (isSoldierSword) damage = 10; // 2 hits
+                else if (isMosquitoSword) { damage = 20; healMosquito(); } // 1 hit + heal
+                else if (isEliteSword) damage = 20;   // 1 hit
+                else if (isClub) damage = 20;         // 1 hit
+                else damage = 10;
+                break;
+                
+            case "knight": // Soldier (50 HP)
+            case "soldier":
+                if (hasNoSword) damage = 5;          // 10 hits
+                else if (isSoldierSword) damage = 10; // 5 hits
+                else if (isMosquitoSword) { damage = 10; healMosquito(); } // 5 hits + heal
+                else if (isEliteSword) damage = 25;   // 2 hits
+                else if (isClub) damage = 50;         // 1 hit
+                else damage = 10;
+                break;
+                
+            case "eliteguard": // Elite Guard (100 HP)
+                if (hasNoSword) damage = 7;          // ~15 hits
+                else if (isSoldierSword) damage = 10; // 10 hits
+                else if (isMosquitoSword) { damage = 10; healMosquito(); } // 10 hits + heal
+                else if (isEliteSword) damage = 20;   // 5 hits
+                else if (isClub) damage = 50;         // 2 hits
+                else damage = 15;
+                break;
+                
+            case "bovisfight": // Boss (200 HP)
+            case "boss":
+                if (hasNoSword) damage = 1;          // 200 hits
+                else if (isSoldierSword) damage = 2;  // 100 hits
+                else if (isMosquitoSword) { damage = 2; healMosquito(); } // 100 hits + heal
+                else if (isEliteSword) damage = 4;    // 50 hits
+                else if (isClub) damage = 8;          // 25 hits
+                else damage = 2;
+                break;
+                
+            default:
+                damage = getDamage();
+                break;
+        }
+        
+        return damage;
+    }
+    
+    private static void healMosquito() {
+        int healAmount = (int)(getMaxHealth() * 0.10);
+        setHealth(health + healAmount);
+    }
+    
     public static boolean getMoveState() { return canMove; }
     public static boolean getAttackingState() { return isAttacking; }
     public static int getCurrency() { return currency; }
@@ -329,7 +401,8 @@ public class Player implements ImageObserver
     public static void setHealth(double playerHealth)
     {
         Player.health = Math.min((int) playerHealth, getMaxHealth());
-        if (Player.health <= 0) {
+        if (Player.health <= 0) 
+        {
             Player.die();
         }
     }
@@ -345,11 +418,12 @@ public class Player implements ImageObserver
         if (rawDamage <= 0) return;
         int mitigatedDamage = Math.max(1, rawDamage - getTotalArmorDefense());
         Player.health -= mitigatedDamage;
-        if (Player.health <= 0) {
+        if (Player.health <= 0) 
+        {
             Player.die();
         }
     }
-    
+    //this is just the collision stuff
     public static void moveNorth() { y -= speed; doWallCollision(); }
     public static void moveSouth() { y += speed; doWallCollision(); }
     public static void moveWest() { x -= speed; doWallCollision(); }

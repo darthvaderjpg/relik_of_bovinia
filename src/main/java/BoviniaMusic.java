@@ -9,7 +9,7 @@ public class BoviniaMusic implements ActionListener {
      
     private final int ACTION_TIMEOUT = 500;
     
-    // 1. Update relative file paths to match your folder structure (e.g., "sounds/")
+   // Music for different parts of the game
     private final MusicPlayer bossFight = new MusicPlayer("sounds/BOVINE.wav");
     private final MusicPlayer templeMusic = new MusicPlayer("sounds/Sorrow.wav");
     private final MusicPlayer overworld = new MusicPlayer("sounds/Rumination.wav");
@@ -21,7 +21,7 @@ public class BoviniaMusic implements ActionListener {
     private Timer actionTimer;
 
     public BoviniaMusic(int x, int y, JComponent surface) {
-        // Set all tracks to loop by default if desired
+        // Set all tracks to loop by default. This makes it so that once the music finishes, it'll restart and you won't just be in silence
         bossFight.setLoop(true);
         templeMusic.setLoop(true);
         overworld.setLoop(true);
@@ -31,10 +31,7 @@ public class BoviniaMusic implements ActionListener {
         actionTimer.start();
     }
     
-    /**
-     * Call this method whenever the player enters a new room.
-     * e.g., musicController.changeRoom("Overworld");
-     */
+    
     public void changeRoom(String roomType) {
         // Avoid restarting if the player is already in this room type
         if (roomType.equalsIgnoreCase(currentRoom)) {
@@ -81,12 +78,12 @@ public class BoviniaMusic implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Start overworld or default music on initial timer tick if non-empty
+        
         if (!musicStarted && currentRoom.isEmpty()) {
             changeRoom("overworld"); 
         }
     }
-    
+    //method to pause the music
     public void pauseMusic() {
         actionTimer.stop();
         if (currentTrack != null) {
@@ -95,6 +92,7 @@ public class BoviniaMusic implements ActionListener {
         musicStarted = false;
     }
     
+    // method to resume music
     public void resumeMusic() {
         if (!musicStarted && currentTrack != null && currentTrack.isLoaded()) {
             currentTrack.play();

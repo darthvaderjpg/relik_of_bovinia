@@ -12,22 +12,22 @@ public class Armor extends Item {
     public static final Image WORN_CLOAK = Tools.getNewImageIcon("old-cloak-pixilart.png");
     public static final Image EXPLORER_SWEATER = Tools.getNewImageIcon("old-explorer's-sweater-pixilart (1).png");
     public static final Image EXPLORER_PANTS = Tools.getNewImageIcon("Long Pants.png");
-    public static final Image DUSTY_BOOTS = Tools.getNewImageIcon("dusty-boots-pixilart.png");
+    public static final Image DUSTY_BOOTS = Tools.getNewImageIcon("Dusty Boots.png");
     
     //Soldier Gear Images
     public static final Image SOLDIER_HELMET = Tools.getNewImageIcon("soldier-helmet-gif-pixilart.gif");
     public static final Image SOLDIER_CHESTPLATE = Tools.getNewImageIcon("soldier-chestplate-pixilart (1).png");
-    public static final Image SOLDIER_LEGGINGS = Tools.getNewImageIcon("soldier-leggings-pixilart.png");
-    public static final Image SOLDIER_BOOTS = Tools.getNewImageIcon("soldier-boots-pixilart.png");
+    public static final Image SOLDIER_LEGGINGS = Tools.getNewImageIcon("soldier-leggings-pixilart (1).png");
+    public static final Image SOLDIER_BOOTS = Tools.getNewImageIcon("Soldier Boots.png");
     
     //Elite Guard Gear Images
     public static final Image ELITE_GUARD_HELMET = Tools.getNewImageIcon("elite-helmet-gif-pixilart (1).gif");
-    public static final Image ELITE_GUARD_CHESTPLATE = Tools.getNewImageIcon("(newer)elite-guard-chestplate-pixilart.png");
+    public static final Image ELITE_GUARD_CHESTPLATE = Tools.getNewImageIcon("Elite Chestplate.png");
     public static final Image ELITE_GUARD_ROBE_BOTTOMS = Tools.getNewImageIcon("(newer)elite-guard-leggings.png");
-    public static final Image ELITE_GUARD_BOOTS = Tools.getNewImageIcon("elite-guard-boots-pixilart.png");
+    public static final Image ELITE_GUARD_BOOTS = Tools.getNewImageIcon("Elite Boots.png");
     
     // Artifact Gear Images
-    public static final Image ARTIFACT_HELMET = Tools.getNewImageIcon("-------");
+    public static final Image ARTIFACT_HELMET = Tools.getNewImageIcon("Artifact Helmet");
     public static final Image ARTIFACT_CHESTPLATE = Tools.getNewImageIcon("artifact-chestplate-pixilart.png");
     public static final Image ARTIFACT_ROBE_BOTTOMS = Tools.getNewImageIcon("artifact-leggings-pixilart.png");
     public static final Image ARTIFACT_BOOTS = Tools.getNewImageIcon("artifact-boots-pixilart.png");

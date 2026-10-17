@@ -25,10 +25,10 @@ public class GamePanel extends JPanel
     Numbers numbers1 = new Numbers(949, 16, "Ruby");
     Numbers numbers2 = new Numbers(590, 250, "Shop");
     
-    // Dynamic Enemy List for Room Spawning
+    //Enemy Array
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     
-    // Boss in Room 8 (Guaranteed every time)
+    // Boss in Room 8
     public static BovisFight bovis = new BovisFight(800, 400, 8);
     
     // Tracks previous room to detect room transitions for respawning
@@ -40,12 +40,12 @@ public class GamePanel extends JPanel
     
     // Initial spawn across all rooms on game start
     private void spawnAllRooms() {
-        for (int room = 2; room <= 8; room++) {
+        for (int room = 2; room <= 7; room++) {
             spawnEnemiesForRoom(room);
         }
     }
     
-    // Spawns or re-rolls enemies for a specific room following your exact rules
+    //Enemies Respawn
     private void spawnEnemiesForRoom(int roomID) {
         Random rand = new Random();
         int count = 0;
@@ -65,27 +65,27 @@ public class GamePanel extends JPanel
                 }
                 break;
                 
-            case 4: // Room 4: 5-7 total; primarily Soldiers, Infarctus > Elite Guards
+            case 4: 
                 count = rand.nextInt(3) + 5; // 5, 6, or 7
                 for (int i = 0; i < count; i++) {
                     int x = rand.nextInt(600) + 100;
                     int y = rand.nextInt(350) + 200;
                     int roll = rand.nextInt(10);
                     if (roll < 6) {
-                        enemies.add(new Knight(x, y, roomID)); // Primarily Soldiers (60%)
+                        enemies.add(new Knight(x, y, roomID)); 
                     } else if (roll < 9) {
-                        enemies.add(new Infarctus(x, y, roomID)); // Infarctus (30%)
+                        enemies.add(new Infarctus(x, y, roomID));
                     } else {
-                        enemies.add(new EliteGuard(x, y, roomID)); // Rare Elite Guard (10%)
+                        enemies.add(new EliteGuard(x, y, roomID));
                     }
                 }
                 break;
                 
-            case 5: // Room 5 (Artifact Room): Completely empty (0 enemies)
+            case 5: 
                 break;
                 
-            case 6: // Room 6: 5 to 7 total enemies
-                count = rand.nextInt(3) + 5; // 5, 6, or 7
+            case 6: 
+                count = rand.nextInt(3) + 5; 
                 for (int i = 0; i < count; i++) {
                     int x = rand.nextInt(600) + 100;
                     int y = rand.nextInt(350) + 200;
@@ -96,8 +96,8 @@ public class GamePanel extends JPanel
                 }
                 break;
                 
-            case 7: // Room 7: 5 to 7 total enemies (Introduces Elite Guards)
-                count = rand.nextInt(3) + 5; // 5, 6, or 7
+            case 7: 
+                count = rand.nextInt(3) + 5; 
                 for (int i = 0; i < count; i++) {
                     int x = rand.nextInt(600) + 100;
                     int y = rand.nextInt(350) + 200;
@@ -108,18 +108,18 @@ public class GamePanel extends JPanel
                 }
                 break;
                 
-            case 8: // Room 8: 5 to 7 total enemies (Heavy Elite Guards concentration)
-                count = rand.nextInt(3) + 5; // 5, 6, or 7
+            case 8: 
+                count = rand.nextInt(3) + 5; 
                 for (int i = 0; i < count; i++) {
                     int x = rand.nextInt(600) + 100;
                     int y = rand.nextInt(350) + 200;
                     int roll = rand.nextInt(10);
                     if (roll < 7) {
-                        enemies.add(new EliteGuard(x, y, roomID)); // Primarily Elite Guards (70%)
+                        enemies.add(new EliteGuard(x, y, roomID)); 
                     } else if (roll < 9) {
-                        enemies.add(new Knight(x, y, roomID)); // Soldiers (20%)
+                        enemies.add(new Knight(x, y, roomID));
                     } else {
-                        enemies.add(new Infarctus(x, y, roomID)); // Infarctus (10%)
+                        enemies.add(new Infarctus(x, y, roomID));
                     }
                 }
                 break;
@@ -131,7 +131,7 @@ public class GamePanel extends JPanel
     {
         super.paintComponent(g);
         
-        // Detect room transitions: when leaving a room, clear and re-spawn fresh enemies for that room
+       
         int currentRoom = Player.getRoom();
         if (currentRoom != lastRoom) {
             if (lastRoom != -1) {

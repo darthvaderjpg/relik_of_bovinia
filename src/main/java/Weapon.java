@@ -15,7 +15,7 @@ public class Weapon extends Item {
         
     //Special Gear
     public static final Image MOSQUITO_SWORD = Tools.getNewImageIcon("Slash Sword.png");
-    public static final Image GREAT_CLUB = Tools.getNewImageIcon("great-club-pixilart.png");
+    public static final Image GREAT_CLUB = Tools.getNewImageIcon("Club.png");
     
     private int dmg;
 

@@ -2,6 +2,7 @@
     // Date:  10/11/2026
     //Rev : 01
     //Notes : This class is responsible for creating the keybar objects.
+    // The keybar is essentially the place for the keys
     
     import java.awt.Graphics;
 

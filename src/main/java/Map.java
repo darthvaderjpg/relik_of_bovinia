@@ -231,7 +231,6 @@ public class Map implements ImageObserver
         g.drawImage(getMap(Player.getRoom()), 0, 171, null);
     }
 
-    // Unused but necessary method for ImageObserver.
     @Override
     public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) 
     {

@@ -2,6 +2,7 @@
 //Date: 10/13/2026
 //Rev:02
 //Notes: This is the class that holds all the keys.
+// I'll use it in a second but not yet.
 
 import java.awt.Image;
 
