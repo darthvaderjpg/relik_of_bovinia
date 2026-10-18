@@ -1,8 +1,8 @@
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
 //Date: 5/14/2026
-//Rev:26
-//Notes: Updated Hotbar Slot 3 (Cloak slot) coordinates to (1004, 275). Retained tier/stat comparison logic in updateHotbar().
+//Rev:27
+//Notes: Added automatic Player current health scaling/refill upon equipping new armor/cloaks.
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -62,35 +62,41 @@ public class Hotbar implements ImageObserver {
         if (i instanceof Armor || type.contains("helm") || type.contains("chest") || type.contains("pant") || type.contains("boot") || type.contains("armor")) {
             Armor armor = (i instanceof Armor) ? (Armor) i : null;
             int newFactor = (armor != null) ? armor.getFactor() : i.getFactor();
+            boolean upgraded = false;
 
             if (type.contains("helm") || type.contains("head") || type.contains("cap") || str.contains("helm")) {
                 if (helmet == null || newFactor > helmet.getFactor()) {
                     setHelmet(armor);
                     Inventory.setSlot(0, i);
+                    upgraded = true;
                 }
             } 
             else if (type.contains("chest") || type.contains("plate") || type.contains("cuirass") || str.contains("chest")) {
                 if (chestplate == null || newFactor > chestplate.getFactor()) {
                     setChestplate(armor);
                     Inventory.setSlot(1, i);
+                    upgraded = true;
                 }
             } 
             else if (type.contains("pant") || type.contains("leg") || type.contains("bottom") || type.contains("explorer") || str.contains("pants")) {
                 if (leggings == null || newFactor > leggings.getFactor()) {
                     setLeggings(armor);
                     Inventory.setSlot(2, i);
+                    upgraded = true;
                 }
             } 
             else if (type.contains("boot") || type.contains("shoe") || str.contains("boot")) {
                 if (boots == null || newFactor > boots.getFactor()) {
                     setBoots(armor);
                     Inventory.setSlot(3, i);
+                    upgraded = true;
                 }
             } 
             else {
                 if (chestplate == null || newFactor > chestplate.getFactor()) {
                     setChestplate(armor);
                     Inventory.setSlot(1, i); 
+                    upgraded = true;
                 }
             }
             return;
@@ -109,6 +115,9 @@ public class Hotbar implements ImageObserver {
         } 
         else if (i instanceof Cloak || type.contains("cloak") || type.contains("shroud")) {
             hotbar[2].updateItem(i);
+            Armor cloakArmor = (i instanceof Armor) ? (Armor) i : null;
+            setCloaks(cloakArmor);
+            
         } 
         else if (i instanceof Key || type.contains("key")) {
             Keybar.addKey(i);
@@ -188,7 +197,7 @@ public class Hotbar implements ImageObserver {
     public static Armor getCloaks() { return cloaks; }
     
     public static void draw(Graphics g) {
-        // --- DRAW MINIMAP BASED ON CURRENT ROOM ---
+        //Gets the current area your in
         Image currentMap = getMapModel();
         if (currentMap != null) {
             g.drawImage(currentMap, 794, 60, 140, 140, null);
@@ -205,10 +214,9 @@ public class Hotbar implements ImageObserver {
         }
 
         if (BovisFight.getBossToken() && Player.getRoom() == 8) {
-        g.setColor(Color.BLACK);
-        g.fillRect(260, 140, 276, 40);
-}
-
+            g.setColor(Color.BLACK);
+            g.fillRect(260, 140, 276, 40);
+        }
 
         // Draw hotbar slots (Weapon & Cloak)
         for (int i = 0; i < hotbar.length; i++) {
@@ -224,7 +232,6 @@ public class Hotbar implements ImageObserver {
             int slotX = hotbar[1].getX();
             int slotY = hotbar[1].getY();
             
-            //contingency for if the potion icon cannot be found: i.e draw a red square instead.
             if (POTION_ICON != null) {
                 g.drawImage(POTION_ICON, slotX, slotY, null);
             } else {

@@ -17,8 +17,8 @@
 
     static {
         // Initialize the two key slots with their coordinates under the KEYS text
-        keybar[0] = new Keybar(750, 500);
-        keybar[1] = new Keybar(800, 500);
+        keybar[0] = new Keybar(915, 562);
+        keybar[1] = new Keybar(989, 562);
     }
 
     public Keybar(int x, int y){

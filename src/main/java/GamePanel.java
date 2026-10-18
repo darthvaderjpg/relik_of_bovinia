@@ -21,6 +21,7 @@ public class GamePanel extends JPanel
     NPC shopkeeper = new Shop();
     NPC relik = new Relik();
     NPC bovisTalk = new BovisTalk();
+    NPC keyNPC = new KeyNPC();
     
     Numbers numbers1 = new Numbers(949, 16, "Ruby");
     Numbers numbers2 = new Numbers(590, 250, "Shop");
@@ -152,6 +153,7 @@ public class GamePanel extends JPanel
         shopkeeper.draw(g);
         relik.draw(g);
         bovisTalk.draw(g);
+        keyNPC.draw(g);
         
         
         for (Enemy e : enemies) {
@@ -192,7 +194,8 @@ public class GamePanel extends JPanel
         shopkeeper.testInteraction(Player.getX(), Player.getY(), shopkeeper.getX(), shopkeeper.getY(), shopkeeper.getCollisionRadius(), "shopkeeper");
         relik.testInteraction(Player.getX(), Player.getY(), relik.getX(), relik.getY(), relik.getCollisionRadius(), "relik");
         bovisTalk.testInteraction(Player.getX(), Player.getY(), bovisTalk.getX(), bovisTalk.getY(), bovisTalk.getCollisionRadius(), "bovisTalk");
-        
+        keyNPC.testInteraction(Player.getX(), Player.getY(), keyNPC.getX(), keyNPC.getY(), keyNPC.getCollisionRadius(), "keyNPC");
+
         // Update room availability check and AI tracking for all enemies
         for (Enemy e : enemies) {
             e.getTargetAvailability(Player.getRoom());

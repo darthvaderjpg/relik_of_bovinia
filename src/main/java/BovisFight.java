@@ -1,7 +1,7 @@
 /*
 Author: Jake Jiang -- Subscribe to Scrapnel on YT!
 Date  : 05/19/26
-Notes : Boss fight class. Fixed HUD health bar at (0, 300) with automatic disappearance on boss death.
+Notes : Boss fight class. Updated health bar percentage calculation for 2000 HP Bovis.
  */
 
 import java.awt.Graphics;
@@ -17,7 +17,6 @@ public class BovisFight extends Enemy
     private int downTimer = 167;
     private static boolean bossToken = false;
     
-    // Cache for percentage health bar assets
     private static final HashMap<Integer, Image> healthBarImages = new HashMap<>();
     
     public Infarctus infarctus01 = new Infarctus(650, 200, 8);
@@ -65,7 +64,7 @@ public class BovisFight extends Enemy
     public void die() 
     {
         super.die();
-        bossToken = false; // Instantly hides health bar when Bovis dies
+        bossToken = false;
     }
     
     public void trackPlayer(int px, int py, int pRoomID) 
@@ -419,19 +418,15 @@ public class BovisFight extends Enemy
    @Override
     public void draw(Graphics g) 
     {
-        // 1. Draw Bovis's main sprite normally
         super.draw(g);
         
-        // 2. Render HUD elements when active, alive, and in Room 8
         if (bossToken && getHealth() > 0 && !getEnemyType().equals("dead") && Player.getRoom() == 8) 
         {
-            // Draw solid black rectangle at (260, 40) matching btobypotions dimensions (276x22)
             g.setColor(java.awt.Color.RED);
             g.fillRect(260, 40, 276, 22);
             
-            // Draw health bar at (0, 0)
             int currentHp = Math.max(0, getHealth());
-            int percent = (int) (((double) currentHp / 200) * 100);
+            int percent = (int) (((double) currentHp / 2000) * 100); // Updated to 2000 max HP
             percent = (percent / 10) * 10;
             
             if (percent > 100) percent = 100;

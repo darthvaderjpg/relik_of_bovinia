@@ -2,8 +2,8 @@
 // Editor : Jake Jiang -- Subscribe to Scrapnel on YT
 // Editor2 :Siddarth Iyer
 // Date   : 5/14/2026
-// Rev    : 08
-// Notes  : Enforces precise hit-count balancing based on 1st hotbar slot weapon inspection and attack debouncing. Full multi-line layout restored.
+// Rev    : 09
+// Notes  : Updated base stats (1 HP, 1 Base Damage) and dynamic equipment-based max HP formula.
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -31,14 +31,14 @@ public class Player implements ImageObserver
     
     // Other player fields.
     private static int currency = 0;
-    private static int health = 100;
-    private static int maxHealth = 100;
-    private static int baseDamage = 3;
+    private static int health = 1;
+    private static int maxHealth = 1;
+    private static int baseDamage = 1;
     private static int currentDamage = baseDamage;
     private static int x = 708;
     private static int y = 289;
     private static int speed = 7;
-    private static int attackingRange = 150;
+    private static int attackingRange = 75;
     private static int room = 0;
     private static boolean canMove = true;
     private static boolean isAttacking = false;
@@ -333,7 +333,7 @@ public class Player implements ImageObserver
     
     public static int getMaxHealth()
     {   
-        int baseMaxHealth = 100;
+        int baseMaxHealth = 1; // Base player HP is 1
         int armorBonus = 0;
         
         if (Hotbar.getHelmet() != null)
@@ -413,12 +413,11 @@ public class Player implements ImageObserver
     
     public static int getDamage() 
     {
-        int totalDamage = baseDamage;
         if (Hotbar.getWeapon() != null) 
         {
-            totalDamage += Hotbar.getWeapon().getFactor();
+            return Hotbar.getWeapon().getFactor();
         }
-        return totalDamage;
+        return baseDamage; // Base unarmed damage = 1
     }
     
     public static boolean getHasDealtDamage() 
@@ -431,153 +430,14 @@ public class Player implements ImageObserver
         hasDealtDamage = state; 
     }
     
-    // Calculates precise damage based on 1st hotbar slot weapon inspection
     public static int calculateDamage(String enemyType) 
     {
-        if (enemyType == null) 
-        {
-            enemyType = "";
-        }
-        enemyType = enemyType.toLowerCase().trim();
-        
         Object weapon = Hotbar.getWeapon();
-        
-        // If weapon in slot 1 is null, force bare-handed hit counts
-        if (weapon == null) 
+        if (weapon != null && weapon.toString().toLowerCase().contains("mosquito")) 
         {
-            switch (enemyType) 
-            {
-                case "infarctus": 
-                    return 4;     // 5 hits (20 HP / 5 = 4)
-                case "knight":
-                case "soldier": 
-                    return 5;       // 10 hits (50 HP / 10 = 5)
-                case "eliteguard": 
-                    return 7;    // ~15 hits (100 HP / 7 ≈ 14.2)
-                case "bovisfight":
-                case "boss": 
-                    return 1;          // 200 hits (200 HP / 1 = 200)
-                default: 
-                    return 4;
-            }
+            healMosquito();
         }
-        
-        String weaponStr = weapon.toString().toLowerCase();
-        String className = weapon.getClass().getSimpleName().toLowerCase();
-        String combined = className + " " + weaponStr;
-        
-        boolean isSoldier = combined.contains("soldier") || combined.contains("knight");
-        boolean isMosquito = combined.contains("mosquito");
-        boolean isElite = combined.contains("elite");
-        boolean isClub = combined.contains("club");
-        
-        // If weapon is present but unrecognized, fallback to bare-handed
-        if (!isSoldier && !isMosquito && !isElite && !isClub) 
-        {
-            switch (enemyType) 
-            {
-                case "infarctus": 
-                    return 4;
-                case "knight":
-                case "soldier": 
-                    return 5;
-                case "eliteguard": 
-                    return 7;
-                case "bovisfight":
-                case "boss": 
-                    return 1;
-                default: 
-                    return 4;
-            }
-        }
-        
-        switch (enemyType) 
-        {
-            case "infarctus": // 20 HP
-                if (isSoldier) 
-                {
-                    return 10;       // 2 hits
-                }
-                if (isMosquito) 
-                { 
-                    healMosquito(); 
-                    return 20; 
-                } // 1 hit + heal
-                if (isElite) 
-                {
-                    return 20;         // 1 hit
-                }
-                if (isClub) 
-                {
-                    return 20;          // 1 hit
-                }
-                return 4;
-                
-            case "knight": // Soldier (50 HP)
-            case "soldier":
-                if (isSoldier) 
-                {
-                    return 10;       // 5 hits
-                }
-                if (isMosquito) 
-                { 
-                    healMosquito(); 
-                    return 10; 
-                } // 5 hits + heal
-                if (isElite) 
-                {
-                    return 25;         // 2 hits
-                }
-                if (isClub) 
-                {
-                    return 50;          // 1 hit
-                }
-                return 5;
-                
-            case "eliteguard": // Elite Guard (100 HP)
-                if (isSoldier) 
-                {
-                    return 10;       // 10 hits
-                }
-                if (isMosquito) 
-                { 
-                    healMosquito(); 
-                    return 10; 
-                } // 10 hits + heal
-                if (isElite) 
-                {
-                    return 20;         // 5 hits
-                }
-                if (isClub) 
-                {
-                    return 50;          // 2 hits
-                }
-                return 7;
-                
-            case "bovisfight": // Boss (200 HP)
-            case "boss":
-                if (isSoldier) 
-                {
-                    return 2;        // 100 hits
-                }
-                if (isMosquito) 
-                { 
-                    healMosquito(); 
-                    return 2; 
-                } // 100 hits + heal
-                if (isElite) 
-                {
-                    return 4;          // 50 hits
-                }
-                if (isClub) 
-                {
-                    return 8;           // 25 hits
-                }
-                return 1;
-                
-            default:
-                return 4;
-        }
+        return getDamage();
     }
     
     private static void healMosquito() 
@@ -615,7 +475,6 @@ public class Player implements ImageObserver
         Player.maxHealth = maxPlayerHealth;
     }
     
-    // Decreases player's health with base damage minus total armor defense (minimum 1 DMG).
     public static void takeDamage(int rawDamage) 
     {
         if (rawDamage <= 0) 

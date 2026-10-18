@@ -1,5 +1,5 @@
 // Author : Jake Jiang / Siddarth Iyer / Ofer Koren
-// Notes  : Abstract base class for all enemies in Relik of Bovinia. Updated with weapon damage calculation and respawn loot reset.
+// Notes  : Abstract base class for all enemies in Relik of Bovinia. Updated with exact HP and damage stats.
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -28,7 +28,6 @@ public abstract class Enemy implements ImageObserver {
     private final static Image KNIGHT_SOUTH = Tools.getNewImageIcon("SOLDIER_LEFT.gif");
     private final static Image KNIGHT_WEST = Tools.getNewImageIcon("SOLDIER_LEFT.gif");
     
-    // We're not really using this anymore but we have it just in case there is some sort of error with the enemy type. It will display a page not found icon. 
     public final static Image ERROR = (new ImageIcon("ERROR.png")).getImage();
     public static final int NORTH = 1, EAST = 2, SOUTH = 3, WEST = 4;
     private static int deathCounter;
@@ -61,7 +60,6 @@ public abstract class Enemy implements ImageObserver {
         }
     }
     
-    // Static Spawner Factory Method connected to Map.getRoomSpawnConfig()
     public static ArrayList<Enemy> spawnEnemiesForRoom(int roomID) {
         Map.SpawnConfig config = Map.getRoomSpawnConfig(roomID);
         ArrayList<Enemy> roomEnemies = new ArrayList<>();
@@ -88,7 +86,7 @@ public abstract class Enemy implements ImageObserver {
             } else {
                 sum += config.soldierWeight;
                 if (roll < sum) {
-                    enemyType = "knight"; // Soldier / Knight
+                    enemyType = "knight";
                 } else {
                     enemyType = "eliteguard";
                 }
@@ -114,28 +112,28 @@ public abstract class Enemy implements ImageObserver {
     
     private void assignEnemy(int type) {
         switch(type) {
-            case 1: 
-                this.speed = 1; this.speed2 = speed; this.dmg = 20; this.dmg2 = dmg;
-                this.hp = 20; this.hp2 = hp; this.range = 35; this.direction = SOUTH;
+            case 1: // Infarctus (5 HP, 2 DMG)
+                this.speed = 1; this.speed2 = speed; this.dmg = 2; this.dmg2 = dmg;
+                this.hp = 5; this.hp2 = hp; this.range = 35; this.direction = SOUTH;
                 this.dashDuration = (int)(100.0 * (1 + Math.random()) * (1 + Math.random()) * (1 + Math.random())); 
                 this.attackCooldown = 10; this.currentAttackCooldown = attackCooldown;
                 this.body = INFARCTUS_SOUTH; enemyType = "infarctus"; enemyType2 = enemyType;
                 break;
-            case 2: 
-                this.speed = 2; this.speed2 = speed; this.dmg = 30; this.dmg2 = dmg;
-                this.hp = 200; this.hp2 = hp; this.range = 70; this.direction = SOUTH;
+            case 2: // Bovis / Boss (2000 HP, 45 DMG)
+                this.speed = 2; this.speed2 = speed; this.dmg = 45; this.dmg2 = dmg;
+                this.hp = 2000; this.hp2 = hp; this.range = 45; this.direction = SOUTH;
                 this.attackCooldown = 37; this.currentAttackCooldown = attackCooldown;
                 this.body = BOVISFIGHT_SOUTH; enemyType = "bovisfight"; enemyType2 = enemyType;
                 break;
-            case 3: 
-                this.speed = 3; this.speed2 = speed; this.dmg = 100; this.dmg2 = dmg;
-                this.hp = 100; this.hp2 = hp; this.range = 60; this.direction = SOUTH;
+            case 3: // Elite Guard (50 HP, 15 DMG)
+                this.speed = 3; this.speed2 = speed; this.dmg = 15; this.dmg2 = dmg;
+                this.hp = 50; this.hp2 = hp; this.range = 60; this.direction = SOUTH;
                 this.attackCooldown = 25; this.currentAttackCooldown = 35;
                 this.body = ELITEGUARD_SOUTH; enemyType = "eliteguard"; enemyType2 = enemyType;
                 break;
-            case 4: 
-                this.speed = 3; this.speed2 = speed; this.dmg = 50; this.dmg2 = dmg;
-                this.hp = 50; this.hp2 = hp; this.range = 27; this.direction = SOUTH;
+            case 4: // Soldier / Knight (25 HP, 5 DMG)
+                this.speed = 3; this.speed2 = speed; this.dmg = 5; this.dmg2 = dmg;
+                this.hp = 25; this.hp2 = hp; this.range = 75; this.direction = SOUTH;
                 this.attackCooldown = 8; this.currentAttackCooldown = attackCooldown;
                 this.body = KNIGHT_SOUTH; this.body2 = body; enemyType = "knight"; enemyType2 = enemyType;
                 break;
