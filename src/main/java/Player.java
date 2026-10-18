@@ -352,9 +352,9 @@ public class Player implements ImageObserver
         {
             armorBonus += Hotbar.getBoots().getFactor();
         }
-        if (Hotbar.getRobes() != null)
+        if (Hotbar.getCloaks() != null)
         {
-            armorBonus += Hotbar.getRobes().getFactor();
+            armorBonus += Hotbar.getCloaks().getFactor();
         }
         
         return baseMaxHealth + armorBonus;
@@ -379,9 +379,9 @@ public class Player implements ImageObserver
         {
             defense += Hotbar.getBoots().getFactor();
         }
-        if (Hotbar.getRobes() != null)
+        if (Hotbar.getCloaks() != null)
         {
-            defense += Hotbar.getRobes().getFactor();
+            defense += Hotbar.getCloaks().getFactor();
         }
         return defense;
     }

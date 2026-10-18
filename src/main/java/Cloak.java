@@ -9,6 +9,7 @@ public class Cloak extends Item {
 
     public final static Image BOVINE_HELMET = Tools.getNewImageIcon("animal-helmet-pixilart (1).png");
     public final static Image AZURE_SHROUD = Tools.getNewImageIcon("Azure Shroud.png");
+    public final static Image OLD_CLOAK = Tools.getNewImageIcon("Old Cloak.png");
 
     private int hp;
 
@@ -35,5 +36,6 @@ public class Cloak extends Item {
         this.hp = hp;
     }
 
-    static Cloak azureShroud = new Cloak(AZURE_SHROUD, 40, "Robes");
+    static Cloak azureShroud = new Cloak(AZURE_SHROUD, 10, "Cloak");
+    static Cloak oldCloak = new Cloak(OLD_CLOAK, 1, "Cloak");
 }

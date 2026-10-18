@@ -7,6 +7,11 @@
 import java.awt.Image;
 
 public class Weapon extends Item {
+
+    //Starter Weapon
+    private static final Image POCKET_KNIFE = Tools.getNewImageIcon("Pocket Knife.png");
+
+    //Enemy Gear Drops
     public static final Image ENEMY_DAGGER = Tools.getNewImageIcon("enemy-dagger-pixilart.png");
     public static final Image STARTER_SWORD = Tools.getNewImageIcon("simple-sword-pixilart.png");
     public static final Image SOLDIER_SWORD = Tools.getNewImageIcon("Common Sword.png");
@@ -42,11 +47,12 @@ public class Weapon extends Item {
         this.dmg = dmg;
     }
 
-    static Weapon infarctus = new Weapon(ENEMY_DAGGER, 2, "Weapon");
-    static Weapon starterSword = new Weapon(STARTER_SWORD, 2, "Weapon");
+    static Weapon pocketKnife = new Weapon(POCKET_KNIFE, 1, "Weapon");
+    //static Weapon infarctus = new Weapon(ENEMY_DAGGER, 2, "Weapon");
+    //static Weapon starterSword = new Weapon(STARTER_SWORD, 2, "Weapon");
     static Weapon soldierSword = new Weapon(SOLDIER_SWORD, 5, "Weapon");
     static Weapon mirrorSword = new Weapon(ELITE_GUARD_SWORD, 10, "Weapon");
-    static Weapon artifactInfusedSword = new Weapon(ARTIFACT_SWORD, 20, "Weapon");
+    static Weapon artifactInfusedSword = new Weapon(ARTIFACT_SWORD, 50, "Weapon");
     static Weapon mosquitoSword = new Weapon(MOSQUITO_SWORD, 3, "Weapon");
     static Weapon greatClub = new Weapon(GREAT_CLUB, 30, "Weapon");
 }

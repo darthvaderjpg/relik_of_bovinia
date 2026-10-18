@@ -35,7 +35,7 @@ public class Item {
             
         if (roll < 0.35) {
             Hotbar.updateHotbar(Armor.explorerPants);
-        } else if (roll < 0.70) {
+        } else if (roll < 0.55) {
             Hotbar.updateHotbar(Armor.dustyBoots);
         } else if (roll < 0.95) {
             Hotbar.updateHotbar(Weapon.mosquitoSword);
@@ -79,7 +79,7 @@ public class Item {
         } else if (roll < 0.80) {
             Hotbar.updateHotbar(Armor.eliteRobeBottoms);
         } else if (roll < 0.93) {
-            // 13% chance to drop an Elite Cloak
+            // 7% chance to drop an Elite Cloak
             Hotbar.updateHotbar(Cloak.azureShroud);
         } else if(roll < .96) {
             // 4% chance to drop Great Club

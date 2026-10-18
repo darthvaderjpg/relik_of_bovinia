@@ -50,7 +50,7 @@ public class Hotbar implements ImageObserver {
     private static Armor chestplate;
     private static Armor leggings; 
     private static Armor boots;
-    private static Armor robes;
+    private static Armor cloaks;
 
     public static void updateHotbar(Item i) {
         if (i == null) return;
@@ -178,14 +178,14 @@ public class Hotbar implements ImageObserver {
     public static void setChestplate(Armor chestplate) { Hotbar.chestplate = chestplate; }
     public static void setLeggings(Armor leggings) { Hotbar.leggings = leggings; }
     public static void setBoots(Armor boots) { Hotbar.boots = boots; }
-    public static void setRobes(Armor robes) { Hotbar.robes = robes; }
+    public static void setCloaks(Armor cloaks) { Hotbar.cloaks = cloaks; }
     
     public static Weapon getWeapon() { return weapon; }
     public static Armor getHelmet() { return helmet; }
     public static Armor getChestplate() { return chestplate; }
     public static Armor getLeggings() { return leggings; }
     public static Armor getBoots() { return boots; }
-    public static Armor getRobes() { return robes; }
+    public static Armor getCloaks() { return cloaks; }
     
     public static void draw(Graphics g) {
         // --- DRAW MINIMAP BASED ON CURRENT ROOM ---
@@ -194,7 +194,7 @@ public class Hotbar implements ImageObserver {
             g.drawImage(currentMap, 794, 60, 140, 140, null);
         }
 
-        // --- DRAW DYNAMIC HEALTH BAR ---
+        // --- DRAW HEALTH BAR ---
         Image healthImg = getHealthModel(Player.getHealth(), Player.getMaxHealth(), "PLAYER_HEALTH_");
         if (healthImg != null) {
             g.drawImage(healthImg, 808, 210, null);
@@ -203,6 +203,12 @@ public class Hotbar implements ImageObserver {
         if (POTION_MODEL != null) {
             g.drawImage(POTION_MODEL, 260, 40, null);
         }
+
+        if (BovisFight.getBossToken() && Player.getRoom() == 8) {
+        g.setColor(Color.BLACK);
+        g.fillRect(260, 140, 276, 40);
+}
+
 
         // Draw hotbar slots (Weapon & Cloak)
         for (int i = 0; i < hotbar.length; i++) {
@@ -218,6 +224,7 @@ public class Hotbar implements ImageObserver {
             int slotX = hotbar[1].getX();
             int slotY = hotbar[1].getY();
             
+            //contingency for if the potion icon cannot be found: i.e draw a red square instead.
             if (POTION_ICON != null) {
                 g.drawImage(POTION_ICON, slotX, slotY, null);
             } else {

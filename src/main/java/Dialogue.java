@@ -123,6 +123,7 @@ public class Dialogue implements ImageObserver
                 return DUDE_DIALOGUE_ANIMATION_1;
             
             default:
+                Hotbar.updateHotbar(Weapon.pocketKnife);
                 Player.setMoveState(true);
                 Player.moveToRoom(1);
                 currentDudeLine = 0;
@@ -167,9 +168,10 @@ public class Dialogue implements ImageObserver
             case 9:
                 return GRANDPA_DIALOGUE_ANIMATION_9;
             default:
-                // --- GRANT STARTER GEAR ON DIALOGUE COMPLETION ---
+                //starter gear
                 Hotbar.updateHotbar(Armor.explorerSweater);
                 Hotbar.updateHotbar(Armor.crackedHelmet);
+                Hotbar.updateHotbar(Cloak.oldCloak);
 
                 Player.setMoveState(true);
                 currentGrandpaLine = 0;

@@ -59,7 +59,7 @@ public class Armor extends Item {
     
     //Beginner Clothes Set
     static Armor crackedHelmet = new Armor(CRACKED_HELMET, 2, "Helmet");
-    static Armor wornCloak = new Armor(WORN_CLOAK, 2, "Robes");
+    static Armor wornCloak = new Armor(WORN_CLOAK, 2, "cloak");
     static Armor explorerSweater = new Armor(EXPLORER_SWEATER, 2, "Chestplate");
     static Armor explorerPants = new Armor(EXPLORER_PANTS, 2, "Leggings");
     static Armor dustyBoots = new Armor(DUSTY_BOOTS, 2, "Boots");

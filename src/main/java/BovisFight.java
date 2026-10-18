@@ -1,7 +1,7 @@
 /*
 Author: Jake Jiang -- Subscribe to Scrapnel on YT!
 Date  : 05/19/26
-Notes : Boss fight class. Fixed HUD health bar positioned at (100, 300). Fully expanded formatting.
+Notes : Boss fight class. Fixed HUD health bar at (0, 300) with automatic disappearance on boss death.
  */
 
 import java.awt.Graphics;
@@ -59,6 +59,13 @@ public class BovisFight extends Enemy
         bossToken = true;
         Map.enableBossMusic();
         System.out.println(bossToken);
+    }
+    
+    @Override
+    public void die() 
+    {
+        super.die();
+        bossToken = false; // Instantly hides health bar when Bovis dies
     }
     
     public void trackPlayer(int px, int py, int pRoomID) 
@@ -409,33 +416,32 @@ public class BovisFight extends Enemy
         }
     }
 
-    @Override
+   @Override
     public void draw(Graphics g) 
     {
         // 1. Draw Bovis's main sprite normally
         super.draw(g);
         
-        // 2. Render ONLY the PNG health bar asset at fixed screen coordinates (100, 300)
-        if (bossToken && getHealth() > 0 && !getEnemyType().equals("dead")) 
+        // 2. Render HUD elements when active, alive, and in Room 8
+        if (bossToken && getHealth() > 0 && !getEnemyType().equals("dead") && Player.getRoom() == 8) 
         {
+            // Draw solid black rectangle at (260, 40) matching btobypotions dimensions (276x22)
+            g.setColor(java.awt.Color.RED);
+            g.fillRect(260, 40, 276, 22);
+            
+            // Draw health bar at (0, 0)
             int currentHp = Math.max(0, getHealth());
             int percent = (int) (((double) currentHp / 200) * 100);
             percent = (percent / 10) * 10;
             
-            if (percent > 100) 
-            {
-                percent = 100;
-            }
-            if (percent < 0) 
-            {
-                percent = 0;
-            }
+            if (percent > 100) percent = 100;
+            if (percent < 0) percent = 0;
             
             Image healthBarImage = healthBarImages.get(percent);
             
             if (healthBarImage != null) 
             {
-                g.drawImage(healthBarImage, 100, 300, null);
+                g.drawImage(healthBarImage, 0, 0, null);
             }
         }
     }
