@@ -21,13 +21,13 @@ public class Armor extends Item {
     public static final Image SOLDIER_BOOTS = Tools.getNewImageIcon("Soldier Boots.png");
     
     //Elite Guard Gear Images
-    public static final Image ELITE_GUARD_HELMET = Tools.getNewImageIcon("elite-helmet-gif-pixilart (1).gif");
+    public static final Image ELITE_GUARD_HELMET = Tools.getNewImageIcon("Elite Helmet.gif");
     public static final Image ELITE_GUARD_CHESTPLATE = Tools.getNewImageIcon("Elite Chestplate.png");
-    public static final Image ELITE_GUARD_ROBE_BOTTOMS = Tools.getNewImageIcon("(newer)elite-guard-leggings.png");
+    public static final Image ELITE_GUARD_ROBE_BOTTOMS = Tools.getNewImageIcon("Elite Leggings.png");
     public static final Image ELITE_GUARD_BOOTS = Tools.getNewImageIcon("Elite Boots.png");
     
     // Artifact Gear Images
-    public static final Image ARTIFACT_HELMET = Tools.getNewImageIcon("Artifact Helmet");
+    public static final Image ARTIFACT_HELMET = Tools.getNewImageIcon("Artifact Helmet.png");
     public static final Image ARTIFACT_CHESTPLATE = Tools.getNewImageIcon("artifact-chestplate-pixilart.png");
     public static final Image ARTIFACT_ROBE_BOTTOMS = Tools.getNewImageIcon("artifact-leggings-pixilart.png");
     public static final Image ARTIFACT_BOOTS = Tools.getNewImageIcon("artifact-boots-pixilart.png");
