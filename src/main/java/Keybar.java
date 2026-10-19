@@ -1,30 +1,40 @@
-    //Siddarth Iyer
-    // Date:  10/11/2026
-    //Rev : 01
-    //Notes : This class is responsible for creating the keybar objects.
-    // The keybar is essentially the place for the keys
-    
-    import java.awt.Graphics;
+// Author : Siddarth Iyer
+// Date   : 10/18/2026
+// Rev    : 03
+// Notes  : Keybar HUD inventory manager.
 
-    public class Keybar {
-   
-        private int x;
-        private int y;
-        private Item item;
+import java.awt.Graphics;
 
-    // Static array holding your two key slots
+public class Keybar {
+
+    private int x;
+    private int y;
+    private Item item;
+
     private static Keybar[] keybar = new Keybar[2];
 
     static {
-        // Initialize the two key slots with their coordinates under the KEYS text
         keybar[0] = new Keybar(915, 562);
         keybar[1] = new Keybar(989, 562);
     }
 
-    public Keybar(int x, int y){
+    public Keybar(int x, int y) {
         this.x = x;
         this.y = y;
         this.item = null;
+    }
+
+    public static void setBar(int index, Item item) {
+        if (index >= 0 && index < keybar.length && keybar[index] != null) {
+            keybar[index].updateItem(item);
+        }
+    }
+
+    public static Item getSlot(int index) {
+        if (index >= 0 && index < keybar.length && keybar[index] != null) {
+            return keybar[index].getItem();
+        }
+        return null;
     }
 
     public void updateItem(Item item) {
@@ -34,7 +44,7 @@
     public Item getItem() {
         return item;
     }
-    
+
     public int getX() {
         return x;
     }
@@ -48,9 +58,10 @@
     }
 
     public static void addKey(Item key) {
+        if (key == null) return;
         if (keybar[0].getItem() == null) {
             keybar[0].updateItem(key);
-        } else {
+        } else if (keybar[1].getItem() == null) {
             keybar[1].updateItem(key);
         }
     }

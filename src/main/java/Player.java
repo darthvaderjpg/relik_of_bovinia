@@ -31,8 +31,8 @@ public class Player implements ImageObserver
     
     // Other player fields.
     private static int currency = 0;
-    private static int health = 1;
-    private static int maxHealth = 1;
+    private static int health = 100000000;
+    private static int maxHealth = 100000000;
     private static int baseDamage = 1;
     private static int currentDamage = baseDamage;
     private static int x = 708;

@@ -1,19 +1,13 @@
 /*
 Author: Jake Jiang
-Co-Editor: Ofer Koren
-Date  : 05/15/26
-Notes : This class will store all the dialogue images here
-        and is capable of returning which dialogue to use
-        based off of how many dialogues the player has gone through. 
-        Restarting the game will currently not reset the dialogues.
-        Updated: Added starter gear rewards (Sweater & Cracked Helmet) 
-        upon finishing Grandpa's dialogue sequence.
+Co-Editor: Ofer Koren / Siddarth Iyer
+Date  : 10/18/2026
+Notes : Stores dialogue animations and processes state transitions for all game NPCs.
+        Updated: Added keynpc case handling and Keybar deposit upon completing KeyNPC dialogue.
  */
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
-
-//import javax.swing.*;
 
 public class Dialogue implements ImageObserver 
 {
@@ -47,13 +41,17 @@ public class Dialogue implements ImageObserver
     private static final Image BOVIS_DIALOGUE_ANIMATION_5 = Tools.getNewImageIcon("BOVIS_DIALOGUE_ANIMATION_5.gif");
     
     // Error model in case anything goes wrong.
-    //private final static Image ERROR = (new ImageIcon("ERROR.png")).getImage();
+    private final static Image ERROR = Tools.getNewImageIcon("ERROR.png");
+
+    // Key NPC's dialogue animations (gif).
+    private static final Image KEY_NPC_DIALOGUE_ANIMATION_1 = Tools.getNewImageIcon("KEY_NPC_DIALOGUE_ANIMATION_1.gif");
 
     private static int currentDudeLine = 0;
     private static int currentGrandpaLine = 0;
     private static int currentShopLine = 0;
     private static int currentRelikLine = 0;
     private static int currentBovisLine = 0;
+    private static int currentKeyNPCLine = 0;
     private static String currentNPC = "";
         
     // Methods.
@@ -77,6 +75,9 @@ public class Dialogue implements ImageObserver
             
             case "bovisTalk":
                 return getBovisDialogueModel();
+
+            case "keynpc":
+                return getKeyNPCDialogueModel();
                 
             default:
                 return null;
@@ -107,6 +108,10 @@ public class Dialogue implements ImageObserver
             case "bovisTalk":
                 currentBovisLine++;
                 break;
+
+            case "keynpc":
+                currentKeyNPCLine++;
+                break;
         }
     }
     
@@ -131,7 +136,28 @@ public class Dialogue implements ImageObserver
                 return null;
         }
     }
-    
+
+    // Returns Key NPC's models and functionality.
+    public static Image getKeyNPCDialogueModel()
+    {
+        switch (currentKeyNPCLine)
+        {
+            case 0:
+                return null;
+            
+            case 1:
+                Player.setMoveState(false);
+                return KEY_NPC_DIALOGUE_ANIMATION_1;
+            
+            default:
+                Keybar.addKey(Key.templeKey);
+                Player.setMoveState(true);
+                currentKeyNPCLine = 0;
+                currentNPC = "";
+                return null;
+        }
+    }
+
     // Returns grandpa's models and functionality.
     public static Image getGrandpaDialogueModel() 
     {
@@ -167,8 +193,9 @@ public class Dialogue implements ImageObserver
             
             case 9:
                 return GRANDPA_DIALOGUE_ANIMATION_9;
+
             default:
-                //starter gear
+                // starter gear
                 Hotbar.updateHotbar(Armor.explorerSweater);
                 Hotbar.updateHotbar(Armor.crackedHelmet);
                 Hotbar.updateHotbar(Cloak.oldCloak);
@@ -245,6 +272,7 @@ public class Dialogue implements ImageObserver
             case 5:
                 currentBovisLine = 6;
                 return BOVIS_DIALOGUE_ANIMATION_5;  
+
             case 6:
                 BovisFight.startBoss();
                 
@@ -271,7 +299,10 @@ public class Dialogue implements ImageObserver
     // Draws the dialogue.
     public static void draw(Graphics g)
     {
-        g.drawImage(Dialogue.getDialogueModel(), 0, -5, null);
+        Image currentImg = Dialogue.getDialogueModel();
+        if (currentImg != null) {
+            g.drawImage(currentImg, 0, -5, null);
+        }
     }
 
     // Unused but necessary method for ImageObserver.

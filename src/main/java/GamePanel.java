@@ -2,7 +2,7 @@
 // Co Editor: Jake Jiang SUB TO SCRAPNEL!!!
 // Editor 3: Siddarth Iyer
 // Date   : 5/19/2026
-// Rev    : 09
+// Rev    : 10
 // Notes  : Manages background, player, NPCs, dynamic room enemy respawning with random counts, and Boss.
 
 import java.awt.*;
@@ -194,7 +194,9 @@ public class GamePanel extends JPanel
         shopkeeper.testInteraction(Player.getX(), Player.getY(), shopkeeper.getX(), shopkeeper.getY(), shopkeeper.getCollisionRadius(), "shopkeeper");
         relik.testInteraction(Player.getX(), Player.getY(), relik.getX(), relik.getY(), relik.getCollisionRadius(), "relik");
         bovisTalk.testInteraction(Player.getX(), Player.getY(), bovisTalk.getX(), bovisTalk.getY(), bovisTalk.getCollisionRadius(), "bovisTalk");
-        keyNPC.testInteraction(Player.getX(), Player.getY(), keyNPC.getX(), keyNPC.getY(), keyNPC.getCollisionRadius(), "keyNPC");
+        
+        // FIXED: Changed "keyNPC" to lowercase "keynpc" to match Dialogue.java
+        keyNPC.testInteraction(Player.getX(), Player.getY(), keyNPC.getX(), keyNPC.getY(), keyNPC.getCollisionRadius(), "keynpc");
 
         // Update room availability check and AI tracking for all enemies
         for (Enemy e : enemies) {
