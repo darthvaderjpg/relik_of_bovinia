@@ -1,9 +1,8 @@
-// Author : Ofer Koren
+// Author : Ofer Koren & Siddarth Iyer
 // Co Editor: Jake Jiang SUB TO SCRAPNEL!!!
-// Editor 3: Siddarth Iyer
-// Date   : 5/19/2026
-// Rev    : 14
-// Notes  : Manages background, player, NPCs, enemy respawning, Boss, KeyNPC, and solid Lock collision in Room 4.
+// Date: 5/19/2026
+// Rev: 24
+// Notes: None
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,8 +12,6 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private final static Image DEATH_SCREEN = Tools.getNewImageIcon("you-died-pixilart.png");
-private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH_SCREEN.png");
     
     Map background = new Map();
     
@@ -24,15 +21,19 @@ private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH
     NPC relik = new Relik();
     NPC bovisTalk = new BovisTalk();
     NPC keyNPC = new KeyNPC();
-    NPC lock = new Lock(); // Instantiated Lock for Room 4 at (260, 600)
+    NPC lock = new Lock();
     
     Numbers numbers1 = new Numbers(949, 16, "Ruby");
     Numbers numbers2 = new Numbers(590, 250, "Shop");
     
-    //Enemy Array
+    // Death screen images using exact filenames
+    private final static Image STANDARD_DEATH_SCREEN = Tools.getNewImageIcon("you-died-pixilart.png");
+    private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("yougotcorrupted.png");
+    
+    // Enemy Array
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     
-    // Boss in Room 8
+    // Bovis
     public static BovisFight bovis = new BovisFight(800, 400, 8);
     
     // Tracks previous room to detect room transitions for respawning
@@ -49,20 +50,20 @@ private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH
         }
     }
     
-    //Enemies Respawn
+    // Enemies Respawn
     private void spawnEnemiesForRoom(int roomID) {
         Random rand = new Random();
         int count = 0;
         
         switch (roomID) {
-            case 2: // Room 2: Random 3 to 6 Infarctus each time they respawn
-                count = rand.nextInt(4) + 3; // 3, 4, 5, or 6
+            case 2:
+                count = rand.nextInt(4) + 3;
                 for (int i = 0; i < count; i++) {
                     enemies.add(new Infarctus(rand.nextInt(600) + 100, rand.nextInt(350) + 200, roomID));
                 }
                 break;
                 
-            case 3: // Room 3: Exactly 3 Infarctus
+            case 3:
                 count = 3;
                 for (int i = 0; i < count; i++) {
                     enemies.add(new Infarctus(rand.nextInt(600) + 100, rand.nextInt(350) + 200, roomID));
@@ -70,7 +71,7 @@ private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH
                 break;
                 
             case 4: 
-                count = rand.nextInt(3) + 5; // 5, 6, or 7
+                count = rand.nextInt(3) + 5;
                 for (int i = 0; i < count; i++) {
                     int x = rand.nextInt(600) + 100;
                     int y = rand.nextInt(350) + 200;
@@ -135,6 +136,30 @@ private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH
     {
         super.paintComponent(g);
         
+        // --- DEATH SCREEN CHECK ---
+        if (Player.isDead()) {
+            // Render room-specific death background
+            if (Player.getRoom() == 8 && BOSS_DEATH_SCREEN != null) {
+                g.drawImage(BOSS_DEATH_SCREEN, 0, 0, getWidth(), getHeight(), null);
+            } else if (STANDARD_DEATH_SCREEN != null) {
+                g.drawImage(STANDARD_DEATH_SCREEN, 0, 0, getWidth(), getHeight(), null);
+            } else {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, getWidth(), getHeight());
+                g.setColor(Color.RED);
+                g.setFont(new Font("Press Start 2P", Font.BOLD, 32));
+                g.drawString("YOU DIED", 280, 350);
+            }
+            
+            // Render "Press space" prompt in Press Start 2P font
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
+            g.drawString("Press space", getWidth() / 2 - 80, getHeight() - 100);
+
+            repaint();
+            return; // Skip normal gameplay updates while dead
+        }
+        
         int currentRoom = Player.getRoom();
         if (currentRoom != lastRoom) {
             if (lastRoom != -1) {
@@ -156,7 +181,7 @@ private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH
         relik.draw(g);
         bovisTalk.draw(g);
         keyNPC.draw(g);
-        lock.draw(g); // Draws Lock in Room 4 at (260, 600)
+        lock.draw(g);
         
         for (Enemy e : enemies) {
             e.draw(g);
@@ -186,7 +211,7 @@ private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH
         }
         
         Hotbar.draw(g);
-        Inventory.draw(g); // puts the items in their slots
+        Inventory.draw(g);
         Dialogue.draw(g);
         numbers1.draw(g);
         numbers2.draw(g);
@@ -197,17 +222,14 @@ private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH
         relik.testInteraction(Player.getX(), Player.getY(), relik.getX(), relik.getY(), relik.getCollisionRadius(), "relik");
         bovisTalk.testInteraction(Player.getX(), Player.getY(), bovisTalk.getX(), bovisTalk.getY(), bovisTalk.getCollisionRadius(), "bovisTalk");
         
-        // Only test interaction if Key NPC has not been collected yet
         if (!KeyNPC.isCollected()) {
             keyNPC.testInteraction(Player.getX(), Player.getY(), keyNPC.getX(), keyNPC.getY(), keyNPC.getCollisionRadius(), "keynpc");
         }
 
-        // Only test interaction if Lock has not been unlocked yet
         if (!Lock.isUnlocked()) {
             lock.testInteraction(Player.getX(), Player.getY(), lock.getX(), lock.getY(), lock.getCollisionRadius(), "locknpc");
         }
 
-        // Update room availability check and AI tracking for all enemies
         for (Enemy e : enemies) {
             e.getTargetAvailability(Player.getRoom());
             e.trackPlayer(Player.getX(), Player.getY(), Player.getRoom());
@@ -219,13 +241,11 @@ private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH
 
         Player.run();
 
-        // If in Room 4 and Lock is locked, prevent player from walking into the Lock barrier
         if (Player.getRoom() == 4 && !Lock.isUnlocked()) {
             double dx = Player.getX() - lock.getX();
             double dy = Player.getY() - lock.getY();
             double distance = Math.hypot(dx, dy);
 
-            // 60-pixel solid physical barrier radius around Lock
             if (distance < 60) {
                 Player.setX(prevPlayerX);
                 Player.setY(prevPlayerY);

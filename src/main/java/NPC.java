@@ -2,7 +2,7 @@
 // Co-Editor: Jake Jiang & Siddarth Iyer
 // Date   : 10/18/2026
 // Rev    : 03
-// Notes  : Updated testInteraction to initialize currentNPC if unassigned when 'E' is pressed.
+// Notes  : None
 
 import java.awt.Graphics;
 import java.awt.Image;

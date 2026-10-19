@@ -75,7 +75,7 @@ public class Numbers implements ImageObserver
 		}
 	}
 	
-	// Returns the number cross (Looks like this: 52x) as an image.
+	
 	public Image getNumberCross()
 	{
 		return NUMBER_CROSS;

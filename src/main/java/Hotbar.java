@@ -2,7 +2,8 @@
 //Editor: Ofer Koren
 //Date: 5/14/2026
 //Rev:28
-//Notes: Added clear() method for player death wipe.
+//Notes: You lose your stuff upon death
+//essentially a Rouguelike
 
 import java.awt.Graphics;
 import java.awt.Image;

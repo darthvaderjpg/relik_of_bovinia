@@ -1,7 +1,7 @@
 // Author : Ofer Koren / Siddarth Iyer
 // Date   : 10/18/2026
 // Rev    : 03
-// Notes  : Lock object positioned in Room 4 at (260, 600) requiring templeKey to unlock.
+// Notes  : A lock was created so you can't bypass the other rooms
 
 import java.awt.Image;
 

@@ -1,7 +1,7 @@
 // Name: Siddarth Iyer
 // Date: 10/13/2026
 // Rev: 03
-// Notes: Key item definitions for Spirit Key and Temple Key.
+// Notes: Keys
 
 import java.awt.Image;
 

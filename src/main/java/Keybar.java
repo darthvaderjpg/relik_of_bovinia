@@ -43,7 +43,7 @@ public class Keybar {
 
     public static void clear()
     {
-    // Clear all key slots (e.g. index 0 and 1)
+    // Clear all key slots
     setBar(0, null);
     setBar(1, null);
     }

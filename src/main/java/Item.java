@@ -1,6 +1,6 @@
 // Author : Siddarth Iyer
 // Notes  : Base item class handling factors, images, types, and routing enemy drops to Inventory/Hotbar. 
-//          Updated drop tables to include Cloaks and fix drop rollout logic.
+// All the items go directly to your inventory
 
 import java.awt.Image;
 import java.util.Random;

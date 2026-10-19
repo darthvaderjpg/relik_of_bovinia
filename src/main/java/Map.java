@@ -95,7 +95,7 @@ public class Map implements ImageObserver
         }
     }
 
-    // Returns spawn rate configuration and enemy weight distribution based on room number
+    // Returns Number of spawns. 
     public static SpawnConfig getRoomSpawnConfig(int room) {
         switch (room) {
             case 2: // Starter Forest: 3 to 6 Infarctus only

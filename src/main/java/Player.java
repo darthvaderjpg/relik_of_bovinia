@@ -1,9 +1,8 @@
-// Author : Ofer Koren 
+// Author : Ofer Koren & Siddarth Iyer
 // Editor : Jake Jiang -- Subscribe to Scrapnel on YT
-// Editor2 :Siddarth Iyer
 // Date   : 5/14/2026
 // Rev    : 09
-// Notes  : Updated base stats (1 HP, 1 Base Damage) and dynamic equipment-based max HP formula.
+// Notes  : none
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -47,7 +46,9 @@ public class Player implements ImageObserver
     private final static int OFFSET_X = -64;
     private final static int OFFSET_Y = -54;
     public static GamePanel gamePanel;
-    
+    private static boolean isDead = false;
+    public static BoviniaMusic musicManager;
+
     // Methods.
     
     // Handles collision, repainting, movement, and the debug menu.
@@ -222,73 +223,79 @@ public class Player implements ImageObserver
         }
     }
     
-  public static void die() 
-{
+ public static boolean isDead(){
+    return isDead;
+}
+
+public static void die(){
     Hotbar.addCoins(-2);
-    
-    // Wipe all storage bars upon death
-    Keybar.clear();
-    Hotbar.clear();
+
+    // Wipe inventory, hotbar, and keybar upon death
     Inventory.clear();
-    
+    Hotbar.clear();
+    Keybar.clear();
+
+    isDead = true;
+    canMove = false; // Freeze player movement during death screen
+    if (musicManager != null) {
+        musicManager.pauseMusic();
+    }
+}
+
+public static void respawn() {
     moveToRoom(0);
     setHealth(getMaxHealth());
+    isDead = false;
+    canMove = true; // Restore movement
+    if (musicManager != null) {
+        musicManager.changeRoom("overworld");
+        musicManager.resumeMusic();
+    }
 }
-    
-    public static Image getModel()
-    {
-        if (canMove)
-        {
-            if (Main.getIsPressingW())
-            {
+
+    public static Image getModel() {
+        if (canMove){
+            if (Main.getIsPressingW()){
                 isAttacking = false;
                 hasDealtDamage = false;
                 return PLAYER_WALKING_NORTH_MODEL;
             }
-            else if (Main.getIsPressingA())
-            {
+            else if (Main.getIsPressingA()) {
                 isAttacking = false;
                 hasDealtDamage = false;
                 return PLAYER_WALKING_WEST_MODEL;
             }
-            else if (Main.getIsPressingS())
-            {
+            else if (Main.getIsPressingS()){
                 isAttacking = false;
                 hasDealtDamage = false;
                 return PLAYER_WALKING_SOUTH_MODEL;
             }
-            else if (Main.getIsPressingD())
-            {
+            else if (Main.getIsPressingD()){
                 isAttacking = false;
                 hasDealtDamage = false;
                 return PLAYER_WALKING_EAST_MODEL;
             }
-            else if (Main.getLastButtonPressed().equals("W") && !Main.getIsPressingSpace())
-            {
+            else if (Main.getLastButtonPressed().equals("W") && !Main.getIsPressingSpace()){
                 isAttacking = false;
                 hasDealtDamage = false;
                 return PLAYER_STANDING_NORTH_MODEL;
             }
-            else if (Main.getLastButtonPressed().equals("A") && !Main.getIsPressingSpace())
-            {
+            else if (Main.getLastButtonPressed().equals("A") && !Main.getIsPressingSpace()){
                 isAttacking = false;
                 hasDealtDamage = false;
                 return PLAYER_STANDING_WEST_MODEL;
             }
-            else if (Main.getLastButtonPressed().equals("S") && !Main.getIsPressingSpace())
-            {
+            else if (Main.getLastButtonPressed().equals("S") && !Main.getIsPressingSpace()){
                 isAttacking = false;
                 hasDealtDamage = false;
                 return PLAYER_STANDING_SOUTH_MODEL;
             }   
-            else if (Main.getLastButtonPressed().equals("D") && !Main.getIsPressingSpace())
-            {
+            else if (Main.getLastButtonPressed().equals("D") && !Main.getIsPressingSpace()){
                 isAttacking = false;
                 hasDealtDamage = false;
                 return PLAYER_STANDING_EAST_MODEL;
             }
-            else if (Main.getLastButtonPressed().equals("W") && Main.getIsPressingSpace())
-            {
+            else if (Main.getLastButtonPressed().equals("W") && Main.getIsPressingSpace()){
                 if (!isAttacking)
                 {
                     hasDealtDamage = false;
@@ -296,8 +303,7 @@ public class Player implements ImageObserver
                 isAttacking = true;
                 return PLAYER_ATTACKING_NORTH_MODEL;
             }
-            else if (Main.getLastButtonPressed().equals("A") && Main.getIsPressingSpace())
-            {
+            else if (Main.getLastButtonPressed().equals("A") && Main.getIsPressingSpace()){
                 if (!isAttacking)
                 {
                     hasDealtDamage = false;
@@ -305,8 +311,7 @@ public class Player implements ImageObserver
                 isAttacking = true;
                 return PLAYER_ATTACKING_WEST_MODEL;
             }
-            else if (Main.getLastButtonPressed().equals("S") && Main.getIsPressingSpace())
-            {
+            else if (Main.getLastButtonPressed().equals("S") && Main.getIsPressingSpace()){
                 if (!isAttacking)
                 {
                     hasDealtDamage = false;
@@ -314,8 +319,7 @@ public class Player implements ImageObserver
                 isAttacking = true;
                 return PLAYER_ATTACKING_SOUTH_MODEL;
             }
-            else if (Main.getLastButtonPressed().equals("D") && Main.getIsPressingSpace())
-            {
+            else if (Main.getLastButtonPressed().equals("D") && Main.getIsPressingSpace()){
                 if (!isAttacking)
                 {
                     hasDealtDamage = false;
@@ -330,15 +334,13 @@ public class Player implements ImageObserver
     
     public static int getHealth()
     {
-        if (health <= 0) 
-        {
+        if (health <= 0){
             Player.die();
         }
         return health;
     }
     
-    public static int getMaxHealth()
-    {   
+    public static int getMaxHealth(){   
         int baseMaxHealth = 1; // Base player HP is 1
         int armorBonus = 0;
         

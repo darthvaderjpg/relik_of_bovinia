@@ -8,13 +8,13 @@ import java.awt.Image;
 
 public class Inventory {
     
-    // 4 distinct, standalone slot instances
+    
     private static InventorySlot helmetSlot;
     private static InventorySlot chestplateSlot;
     private static InventorySlot leggingsSlot;
     private static InventorySlot bootsSlot;
 
-    // Explicitly configure the exact (X, Y) pixel coordinates for each individual slot
+    
     static {
         helmetSlot     = new InventorySlot(823, 410); // Slot 0: Helmet
         chestplateSlot = new InventorySlot(823, 488); // Slot 1: Chestplate
@@ -40,8 +40,8 @@ public class Inventory {
     }
 
  public static void clear() {
-    // Loop through all inventory slots and set them to null
-    for (int i = 0; i < 4; i++) { // Adjust 20 if your inventory has more or fewer slots
+    // Loops through all inventory slots and sets them to null
+    for (int i = 0; i < 4; i++) { 
         setSlot(i, null);
     }
 }
@@ -99,7 +99,7 @@ public class Inventory {
                 if (imgWidth <= 0) imgWidth = 32;
                 if (imgHeight <= 0) imgHeight = 32;
                 
-                // Centering math calculated specifically for this slot box
+                
                 int drawX = x + (SLOT_SIZE - imgWidth) / 2;
                 int drawY = y + (SLOT_SIZE - imgHeight) / 2;
                 

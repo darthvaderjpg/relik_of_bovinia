@@ -1,8 +1,8 @@
-// Author : Ofer Koren
+// Author: Ofer Koren
 //CoEditor: Jake Jiang the GOAT
-// Date   : 05/25/2026
-// Rev    : 01
-// Notes  : this class withholds within it the data for bovis to talk right before the boss fight and is a child of NPC
+// Date: 05/25/2026
+// Rev: 01
+// Notes: this class withholds within it the data for bovis to talk right before the boss fight and is a child of NPC
 
 import java.awt.Image;
 //import javax.swing.ImageIcon;

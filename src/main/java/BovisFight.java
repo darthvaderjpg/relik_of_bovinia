@@ -1,7 +1,7 @@
 /*
 Author: Jake Jiang -- Subscribe to Scrapnel on YT!
 Date  : 05/19/26
-Notes : Boss fight class. Updated health bar percentage calculation for 2000 HP Bovis.
+Notes : Boss fight class.
  */
 
 import java.awt.Graphics;

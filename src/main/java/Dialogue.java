@@ -1,9 +1,9 @@
 /*
 Author: Jake Jiang
 Co-Editor: Ofer Koren / Siddarth Iyer
-Date  : 10/18/2026
-Notes : Stores dialogue animations and processes state transitions for all game NPCs.
-        Updated: Moved JOptionPane triggers into transitionDialogueModel to prevent infinite modal popup loops.
+Date: 10/18/2026
+Notes: Stores dialogue animations and processes state transitions for all game NPCs.
+Moved JOptionPane triggers into transitionDialogueModel to prevent infinite popup loops. (Nearly Crashed my computer)
  */
 
 import java.awt.*;
