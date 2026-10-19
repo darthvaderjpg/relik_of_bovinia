@@ -7,7 +7,7 @@ import java.awt.Image;
 
 public class Key extends Item {
     public static final Image SPIRIT_KEY = Tools.getNewImageIcon("spirit-key-pixilart.png");
-    public static final Image TEMPLE_KEY = Tools.getNewImageIcon("special-key-pixilart.png");
+    public static final Image TEMPLE_KEY = Tools.getNewImageIcon("Temple Key.png");
 
     private int keyValue;
 

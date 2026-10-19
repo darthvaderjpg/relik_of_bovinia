@@ -39,6 +39,12 @@ public class Inventory {
         }
     }
 
+ public static void clear() {
+    // Loop through all inventory slots and set them to null
+    for (int i = 0; i < 4; i++) { // Adjust 20 if your inventory has more or fewer slots
+        setSlot(i, null);
+    }
+}
     public static Item getSlot(int index) {
         switch (index) {
             case 0: return helmetSlot.getItem();

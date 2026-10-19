@@ -14,8 +14,8 @@ public class Keybar {
     private static Keybar[] keybar = new Keybar[2];
 
     static {
-        keybar[0] = new Keybar(915, 562);
-        keybar[1] = new Keybar(989, 562);
+        keybar[0] = new Keybar(900, 564);
+        keybar[1] = new Keybar(989, 564);
     }
 
     public Keybar(int x, int y) {
@@ -39,6 +39,13 @@ public class Keybar {
 
     public void updateItem(Item item) {
         this.item = item;
+    }
+
+    public static void clear()
+    {
+    // Clear all key slots (e.g. index 0 and 1)
+    setBar(0, null);
+    setBar(1, null);
     }
 
     public Item getItem() {

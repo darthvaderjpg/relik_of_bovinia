@@ -3,11 +3,12 @@ Author: Jake Jiang
 Co-Editor: Ofer Koren / Siddarth Iyer
 Date  : 10/18/2026
 Notes : Stores dialogue animations and processes state transitions for all game NPCs.
-        Updated: Added keynpc case handling and Keybar deposit upon completing KeyNPC dialogue.
+        Updated: Moved JOptionPane triggers into transitionDialogueModel to prevent infinite modal popup loops.
  */
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
+import javax.swing.JOptionPane;
 
 public class Dialogue implements ImageObserver 
 {
@@ -46,12 +47,17 @@ public class Dialogue implements ImageObserver
     // Key NPC's dialogue animations (gif).
     private static final Image KEY_NPC_DIALOGUE_ANIMATION_1 = Tools.getNewImageIcon("KEY_NPC_DIALOGUE_ANIMATION_1.gif");
 
+    // Lock NPC's dialogue animations (gif).
+    private static final Image LOCK_NPC_LOCKED_ANIMATION = Tools.getNewImageIcon("LOCK_NPC_LOCKED_ANIMATION.gif");
+    private static final Image LOCK_NPC_UNLOCKED_ANIMATION = Tools.getNewImageIcon("LOCK_NPC_UNLOCKED_ANIMATION.gif");
+
     private static int currentDudeLine = 0;
     private static int currentGrandpaLine = 0;
     private static int currentShopLine = 0;
     private static int currentRelikLine = 0;
     private static int currentBovisLine = 0;
     private static int currentKeyNPCLine = 0;
+    private static int currentLockNPCLine = 0;
     private static String currentNPC = "";
         
     // Methods.
@@ -78,13 +84,16 @@ public class Dialogue implements ImageObserver
 
             case "keynpc":
                 return getKeyNPCDialogueModel();
+
+            case "locknpc":
+                return getLockNPCDialogueModel();
                 
             default:
                 return null;
         }
     }
     
-    // Increases the dialogue value by one.
+    // Increases the dialogue value by one and executes state logic upon release.
     public static void transitionDialogueModel()
     {
         switch (currentNPC)
@@ -112,6 +121,46 @@ public class Dialogue implements ImageObserver
             case "keynpc":
                 currentKeyNPCLine++;
                 break;
+
+            case "locknpc":
+                currentLockNPCLine++;
+                handleLockTransition();
+                break;
+        }
+    }
+
+    // Handles the Lock NPC state transition & popup ONCE when key is released
+    private static void handleLockTransition()
+    {
+        boolean hasKey = (Keybar.getSlot(0) == Key.templeKey || Keybar.getSlot(1) == Key.templeKey);
+
+        if (currentLockNPCLine == 1)
+        {
+            Player.setMoveState(false);
+            if (hasKey)
+            {
+                JOptionPane.showMessageDialog(null, "You used the Temple Key", "Door Unlocked", JOptionPane.INFORMATION_MESSAGE);
+                // Remove key from Keybar upon unlocking
+                if (Keybar.getSlot(0) == Key.templeKey)
+                {
+                    Keybar.setBar(0, null);
+                }
+                else if (Keybar.getSlot(1) == Key.templeKey)
+                {
+                    Keybar.setBar(1, null);
+                }
+                
+                Lock.setUnlocked(true); // Barrier vanishes permanently
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Looks like you need a key!", "Door Locked", JOptionPane.WARNING_MESSAGE);
+            }
+
+            // Clean up state immediately after dismissal
+            Player.setMoveState(true);
+            currentLockNPCLine = 0;
+            currentNPC = "";
         }
     }
     
@@ -151,9 +200,24 @@ public class Dialogue implements ImageObserver
             
             default:
                 Keybar.addKey(Key.templeKey);
+                KeyNPC.setCollected(true);
                 Player.setMoveState(true);
                 currentKeyNPCLine = 0;
                 currentNPC = "";
+                return null;
+        }
+    }
+
+    // Returns Lock NPC's dialogue animation models during rendering.
+    public static Image getLockNPCDialogueModel()
+    {
+        boolean hasKey = (Keybar.getSlot(0) == Key.templeKey || Keybar.getSlot(1) == Key.templeKey);
+
+        switch (currentLockNPCLine)
+        {
+            case 1:
+                return hasKey ? LOCK_NPC_UNLOCKED_ANIMATION : LOCK_NPC_LOCKED_ANIMATION;
+            default:
                 return null;
         }
     }
@@ -195,7 +259,6 @@ public class Dialogue implements ImageObserver
                 return GRANDPA_DIALOGUE_ANIMATION_9;
 
             default:
-                // starter gear
                 Hotbar.updateHotbar(Armor.explorerSweater);
                 Hotbar.updateHotbar(Armor.crackedHelmet);
                 Hotbar.updateHotbar(Cloak.oldCloak);

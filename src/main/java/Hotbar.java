@@ -1,8 +1,8 @@
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
 //Date: 5/14/2026
-//Rev:27
-//Notes: Added automatic Player current health scaling/refill upon equipping new armor/cloaks.
+//Rev:28
+//Notes: Added clear() method for player death wipe.
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -40,7 +40,7 @@ public class Hotbar implements ImageObserver {
     private static HotbarSlot[] hotbar = new HotbarSlot[3];
 
     static {
-        hotbar[0] = new HotbarSlot(815, 262);  // Slot 1: Left (Weapon)
+        hotbar[0] = new HotbarSlot(810, 262);  // Slot 1: Left (Weapon)
         hotbar[1] = new HotbarSlot(915, 275);  // Slot 2: Center (Potion)
         hotbar[2] = new HotbarSlot(989, 262); // Slot 3: Right (Cloak)
     }
@@ -195,6 +195,22 @@ public class Hotbar implements ImageObserver {
     public static Armor getLeggings() { return leggings; }
     public static Armor getBoots() { return boots; }
     public static Armor getCloaks() { return cloaks; }
+    
+    // Clear method for death penalty wipe
+    public static void clear() {
+        potionCount = 0;
+        for (int i = 0; i < hotbar.length; i++) {
+            if (hotbar[i] != null) {
+                hotbar[i].updateItem(null);
+            }
+        }
+        weapon = null;
+        helmet = null;
+        chestplate = null;
+        leggings = null;
+        boots = null;
+        cloaks = null;
+    }
     
     public static void draw(Graphics g) {
         //Gets the current area your in

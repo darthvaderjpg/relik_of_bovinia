@@ -31,8 +31,8 @@ public class Player implements ImageObserver
     
     // Other player fields.
     private static int currency = 0;
-    private static int health = 100000000;
-    private static int maxHealth = 100000000;
+    private static int health = 1;
+    private static int maxHealth = 1;
     private static int baseDamage = 1;
     private static int currentDamage = baseDamage;
     private static int x = 708;
@@ -222,12 +222,18 @@ public class Player implements ImageObserver
         }
     }
     
-    public static void die() 
-    {
-        Hotbar.addCoins(-2);
-        moveToRoom(0);
-        setHealth(getMaxHealth());
-    }
+  public static void die() 
+{
+    Hotbar.addCoins(-2);
+    
+    // Wipe all storage bars upon death
+    Keybar.clear();
+    Hotbar.clear();
+    Inventory.clear();
+    
+    moveToRoom(0);
+    setHealth(getMaxHealth());
+}
     
     public static Image getModel()
     {
@@ -527,6 +533,16 @@ public class Player implements ImageObserver
     {
         g.drawImage(getModel(), getX() + OFFSET_X, getY() + OFFSET_Y, null);
     }
+
+    public static void setX(int newX)
+{
+    x = newX;
+}
+
+public static void setY(int newY)
+{
+    y = newY;
+}
 
     @Override
     public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) 

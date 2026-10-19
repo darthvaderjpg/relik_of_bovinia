@@ -2,8 +2,8 @@
 // Co Editor: Jake Jiang SUB TO SCRAPNEL!!!
 // Editor 3: Siddarth Iyer
 // Date   : 5/19/2026
-// Rev    : 10
-// Notes  : Manages background, player, NPCs, dynamic room enemy respawning with random counts, and Boss.
+// Rev    : 14
+// Notes  : Manages background, player, NPCs, enemy respawning, Boss, KeyNPC, and solid Lock collision in Room 4.
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 public class GamePanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
+    private final static Image DEATH_SCREEN = Tools.getNewImageIcon("you-died-pixilart.png");
+private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("BOSS_DEATH_SCREEN.png");
     
     Map background = new Map();
     
@@ -22,6 +24,7 @@ public class GamePanel extends JPanel
     NPC relik = new Relik();
     NPC bovisTalk = new BovisTalk();
     NPC keyNPC = new KeyNPC();
+    NPC lock = new Lock(); // Instantiated Lock for Room 4 at (260, 600)
     
     Numbers numbers1 = new Numbers(949, 16, "Ruby");
     Numbers numbers2 = new Numbers(590, 250, "Shop");
@@ -132,7 +135,6 @@ public class GamePanel extends JPanel
     {
         super.paintComponent(g);
         
-       
         int currentRoom = Player.getRoom();
         if (currentRoom != lastRoom) {
             if (lastRoom != -1) {
@@ -154,13 +156,13 @@ public class GamePanel extends JPanel
         relik.draw(g);
         bovisTalk.draw(g);
         keyNPC.draw(g);
-        
+        lock.draw(g); // Draws Lock in Room 4 at (260, 600)
         
         for (Enemy e : enemies) {
             e.draw(g);
         }
 
-        //Draws the boss
+        // Draws the boss
         bovis.draw(g);
         bovis.trackPlayer(Player.getX(), Player.getY(), Player.getRoom());
         bovis.infarctus01.draw(g);
@@ -195,8 +197,15 @@ public class GamePanel extends JPanel
         relik.testInteraction(Player.getX(), Player.getY(), relik.getX(), relik.getY(), relik.getCollisionRadius(), "relik");
         bovisTalk.testInteraction(Player.getX(), Player.getY(), bovisTalk.getX(), bovisTalk.getY(), bovisTalk.getCollisionRadius(), "bovisTalk");
         
-        // FIXED: Changed "keyNPC" to lowercase "keynpc" to match Dialogue.java
-        keyNPC.testInteraction(Player.getX(), Player.getY(), keyNPC.getX(), keyNPC.getY(), keyNPC.getCollisionRadius(), "keynpc");
+        // Only test interaction if Key NPC has not been collected yet
+        if (!KeyNPC.isCollected()) {
+            keyNPC.testInteraction(Player.getX(), Player.getY(), keyNPC.getX(), keyNPC.getY(), keyNPC.getCollisionRadius(), "keynpc");
+        }
+
+        // Only test interaction if Lock has not been unlocked yet
+        if (!Lock.isUnlocked()) {
+            lock.testInteraction(Player.getX(), Player.getY(), lock.getX(), lock.getY(), lock.getCollisionRadius(), "locknpc");
+        }
 
         // Update room availability check and AI tracking for all enemies
         for (Enemy e : enemies) {
@@ -204,7 +213,24 @@ public class GamePanel extends JPanel
             e.trackPlayer(Player.getX(), Player.getY(), Player.getRoom());
         }
 
+        // --- Solid Lock Collision Check ---
+        int prevPlayerX = Player.getX();
+        int prevPlayerY = Player.getY();
+
         Player.run();
+
+        // If in Room 4 and Lock is locked, prevent player from walking into the Lock barrier
+        if (Player.getRoom() == 4 && !Lock.isUnlocked()) {
+            double dx = Player.getX() - lock.getX();
+            double dy = Player.getY() - lock.getY();
+            double distance = Math.hypot(dx, dy);
+
+            // 60-pixel solid physical barrier radius around Lock
+            if (distance < 60) {
+                Player.setX(prevPlayerX);
+                Player.setY(prevPlayerY);
+            }
+        }
         
         try 
         {
