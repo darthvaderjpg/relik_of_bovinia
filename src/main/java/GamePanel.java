@@ -1,8 +1,8 @@
 // Author : Ofer Koren & Siddarth Iyer
 // Co Editor: Jake Jiang SUB TO SCRAPNEL!!!
-// Date: 5/19/2026
-// Rev: 24
-// Notes: None
+// Date: 10/18/2026
+// Rev: 41
+// Notes: Uses Hotbar.forceWeapon to guarantee Pocket Knife and Artifact Sword equipping.
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -38,6 +38,13 @@ public class GamePanel extends JPanel
     
     // Tracks previous room to detect room transitions for respawning
     private int lastRoom = -1;
+    
+    // Secret feature tracking for Dude & Artifact Armor evolution
+    private static int dudeHP = 12;
+    private static boolean dudeDefeated = false;
+    private static boolean artifactEvolved = false;
+    private static long lastHitTime = 0; // Cooldown timer for holding spacebar
+    private static boolean wasDeadLastFrame = false; // Tracks death transition for resetting Dude
     
     public GamePanel() {
         spawnAllRooms();
@@ -136,9 +143,21 @@ public class GamePanel extends JPanel
     {
         super.paintComponent(g);
         
+        boolean currentlyDead = Player.isDead();
+        
+        // Detects when the player transitions from dead to alive (respawn event)
+        if (wasDeadLastFrame && !currentlyDead) {
+            dudeHP = 12;
+            dudeDefeated = false;
+        }
+        wasDeadLastFrame = currentlyDead;
+        
         // --- DEATH SCREEN CHECK ---
-        if (Player.isDead()) {
-            // Render room-specific death background
+        if (currentlyDead) {
+            // Ensure Dude resets immediately upon death
+            dudeHP = 12;
+            dudeDefeated = false;
+
             if (Player.getRoom() == 8 && BOSS_DEATH_SCREEN != null) {
                 g.drawImage(BOSS_DEATH_SCREEN, 0, 0, getWidth(), getHeight(), null);
             } else if (STANDARD_DEATH_SCREEN != null) {
@@ -151,17 +170,45 @@ public class GamePanel extends JPanel
                 g.drawString("YOU DIED", 280, 350);
             }
             
-            // Render "Press space" prompt in Press Start 2P font
             g.setColor(Color.WHITE);
             g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
             g.drawString("Press space", getWidth() / 2 - 80, getHeight() - 100);
 
             repaint();
-            return; // Skip normal gameplay updates while dead
+            return;
         }
         
         int currentRoom = Player.getRoom();
         if (currentRoom != lastRoom) {
+            // --- ARTIFACT ARMOR & WEAPON EVOLUTION CHECK (ROOM 8) ---
+            if (currentRoom == 8 && !artifactEvolved) {
+                boolean hasSpiritKey = Keybar.hasKey("Spirit Key") || Keybar.hasKey(Key.spiritKey);
+                boolean hasFullEliteArmor = (Hotbar.getHelmet() == Armor.eliteHelmet &&
+                                             Hotbar.getChestplate() == Armor.eliteChestplate &&
+                                             Hotbar.getLeggings() == Armor.eliteRobeBottoms &&
+                                             Hotbar.getBoots() == Armor.eliteBoots);
+                boolean hasSwordToTransform = (Hotbar.getWeapon() == Weapon.mirrorSword || 
+                                               Hotbar.getWeapon() == Weapon.soldierSword);
+
+                if (hasSpiritKey && hasFullEliteArmor && hasSwordToTransform) {
+                    // Transform Armor
+                    Hotbar.setHelmet(Armor.artifactHelmet);
+                    Hotbar.setChestplate(Armor.artifactChestplate);
+                    Hotbar.setLeggings(Armor.artifactRobeBottoms);
+                    Hotbar.setBoots(Armor.artifactBoots);
+                    
+                    Inventory.setSlot(0, Armor.artifactHelmet);
+                    Inventory.setSlot(1, Armor.artifactChestplate);
+                    Inventory.setSlot(2, Armor.artifactRobeBottoms);
+                    Inventory.setSlot(3, Armor.artifactBoots);
+                    
+                    // Transform Weapon -> Artifact-Infused Sword
+                    Hotbar.forceWeapon(Weapon.artifactInfusedSword);
+                    
+                    artifactEvolved = true;
+                }
+            }
+
             if (lastRoom != -1) {
                 enemies.removeIf(e -> e.getRoomID() == lastRoom);
                 spawnEnemiesForRoom(lastRoom);
@@ -175,7 +222,10 @@ public class GamePanel extends JPanel
             g.drawImage(Hotbar.getNullUIModel(), 0, 0, null);
         }
         
-        dude.draw(g);
+        if (!dudeDefeated) {
+            dude.draw(g);
+        }
+        
         grandpa.draw(g);
         shopkeeper.draw(g);
         relik.draw(g);
@@ -205,7 +255,6 @@ public class GamePanel extends JPanel
         
         Player.draw(g);
         
-        // Draws the side UI
         if (Hotbar.getSideUIModel() != null) {
             g.drawImage(Hotbar.getSideUIModel(), 800, 0, null);
         }
@@ -216,7 +265,36 @@ public class GamePanel extends JPanel
         numbers1.draw(g);
         numbers2.draw(g);
 
-        dude.testInteraction(Player.getX(), Player.getY(), dude.getX(), dude.getY(), dude.getCollisionRadius(), "dude");
+        // --- DUDE 12-HP COMBAT TRIGGER ---
+        if (!dudeDefeated) {
+            dude.testInteraction(Player.getX(), Player.getY(), dude.getX(), dude.getY(), dude.getCollisionRadius(), "dude");
+            
+            boolean currentAttackPressed = Main.getIsPressingSpace();
+            long currentTime = System.currentTimeMillis();
+            
+            // Allows holding spacebar with a 200ms hit cooldown
+            if (Player.getRoom() == 0 && currentAttackPressed && (currentTime - lastHitTime >= 200)) {
+                double distance = Math.hypot(Player.getX() - dude.getX(), Player.getY() - dude.getY());
+                if (distance <= 150) { // Hit proximity radius
+                    dudeHP--;
+                    lastHitTime = currentTime;
+                    
+                    if (dudeHP <= 0) {
+                        dudeDefeated = true;
+                        
+                        // 1. Grants Spirit Key
+                        Keybar.addKey(Key.spiritKey);
+                        
+                        // 2. Force equips Pocket Knife into Hotbar Slot 1 (Slot 0 in array)
+                        Hotbar.forceWeapon(Weapon.pocketKnife);
+                        
+                        // 3. Teleports to Room 1
+                        Player.moveToRoom(1);
+                    }
+                }
+            }
+        }
+
         grandpa.testInteraction(Player.getX(), Player.getY(), grandpa.getX(), grandpa.getY(), grandpa.getCollisionRadius(), "grandpa");
         shopkeeper.testInteraction(Player.getX(), Player.getY(), shopkeeper.getX(), shopkeeper.getY(), shopkeeper.getCollisionRadius(), "shopkeeper");
         relik.testInteraction(Player.getX(), Player.getY(), relik.getX(), relik.getY(), relik.getCollisionRadius(), "relik");

@@ -27,10 +27,10 @@ public class Armor extends Item {
     public static final Image ELITE_GUARD_BOOTS = Tools.getNewImageIcon("Elite Boots.png");
     
     // Artifact Gear Images
-    public static final Image ARTIFACT_HELMET = Tools.getNewImageIcon("Artifact Helmet.png");
-    public static final Image ARTIFACT_CHESTPLATE = Tools.getNewImageIcon("artifact-chestplate-pixilart.png");
-    public static final Image ARTIFACT_ROBE_BOTTOMS = Tools.getNewImageIcon("artifact-leggings-pixilart.png");
-    public static final Image ARTIFACT_BOOTS = Tools.getNewImageIcon("artifact-boots-pixilart.png");
+    public static final Image ARTIFACT_HELMET = Tools.getNewImageIcon("Artifact Helmet.gif");
+    public static final Image ARTIFACT_CHESTPLATE = Tools.getNewImageIcon("Artifact Chestplate.png");
+    public static final Image ARTIFACT_ROBE_BOTTOMS = Tools.getNewImageIcon("Artifact Leggings.png");
+    public static final Image ARTIFACT_BOOTS = Tools.getNewImageIcon("Artifact Boots.png");
     
     private int hitPoints;
 

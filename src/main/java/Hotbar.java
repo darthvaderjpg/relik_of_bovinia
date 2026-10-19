@@ -1,9 +1,8 @@
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
-//Date: 5/14/2026
-//Rev:28
-//Notes: You lose your stuff upon death
-//essentially a Rouguelike
+//Date: 10/18/2026
+//Rev:29
+//Notes: Added forceWeapon method to allow guaranteed weapon equips (e.g. Pocket Knife from Dude).
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -53,6 +52,13 @@ public class Hotbar implements ImageObserver {
     private static Armor boots;
     private static Armor cloaks;
 
+    // Direct override to force weapon equip regardless of factor comparison
+    public static void forceWeapon(Weapon w) {
+        if (w == null) return;
+        weapon = w;
+        hotbar[0].updateItem(w);
+    }
+
     public static void updateHotbar(Item i) {
         if (i == null) return;
         
@@ -63,41 +69,35 @@ public class Hotbar implements ImageObserver {
         if (i instanceof Armor || type.contains("helm") || type.contains("chest") || type.contains("pant") || type.contains("boot") || type.contains("armor")) {
             Armor armor = (i instanceof Armor) ? (Armor) i : null;
             int newFactor = (armor != null) ? armor.getFactor() : i.getFactor();
-            boolean upgraded = false;
 
             if (type.contains("helm") || type.contains("head") || type.contains("cap") || str.contains("helm")) {
                 if (helmet == null || newFactor > helmet.getFactor()) {
                     setHelmet(armor);
                     Inventory.setSlot(0, i);
-                    upgraded = true;
                 }
             } 
             else if (type.contains("chest") || type.contains("plate") || type.contains("cuirass") || str.contains("chest")) {
                 if (chestplate == null || newFactor > chestplate.getFactor()) {
                     setChestplate(armor);
                     Inventory.setSlot(1, i);
-                    upgraded = true;
                 }
             } 
             else if (type.contains("pant") || type.contains("leg") || type.contains("bottom") || type.contains("explorer") || str.contains("pants")) {
                 if (leggings == null || newFactor > leggings.getFactor()) {
                     setLeggings(armor);
                     Inventory.setSlot(2, i);
-                    upgraded = true;
                 }
             } 
             else if (type.contains("boot") || type.contains("shoe") || str.contains("boot")) {
                 if (boots == null || newFactor > boots.getFactor()) {
                     setBoots(armor);
                     Inventory.setSlot(3, i);
-                    upgraded = true;
                 }
             } 
             else {
                 if (chestplate == null || newFactor > chestplate.getFactor()) {
                     setChestplate(armor);
                     Inventory.setSlot(1, i); 
-                    upgraded = true;
                 }
             }
             return;
@@ -118,7 +118,6 @@ public class Hotbar implements ImageObserver {
             hotbar[2].updateItem(i);
             Armor cloakArmor = (i instanceof Armor) ? (Armor) i : null;
             setCloaks(cloakArmor);
-            
         } 
         else if (i instanceof Key || type.contains("key")) {
             Keybar.addKey(i);
@@ -130,7 +129,6 @@ public class Hotbar implements ImageObserver {
     
     public static int getCoins() { return coins; }
     
-    //Minimap models
     public static Image getMapModel() {
         switch (Player.getRoom()) {
             case 0: return MINI_MAP_ROOM_0;
@@ -197,7 +195,6 @@ public class Hotbar implements ImageObserver {
     public static Armor getBoots() { return boots; }
     public static Armor getCloaks() { return cloaks; }
     
-    // Clear method for death penalty wipe
     public static void clear() {
         potionCount = 0;
         for (int i = 0; i < hotbar.length; i++) {
@@ -214,13 +211,11 @@ public class Hotbar implements ImageObserver {
     }
     
     public static void draw(Graphics g) {
-        //Gets the current area your in
         Image currentMap = getMapModel();
         if (currentMap != null) {
             g.drawImage(currentMap, 794, 60, 140, 140, null);
         }
 
-        // --- DRAW HEALTH BAR ---
         Image healthImg = getHealthModel(Player.getHealth(), Player.getMaxHealth(), "PLAYER_HEALTH_");
         if (healthImg != null) {
             g.drawImage(healthImg, 808, 210, null);
@@ -235,16 +230,14 @@ public class Hotbar implements ImageObserver {
             g.fillRect(260, 140, 276, 40);
         }
 
-        // Draw hotbar slots (Weapon & Cloak)
         for (int i = 0; i < hotbar.length; i++) {
-            if (i == 1) continue; // Potion handled separately below
+            if (i == 1) continue;
             HotbarSlot slot = hotbar[i];
             if (slot != null && slot.getItem() != null && slot.getItem().getImage() != null) {
                 g.drawImage(slot.getItem().getImage(), slot.getX(), slot.getY(), null);
             }
         }
 
-        // Draw potion slot (Slot 2)
         if (potionCount > 0 && hotbar[1] != null) {
             int slotX = hotbar[1].getX();
             int slotY = hotbar[1].getY();
@@ -265,7 +258,6 @@ public class Hotbar implements ImageObserver {
             g.drawString("x" + potionCount, slotX + 34, slotY + 22);
         }
 
-        // --- DRAW INVENTORY & KEYBAR ---
         Inventory.draw(g); 
         Keybar.draw(g);
     }

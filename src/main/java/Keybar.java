@@ -1,7 +1,7 @@
 // Author : Siddarth Iyer
 // Date   : 10/18/2026
-// Rev    : 03
-// Notes  : Keybar HUD inventory manager.
+// Rev    : 04
+// Notes  : Keybar HUD inventory manager with key check methods.
 
 import java.awt.Graphics;
 
@@ -15,7 +15,7 @@ public class Keybar {
 
     static {
         keybar[0] = new Keybar(900, 564);
-        keybar[1] = new Keybar(989, 564);
+        keybar[1] = new Keybar(984, 564);
     }
 
     public Keybar(int x, int y) {
@@ -41,11 +41,10 @@ public class Keybar {
         this.item = item;
     }
 
-    public static void clear()
-    {
-    // Clear all key slots
-    setBar(0, null);
-    setBar(1, null);
+    public static void clear() {
+        // Clear all key slots
+        setBar(0, null);
+        setBar(1, null);
     }
 
     public Item getItem() {
@@ -71,6 +70,36 @@ public class Keybar {
         } else if (keybar[1].getItem() == null) {
             keybar[1].updateItem(key);
         }
+    }
+
+    // --- HASKEY METHODS ---
+
+    // Checks if a specific Item object exists in either slot
+    public static boolean hasKey(Item targetKey) {
+        if (targetKey == null) return false;
+        for (Keybar slot : keybar) {
+            if (slot != null && slot.getItem() == targetKey) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Checks if a key matching a string name or type exists in either slot
+    public static boolean hasKey(String keyName) {
+        if (keyName == null) return false;
+        for (Keybar slot : keybar) {
+            if (slot != null && slot.getItem() != null) {
+                String itemStr = slot.getItem().toString().toLowerCase();
+                String itemType = (slot.getItem().getType() != null) ? slot.getItem().getType().toLowerCase() : "";
+                String search = keyName.toLowerCase();
+                
+                if (itemStr.contains(search) || itemType.contains(search)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static Keybar[] getSlots() {

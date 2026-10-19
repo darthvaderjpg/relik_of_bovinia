@@ -1,8 +1,8 @@
 // Author : Ofer Koren & Siddarth Iyer
 // Editor : Jake Jiang -- Subscribe to Scrapnel on YT
 // Date   : 5/14/2026
-// Rev    : 09
-// Notes  : none
+// Rev    : 10
+// Notes  : Added damage cooldown / invincibility frames to prevent instant random deaths.
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -30,8 +30,8 @@ public class Player implements ImageObserver
     
     // Other player fields.
     private static int currency = 0;
-    private static int health = 1;
-    private static int maxHealth = 1;
+    private static int health = 100;
+    private static int maxHealth = 100;
     private static int baseDamage = 1;
     private static int currentDamage = baseDamage;
     private static int x = 708;
@@ -48,6 +48,10 @@ public class Player implements ImageObserver
     public static GamePanel gamePanel;
     private static boolean isDead = false;
     public static BoviniaMusic musicManager;
+
+    // Damage Cooldown / Invincibility Fields
+    private static long lastDamageTime = 0;
+    private static final long DAMAGE_COOLDOWN_MS = 500; // 500ms immunity window
 
     // Methods.
     
@@ -223,35 +227,35 @@ public class Player implements ImageObserver
         }
     }
     
- public static boolean isDead(){
-    return isDead;
-}
-
-public static void die(){
-    Hotbar.addCoins(-2);
-
-    // Wipe inventory, hotbar, and keybar upon death
-    Inventory.clear();
-    Hotbar.clear();
-    Keybar.clear();
-
-    isDead = true;
-    canMove = false; // Freeze player movement during death screen
-    if (musicManager != null) {
-        musicManager.pauseMusic();
+    public static boolean isDead(){
+        return isDead;
     }
-}
 
-public static void respawn() {
-    moveToRoom(0);
-    setHealth(getMaxHealth());
-    isDead = false;
-    canMove = true; // Restore movement
-    if (musicManager != null) {
-        musicManager.changeRoom("overworld");
-        musicManager.resumeMusic();
+    public static void die(){
+        Hotbar.addCoins(-2);
+
+        // Wipe inventory, hotbar, and keybar upon death
+        Inventory.clear();
+        Hotbar.clear();
+        Keybar.clear();
+
+        isDead = true;
+        canMove = false; // Freeze player movement during death screen
+        if (musicManager != null) {
+            musicManager.pauseMusic();
+        }
     }
-}
+
+    public static void respawn() {
+        moveToRoom(0);
+        setHealth(getMaxHealth());
+        isDead = false;
+        canMove = true; // Restore movement
+        if (musicManager != null) {
+            musicManager.changeRoom("overworld");
+            musicManager.resumeMusic();
+        }
+    }
 
     public static Image getModel() {
         if (canMove){
@@ -334,9 +338,6 @@ public static void respawn() {
     
     public static int getHealth()
     {
-        if (health <= 0){
-            Player.die();
-        }
         return health;
     }
     
@@ -472,7 +473,7 @@ public static void respawn() {
     public static void setHealth(double playerHealth)
     {
         Player.health = Math.min((int) playerHealth, getMaxHealth());
-        if (Player.health <= 0) 
+        if (Player.health <= 0 && !isDead) 
         {
             Player.die();
         }
@@ -485,10 +486,18 @@ public static void respawn() {
     
     public static void takeDamage(int rawDamage) 
     {
-        if (rawDamage <= 0) 
+        if (rawDamage <= 0 || isDead) 
         {
             return;
         }
+
+        long currentTime = System.currentTimeMillis();
+        // Ignore damage if within the 500ms immunity window
+        if (currentTime - lastDamageTime < DAMAGE_COOLDOWN_MS) {
+            return;
+        }
+        lastDamageTime = currentTime;
+
         int mitigatedDamage = Math.max(1, rawDamage - getTotalArmorDefense());
         Player.health -= mitigatedDamage;
         if (Player.health <= 0) 
@@ -537,14 +546,14 @@ public static void respawn() {
     }
 
     public static void setX(int newX)
-{
-    x = newX;
-}
+    {
+        x = newX;
+    }
 
-public static void setY(int newY)
-{
-    y = newY;
-}
+    public static void setY(int newY)
+    {
+        y = newY;
+    }
 
     @Override
     public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) 
