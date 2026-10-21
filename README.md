@@ -1,5 +1,7 @@
 The Cooke Jar Readme
 
+IMPORTANT NOTE: TO ACCESS THE FILES, YOU NEED TO LOOK AT SRC/MAIN. THAT CONTAINS THE RESOURCES AND JAVA. JAVA CONTAINS THE CLASSES AND RESOURCES CONTAINS THE IMAGES.
+
 Team Name: The Cookie Jar Team
 
 An important note: I didn't write this code alone. I had the help from my partner Ofer and then Jake who helped from time to time. 
