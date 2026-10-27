@@ -30,8 +30,8 @@ public class Player implements ImageObserver
     
     // Other player fields.
     private static int currency = 0;
-    private static int health = 100;
-    private static int maxHealth = 100;
+    private static int health = 1;
+    private static int maxHealth = 1;
     private static int baseDamage = 1;
     private static int currentDamage = baseDamage;
     private static int x = 708;
@@ -41,7 +41,7 @@ public class Player implements ImageObserver
     private static int room = 0;
     private static boolean canMove = true;
     private static boolean isAttacking = false;
-    private static boolean hasDealtDamage = false; // Prevents multi-frame hit melting
+    private static boolean hasDealtDamage = false;
     private final static boolean DEBUG = false;
     private final static int OFFSET_X = -64;
     private final static int OFFSET_Y = -54;
