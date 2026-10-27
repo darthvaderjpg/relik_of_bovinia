@@ -2,7 +2,7 @@
 // Editor : Jake Jiang -- Subscribe to Scrapnel on YT
 // Date   : 5/14/2026
 // Rev    : 10
-// Notes  : Added damage cooldown / invincibility frames to prevent instant random deaths.
+// Notes  : None
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -51,7 +51,7 @@ public class Player implements ImageObserver
 
     // Damage Cooldown / Invincibility Fields
     private static long lastDamageTime = 0;
-    private static final long DAMAGE_COOLDOWN_MS = 500; // 500ms immunity window
+    private static final long DAMAGE_COOLDOWN_MS = 500; 
 
     // Methods.
     
@@ -234,7 +234,7 @@ public class Player implements ImageObserver
     public static void die(){
         Hotbar.addCoins(-2);
 
-        // Wipe inventory, hotbar, and keybar upon death
+        // Roguelike mechanic
         Inventory.clear();
         Hotbar.clear();
         Keybar.clear();
@@ -251,6 +251,9 @@ public class Player implements ImageObserver
         setHealth(getMaxHealth());
         isDead = false;
         canMove = true; // Restore movement
+        Hotbar.clear();
+        Keybar.clear();
+        Inventory.clear();
         if (musicManager != null) {
             musicManager.changeRoom("overworld");
             musicManager.resumeMusic();

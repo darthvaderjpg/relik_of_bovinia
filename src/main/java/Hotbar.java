@@ -1,8 +1,8 @@
 //Name: Siddarth Iyer
 //Editor: Ofer Koren
-//Date: 10/18/2026
-//Rev:29
-//Notes: Added forceWeapon method to allow guaranteed weapon equips (e.g. Pocket Knife from Dude).
+//Date: 10/26/2026
+//Rev: 35
+//Notes: None
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -52,7 +52,6 @@ public class Hotbar implements ImageObserver {
     private static Armor boots;
     private static Armor cloaks;
 
-    // Direct override to force weapon equip regardless of factor comparison
     public static void forceWeapon(Weapon w) {
         if (w == null) return;
         weapon = w;
@@ -208,6 +207,148 @@ public class Hotbar implements ImageObserver {
         leggings = null;
         boots = null;
         cloaks = null;
+    }
+    
+    // --- DYNAMIC TOOLTIP DRAWING FOR HOTBAR, ARMOR, AND KEYS ---
+    public static void drawTooltips(Graphics g, int mouseX, int mouseY) {
+        for (int i = 0; i < hotbar.length; i++) {
+            HotbarSlot slot = hotbar[i];
+            if (slot != null && slot.getItem() != null) {
+                if (mouseX >= slot.getX() && mouseX <= slot.getX() + 48 &&
+                    mouseY >= slot.getY() && mouseY <= slot.getY() + 48) {
+                    drawTooltipBox(g, slot.getItem(), mouseX, mouseY);
+                    return;
+                }
+            }
+        }
+        
+        if (potionCount > 0 && hotbar[1] != null) {
+            int px = hotbar[1].getX();
+            int py = hotbar[1].getY();
+            if (mouseX >= px && mouseX <= px + 32 && mouseY >= py && mouseY <= py + 32) {
+                drawTextTooltip(g, "Rejuvenating Spirit", mouseX, mouseY);
+                return;
+            }
+        }
+
+        Armor[] armorSlots = { helmet, chestplate, leggings, boots };
+        int[] armorX = { 810, 860, 910, 960 };
+        int armorY = 320;
+
+        for (int i = 0; i < armorSlots.length; i++) {
+            if (armorSlots[i] != null) {
+                if (mouseX >= armorX[i] && mouseX <= armorX[i] + 40 &&
+                    mouseY >= armorY && mouseY <= armorY + 40) {
+                    drawTooltipBox(g, armorSlots[i], mouseX, mouseY);
+                    return;
+                }
+            }
+        }
+
+        for (int i = 0; i < Keybar.getKeys().size(); i++) {
+            Item keyItem = Keybar.getKeys().get(i);
+            if (keyItem != null) {
+                int keyX = 810 + (i * 35);
+                int keyY = 380;
+                if (mouseX >= keyX && mouseX <= keyX + 30 &&
+                    mouseY >= keyY && mouseY <= keyY + 30) {
+                    drawTooltipBox(g, keyItem, mouseX, mouseY);
+                    return;
+                }
+            }
+        }
+    }
+
+    public static void drawTooltipBox(Graphics g, Item item, int x, int y) {
+        if (item == null) return;
+
+        String rawName = item.getClass().getSimpleName();
+        String str = item.toString().toLowerCase();
+        String name = rawName.replaceAll("(?<!^)(?=[A-Z])", " ");
+        String stats = "";
+
+        // --- BASIC GEAR (1 HP) ---
+        if (str.contains("cracked") || rawName.equalsIgnoreCase("CrackedHelmet")) {
+            name = "Cracked Helmet";
+            stats = "Hitpoints: 1 HP";
+        } else if (str.contains("sweater") || rawName.equalsIgnoreCase("Sweater")) {
+            name = "Sweater";
+            stats = "Hitpoints: 1 HP";
+        } else if (str.contains("dusty") || rawName.equalsIgnoreCase("DustyBoots")) {
+            name = "Dusty Boots";
+            stats = "Hitpoints: 1 HP";
+        } else if (str.contains("protected") || rawName.equalsIgnoreCase("ProtectedPants")) {
+            name = "Protected Pants";
+            stats = "Hitpoints: 1 HP";
+        } else if (rawName.equalsIgnoreCase("Cloak") || rawName.equalsIgnoreCase("OldCloak") || str.equals("old cloak")) {
+            name = "Old Cloak";
+            stats = "Hitpoints: 1 HP";
+        } 
+        
+        // Soldier Gear (2HP)
+        else if (str.contains("soldier") || rawName.toLowerCase().startsWith("soldier")) {
+            if (rawName.equalsIgnoreCase("SoldierBoots")) name = "Soldier Boots";
+            else if (rawName.equalsIgnoreCase("SoldierLeggings") || rawName.equalsIgnoreCase("SoldierPants")) name = "Soldier Leggings";
+            else if (rawName.equalsIgnoreCase("SoldierChestplate") || rawName.equalsIgnoreCase("SoldierChest")) name = "Soldier Chestplate";
+            else if (rawName.equalsIgnoreCase("SoldierHelmet")) name = "Soldier Helmet";
+            stats = "Hitpoints: 2 HP";
+        } 
+        
+        // Elite Guard Gear (5 HP)
+        else if (str.contains("elite") || str.contains("azure") || rawName.toLowerCase().startsWith("elite")) {
+            if (rawName.equalsIgnoreCase("EliteBoots")) name = "Elite Boots";
+            else if (rawName.equalsIgnoreCase("EliteRobeBottoms") || rawName.equalsIgnoreCase("EliteLeggings")) name = "Elite Robe Bottoms";
+            else if (rawName.equalsIgnoreCase("EliteChestplate")) name = "Elite Chestplate";
+            else if (rawName.equalsIgnoreCase("EliteHelmet")) name = "Elite Helmet";
+            else if (rawName.equalsIgnoreCase("AzureShroud") || str.contains("azure")) name = "Azure Shroud";
+            stats = "Hitpoints: 5 HP";
+        } 
+        
+        // --- ARTIFACT GEAR (10 HP) ---
+        else if (str.contains("artifact") || rawName.toLowerCase().startsWith("artifact")) {
+            if (rawName.equalsIgnoreCase("ArtifactBoots")) name = "Artifact Boots";
+            else if (rawName.equalsIgnoreCase("ArtifactRobeBottoms") || rawName.equalsIgnoreCase("ArtifactLeggings")) name = "Artifact Robe Bottoms";
+            else if (rawName.equalsIgnoreCase("ArtifactChestplate")) name = "Artifact Chestplate";
+            else if (rawName.equalsIgnoreCase("ArtifactHelmet")) name = "Artifact Helmet";
+            stats = "Hitpoints: 10 HP";
+        } 
+        
+        // --- WEAPONS ---
+        else if (item instanceof Weapon) {
+            stats = "Damage: " + ((Weapon) item).getFactor();
+        } 
+        
+        // --- GENERAL FALLBACK FOR OTHER ARMOR ---
+        else if (item instanceof Armor) {
+            stats = "Hitpoints: " + ((Armor) item).getFactor() + " HP";
+        } 
+        
+        // --- KEYS ---
+        else if (item instanceof Key || str.contains("key")) {
+            if (str.contains("spirit")) name = "Spirit Key";
+            stats = ""; 
+        } 
+        
+        else if (item.getFactor() > 0) {
+            stats = "Factor: " + item.getFactor();
+        }
+
+        g.setColor(new Color(0, 0, 0, 220));
+        g.fillRect(x + 15, y - 35, 180, stats.isEmpty() ? 25 : 45);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
+        g.drawString(name, x + 20, y - 18);
+        if (!stats.isEmpty()) {
+            g.drawString(stats, x + 20, y - 4);
+        }
+    }
+
+    private static void drawTextTooltip(Graphics g, String text, int x, int y) {
+        g.setColor(new Color(0, 0, 0, 220));
+        g.fillRect(x + 15, y - 35, 160, 25);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Press Start 2P", Font.PLAIN, 10));
+        g.drawString(text, x + 20, y - 18);
     }
     
     public static void draw(Graphics g) {

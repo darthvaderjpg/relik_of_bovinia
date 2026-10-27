@@ -1,9 +1,8 @@
 /*
 Author: Jake Jiang
 Co-Editor: Ofer Koren / Siddarth Iyer
-Date: 10/18/2026
+Date: 10/26/2026
 Notes: Stores dialogue animations and processes state transitions for all game NPCs.
-Moved JOptionPane triggers into transitionDialogueModel to prevent infinite popup loops. (Nearly Crashed my computer)
  */
 
 import java.awt.*;
@@ -129,10 +128,10 @@ public class Dialogue implements ImageObserver
         }
     }
 
-    // Handles the Lock NPC state transition & popup ONCE when key is released
+   
     private static void handleLockTransition()
     {
-        boolean hasKey = (Keybar.getSlot(0) == Key.templeKey || Keybar.getSlot(1) == Key.templeKey);
+        boolean hasKey = (Keybar.getSlot(0) == Key.templeKey || Keybar.getSlot(1) == Key.templeKey || Keybar.hasKey(Key.templeKey));
 
         if (currentLockNPCLine == 1)
         {
@@ -140,6 +139,7 @@ public class Dialogue implements ImageObserver
             if (hasKey)
             {
                 JOptionPane.showMessageDialog(null, "You used the Temple Key", "Door Unlocked", JOptionPane.INFORMATION_MESSAGE);
+                
                 // Remove key from Keybar upon unlocking
                 if (Keybar.getSlot(0) == Key.templeKey)
                 {
@@ -149,6 +149,10 @@ public class Dialogue implements ImageObserver
                 {
                     Keybar.setBar(1, null);
                 }
+                else
+                {
+                    Keybar.getKeys().removeIf(k -> k == Key.templeKey);
+                }
                 
                 Lock.setUnlocked(true); // Barrier vanishes permanently
             }
@@ -157,7 +161,7 @@ public class Dialogue implements ImageObserver
                 JOptionPane.showMessageDialog(null, "Looks like you need a key!", "Door Locked", JOptionPane.WARNING_MESSAGE);
             }
 
-            // Clean up state immediately after dismissal
+            
             Player.setMoveState(true);
             currentLockNPCLine = 0;
             currentNPC = "";
@@ -208,10 +212,10 @@ public class Dialogue implements ImageObserver
         }
     }
 
-    // Returns Lock NPC's dialogue animation models during rendering.
+    
     public static Image getLockNPCDialogueModel()
     {
-        boolean hasKey = (Keybar.getSlot(0) == Key.templeKey || Keybar.getSlot(1) == Key.templeKey);
+        boolean hasKey = (Keybar.getSlot(0) == Key.templeKey || Keybar.getSlot(1) == Key.templeKey || Keybar.hasKey(Key.templeKey));
 
         switch (currentLockNPCLine)
         {
@@ -333,11 +337,14 @@ public class Dialogue implements ImageObserver
                 return BOVIS_DIALOGUE_ANIMATION_4;
                 
             case 5:
-                currentBovisLine = 6;
                 return BOVIS_DIALOGUE_ANIMATION_5;  
 
             case 6:
                 BovisFight.startBoss();
+                Player.setMoveState(true);
+                currentBovisLine = 0;
+                currentNPC = "";
+                return null;
                 
             default:
                 Player.setMoveState(true);

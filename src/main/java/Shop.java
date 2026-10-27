@@ -1,7 +1,7 @@
 // Author : Ofer Koren
 // Date   : 5/14/2026
 // Rev    : 01
-// Notes  : 
+// Notes  : None
 
 import java.awt.Image;
 //import javax.swing.ImageIcon;
@@ -40,7 +40,10 @@ public class Shop extends NPC
 			potionStock--;
 			Hotbar.addCoins(-5);
 			Hotbar.increasePotionCount();
-			
+			//secret Mechanic that kills the player if he farms too much.
+			if(potionStock ==0){
+				Player.die();
+			}
 		}
 	}
 }

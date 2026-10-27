@@ -1,8 +1,8 @@
 // Author : Ofer Koren & Siddarth Iyer
 // Co Editor: Jake Jiang SUB TO SCRAPNEL!!!
-// Date: 10/18/2026
-// Rev: 41
-// Notes: Uses Hotbar.forceWeapon to guarantee Pocket Knife and Artifact Sword equipping.
+// Date: 10/26/2026
+// Rev: 49
+// Notes: None
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -26,20 +26,21 @@ public class GamePanel extends JPanel
     Numbers numbers1 = new Numbers(949, 16, "Ruby");
     Numbers numbers2 = new Numbers(590, 250, "Shop");
     
-    // Death screen images using exact filenames
+    // Death & Victory screen images using exact filenames
     private final static Image STANDARD_DEATH_SCREEN = Tools.getNewImageIcon("you-died-pixilart.png");
     private final static Image BOSS_DEATH_SCREEN = Tools.getNewImageIcon("yougotcorrupted.png");
+    private final static Image VICTORY_SCREEN = Tools.getNewImageIcon("victory.png");
     
     // Enemy Array
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     
-    // Bovis
+    // Bovis Fight Instance
     public static BovisFight bovis = new BovisFight(800, 400, 8);
     
     // Tracks previous room to detect room transitions for respawning
     private int lastRoom = -1;
     
-    // Secret feature tracking for Dude & Artifact Armor evolution
+    // Secret Mechanic for Dude & Artifact Armor evolution
     private static int dudeHP = 12;
     private static boolean dudeDefeated = false;
     private static boolean artifactEvolved = false;
@@ -50,14 +51,18 @@ public class GamePanel extends JPanel
         spawnAllRooms();
     }
     
-    // Initial spawn across all rooms on game start
+    // Resets Dude back to life upon player respawn
+    public static void resetDude() {
+        dudeHP = 12;
+        dudeDefeated = false;
+    }
+    
     private void spawnAllRooms() {
         for (int room = 2; room <= 7; room++) {
             spawnEnemiesForRoom(room);
         }
     }
     
-    // Enemies Respawn
     private void spawnEnemiesForRoom(int roomID) {
         Random rand = new Random();
         int count = 0;
@@ -143,20 +148,56 @@ public class GamePanel extends JPanel
     {
         super.paintComponent(g);
         
+        // --- CHECK IF BOVIS IS DEFEATED (HEALTH <= 0) ---
+        if (bovis != null && bovis.getHealth() <= 0) {
+            bovis = null; //victory screen
+        }
+
+        // --- VICTORY SCREEN CHECK ---
+        if (Player.getRoom() == 8 && bovis == null) {
+            if (VICTORY_SCREEN != null) {
+                g.drawImage(VICTORY_SCREEN, 0, 0, getWidth(), getHeight(), null);
+            } else {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, getWidth(), getHeight());
+                
+                g.setColor(Color.YELLOW);
+                g.setFont(new Font("Press Start 2P", Font.BOLD, 36));
+                g.drawString("VICTORY!", getWidth() / 2 - 140, getHeight() / 2 - 40);
+
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
+                g.drawString("You defeated Bovis!", getWidth() / 2 - 160, getHeight() / 2 + 20);
+                g.drawString("Press Space to play again", getWidth() / 2 - 210, getHeight() - 100);
+            }
+            
+            if (Main.getIsPressingSpace()) {
+                Hotbar.clear();
+                Keybar.clear();
+                Inventory.clear();
+                resetDude();
+                bovis = new BovisFight(800, 400, 8);
+                Player.respawn();
+            }
+            
+            repaint();
+            return;
+        }
+
         boolean currentlyDead = Player.isDead();
         
-        // Detects when the player transitions from dead to alive (respawn event)
         if (wasDeadLastFrame && !currentlyDead) {
-            dudeHP = 12;
-            dudeDefeated = false;
+            resetDude();
         }
         wasDeadLastFrame = currentlyDead;
         
         // --- DEATH SCREEN CHECK ---
         if (currentlyDead) {
-            // Ensure Dude resets immediately upon death
-            dudeHP = 12;
-            dudeDefeated = false;
+            resetDude();
+
+            Hotbar.clear();
+            Keybar.clear();
+            Inventory.clear();
 
             if (Player.getRoom() == 8 && BOSS_DEATH_SCREEN != null) {
                 g.drawImage(BOSS_DEATH_SCREEN, 0, 0, getWidth(), getHeight(), null);
@@ -173,6 +214,12 @@ public class GamePanel extends JPanel
             g.setColor(Color.WHITE);
             g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
             g.drawString("Press space", getWidth() / 2 - 80, getHeight() - 100);
+
+            if (Main.getIsPressingSpace()) {
+                bovis = new BovisFight(800, 400, 8);
+                resetDude();
+                Player.respawn();
+            }
 
             repaint();
             return;
@@ -191,7 +238,6 @@ public class GamePanel extends JPanel
                                                Hotbar.getWeapon() == Weapon.soldierSword);
 
                 if (hasSpiritKey && hasFullEliteArmor && hasSwordToTransform) {
-                    // Transform Armor
                     Hotbar.setHelmet(Armor.artifactHelmet);
                     Hotbar.setChestplate(Armor.artifactChestplate);
                     Hotbar.setLeggings(Armor.artifactRobeBottoms);
@@ -202,9 +248,7 @@ public class GamePanel extends JPanel
                     Inventory.setSlot(2, Armor.artifactRobeBottoms);
                     Inventory.setSlot(3, Armor.artifactBoots);
                     
-                    // Transform Weapon -> Artifact-Infused Sword
                     Hotbar.forceWeapon(Weapon.artifactInfusedSword);
-                    
                     artifactEvolved = true;
                 }
             }
@@ -237,21 +281,24 @@ public class GamePanel extends JPanel
             e.draw(g);
         }
 
-        // Draws the boss
-        bovis.draw(g);
-        bovis.trackPlayer(Player.getX(), Player.getY(), Player.getRoom());
-        bovis.infarctus01.draw(g);
-        bovis.infarctus02.draw(g);
-        bovis.infarctus03.draw(g);
-        bovis.knight01.draw(g);
-        bovis.knight02.draw(g);
-        bovis.knight03.draw(g);
-        bovis.knight04.draw(g);
-        bovis.infarctus04.draw(g);
-        bovis.infarctus05.draw(g);
-        bovis.infarctus06.draw(g);
-        bovis.infarctus07.draw(g);
-        bovis.infarctus08.draw(g);
+        // Draws and updates Bovis fight if active
+        if (bovis != null) {
+            bovis.draw(g);
+            bovis.trackPlayer(Player.getX(), Player.getY(), Player.getRoom());
+            
+            if (bovis.infarctus01 != null) bovis.infarctus01.draw(g);
+            if (bovis.infarctus02 != null) bovis.infarctus02.draw(g);
+            if (bovis.infarctus03 != null) bovis.infarctus03.draw(g);
+            if (bovis.knight01 != null) bovis.knight01.draw(g);
+            if (bovis.knight02 != null) bovis.knight02.draw(g);
+            if (bovis.knight03 != null) bovis.knight03.draw(g);
+            if (bovis.knight04 != null) bovis.knight04.draw(g);
+            if (bovis.infarctus04 != null) bovis.infarctus04.draw(g);
+            if (bovis.infarctus05 != null) bovis.infarctus05.draw(g);
+            if (bovis.infarctus06 != null) bovis.infarctus06.draw(g);
+            if (bovis.infarctus07 != null) bovis.infarctus07.draw(g);
+            if (bovis.infarctus08 != null) bovis.infarctus08.draw(g);
+        }
         
         Player.draw(g);
         
@@ -265,6 +312,12 @@ public class GamePanel extends JPanel
         numbers1.draw(g);
         numbers2.draw(g);
 
+        // --- RENDER HOVER TOOLTIPS ---
+        Point mousePos = getMousePosition();
+        if (mousePos != null) {
+            Hotbar.drawTooltips(g, mousePos.x, mousePos.y);
+        }
+
         // --- DUDE 12-HP COMBAT TRIGGER ---
         if (!dudeDefeated) {
             dude.testInteraction(Player.getX(), Player.getY(), dude.getX(), dude.getY(), dude.getCollisionRadius(), "dude");
@@ -272,23 +325,17 @@ public class GamePanel extends JPanel
             boolean currentAttackPressed = Main.getIsPressingSpace();
             long currentTime = System.currentTimeMillis();
             
-            // Allows holding spacebar with a 200ms hit cooldown
             if (Player.getRoom() == 0 && currentAttackPressed && (currentTime - lastHitTime >= 200)) {
                 double distance = Math.hypot(Player.getX() - dude.getX(), Player.getY() - dude.getY());
-                if (distance <= 150) { // Hit proximity radius
+                if (distance <= 150) {
                     dudeHP--;
                     lastHitTime = currentTime;
                     
                     if (dudeHP <= 0) {
                         dudeDefeated = true;
                         
-                        // 1. Grants Spirit Key
                         Keybar.addKey(Key.spiritKey);
-                        
-                        // 2. Force equips Pocket Knife into Hotbar Slot 1 (Slot 0 in array)
                         Hotbar.forceWeapon(Weapon.pocketKnife);
-                        
-                        // 3. Teleports to Room 1
                         Player.moveToRoom(1);
                     }
                 }
@@ -313,7 +360,6 @@ public class GamePanel extends JPanel
             e.trackPlayer(Player.getX(), Player.getY(), Player.getRoom());
         }
 
-        // --- Solid Lock Collision Check ---
         int prevPlayerX = Player.getX();
         int prevPlayerY = Player.getY();
 
