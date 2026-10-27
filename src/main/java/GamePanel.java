@@ -158,16 +158,11 @@ public class GamePanel extends JPanel
             if (VICTORY_SCREEN != null) {
                 g.drawImage(VICTORY_SCREEN, 0, 0, getWidth(), getHeight(), null);
             } else {
-                g.setColor(Color.BLACK);
+                g.setColor(Color.GREEN);
                 g.fillRect(0, 0, getWidth(), getHeight());
-                
-                g.setColor(Color.YELLOW);
-                g.setFont(new Font("Press Start 2P", Font.BOLD, 36));
-                g.drawString("VICTORY!", getWidth() / 2 - 140, getHeight() / 2 - 40);
 
-                g.setColor(Color.WHITE);
+                g.setColor(Color.GREEN);
                 g.setFont(new Font("Press Start 2P", Font.PLAIN, 18));
-                g.drawString("You defeated Bovis!", getWidth() / 2 - 160, getHeight() / 2 + 20);
                 g.drawString("Press Space to play again", getWidth() / 2 - 210, getHeight() - 100);
             }
             
