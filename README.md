@@ -1,4 +1,4 @@
-#Relik Of Bovinia
+# Relik Of Bovinia
 Last Revision Date: (10/29/2026). 
 
 This is a Zelda Based Action game where you can fight enemies, drink potion, and become stronger to fight an evil cow. 
