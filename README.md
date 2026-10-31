@@ -18,4 +18,4 @@ Honorable Mentions:
 Sid - Created the music and some of the art like the backgrounds, the potion , the items, the boss, and the enemies
 Ofer - Created some of the art like the UI and the Player itself as well as the Boss Health Bar.
 
-
+And yes. Before anyone jumps to conclusions, all 3 contributors are me. They're my alts. I have no idea why but that's just what ended up happening.
